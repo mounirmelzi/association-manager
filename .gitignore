@@ -1,0 +1,7 @@
+/vendor/
+composer.phar
+composer.lock
+.env
+/.vscode/
+/logs/
+/public/uploads/
