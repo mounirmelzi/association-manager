@@ -1,6 +1,3 @@
 <?php
 
-class View
-{
-    public function __construct() {}
-}
+class View {}

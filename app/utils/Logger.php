@@ -6,7 +6,7 @@ use Monolog\Formatter\LineFormatter;
 
 class Logger
 {
-    private static string $logs_file = __DIR__ . '/../../logs/log.txt';
+    private static string $logsFile = __DIR__ . '/../../logs/log.txt';
     private static ?MonologLogger $logger = null;
 
     private function __construct() {}
@@ -15,7 +15,7 @@ class Logger
     {
         if (self::$logger === null) {
             self::$logger = new MonologLogger('AssociationManagerLogger');
-            $fileHandler = new RotatingFileHandler(self::$logs_file);
+            $fileHandler = new RotatingFileHandler(self::$logsFile);
             $fileHandler->setFormatter(new LineFormatter("[%datetime%] %channel%.%level_name%: \"%message%\" %context%\n"));
             self::$logger->pushHandler($fileHandler);
         }
