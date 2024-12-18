@@ -13,12 +13,25 @@ class App
         $this->setRoutes();
     }
 
-    public function run()
+    public function run(): void
     {
         $this->router->dispatch();
     }
 
-    private function setRoutes()
+    public static function redirect(string $url): never
+    {
+        $url = trim($url, "/");
+        header("Location: " . BASE_URL . $url);
+        exit;
+    }
+
+    public static function refresh(): never
+    {
+        header("Location: " . $_SERVER['REQUEST_URI']);
+        exit;
+    }
+
+    private function setRoutes(): void
     {
         $this->router->addRoute(
             'GET',
