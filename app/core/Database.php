@@ -3,7 +3,6 @@
 namespace App\Core;
 
 require_once __DIR__ . "/../config/database.config.php";
-require_once __DIR__ . "/../utils/Logger.php";
 
 use PDO;
 use PDOException;

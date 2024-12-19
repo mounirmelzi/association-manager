@@ -1,7 +1,5 @@
 <?php
 
-require_once __DIR__ . "/../controllers/Home.php";
-
 use App\Core\Router;
 
 $router = new Router();
