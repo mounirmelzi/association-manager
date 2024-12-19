@@ -1,16 +1,26 @@
 <?php
 
+namespace App\Core;
+
 require_once __DIR__ . "/../config/app.config.php";
-require_once __DIR__ . "/../controllers/HomeController.php";
 
 class App
 {
     private Router $router;
 
-    public function __construct()
+    public function __construct(Router $router)
     {
-        $this->router = new Router();
-        $this->setRoutes();
+        $this->setRouter($router);
+    }
+
+    public function getRouter(): Router
+    {
+        return $this->router;
+    }
+
+    public function setRouter(Router $router): void
+    {
+        $this->router = $router;
     }
 
     public function run(): void
@@ -29,22 +39,5 @@ class App
     {
         header("Location: " . $_SERVER['REQUEST_URI']);
         exit;
-    }
-
-    private function setRoutes(): void
-    {
-        $this->router->addRoute(
-            'GET',
-            '/',
-            HomeController::class,
-            'index'
-        );
-
-        $this->router->addRoute(
-            'GET',
-            '/home',
-            HomeController::class,
-            'index'
-        );
     }
 }

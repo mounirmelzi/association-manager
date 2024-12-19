@@ -1,7 +1,13 @@
 <?php
 
+namespace App\Core;
+
 require_once __DIR__ . "/../config/database.config.php";
 require_once __DIR__ . "/../utils/Logger.php";
+
+use PDO;
+use PDOException;
+use App\Utils\Logger;
 
 class Database
 {

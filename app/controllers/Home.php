@@ -1,6 +1,10 @@
 <?php
 
-class HomeController extends Controller
+namespace App\Controllers;
+
+use App\Core\Controller;
+
+class Home extends Controller
 {
     public function index()
     {

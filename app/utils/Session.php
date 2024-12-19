@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Utils;
+
 require_once __DIR__ . "/Logger.php";
 
 class Session

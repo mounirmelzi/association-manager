@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Core;
+
 class Router
 {
     private array $routes = [];
@@ -18,7 +20,7 @@ class Router
         ];
     }
 
-    public function dispatch()
+    public function dispatch(): bool
     {
         $url = trim(parse_url($_GET['url'] ?? "/", PHP_URL_PATH), '/');
 
@@ -36,16 +38,17 @@ class Router
 
                 if (class_exists($route['controller']) && method_exists($route['controller'], $route['action'])) {
                     call_user_func_array([new $route['controller'], $route['action']], $params);
-                    return;
+                    return true;
                 } else {
                     http_response_code(500);
                     echo "Controller or action not found.";
-                    return;
+                    return false;
                 }
             }
         }
 
         http_response_code(404);
         echo "Route not found.";
+        return false;
     }
 }

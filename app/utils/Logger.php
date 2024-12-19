@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Utils;
+
 use Monolog\Logger as MonologLogger;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Formatter\LineFormatter;
