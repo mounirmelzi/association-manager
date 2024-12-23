@@ -11,7 +11,7 @@ class Router
         string $path,
         string $controller,
         string $action,
-    ) {
+    ): void {
         $this->routes[] = [
             'method' => strtoupper($method),
             'path' => trim($path, '/'),
@@ -37,18 +37,16 @@ class Router
                 );
 
                 if (class_exists($route['controller']) && method_exists($route['controller'], $route['action'])) {
-                    call_user_func_array([new $route['controller'], $route['action']], $params);
+                    call_user_func_array([new $route['controller'](), $route['action']], $params);
                     return true;
                 } else {
-                    http_response_code(500);
-                    echo "Controller or action not found.";
+                    call_user_func_array([new \App\Controllers\Error(), "index"], ["error_code" => 500, "error_message" => "Controller or action not found"]);
                     return false;
                 }
             }
         }
 
-        http_response_code(404);
-        echo "Route not found.";
+        call_user_func_array([new \App\Controllers\Error(), "index"], ["error_code" => 404, "error_message" => "Route not found"]);
         return false;
     }
 }

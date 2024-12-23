@@ -2,4 +2,4 @@
 
 namespace App\Core;
 
-class Model {}
+abstract class Model {}
