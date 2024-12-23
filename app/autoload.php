@@ -1,8 +1,6 @@
 <?php
 
-require_once __DIR__ . "/core/autoload.php";
-
-spl_autoload_register(function ($classname) {
+spl_autoload_register(function ($classname): void {
     $path = explode("\\", $classname);
     $file = array_pop($path) . ".php";
     unset($path[0]);
