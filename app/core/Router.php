@@ -2,6 +2,8 @@
 
 namespace App\Core;
 
+use App\Utils\Request;
+
 class Router
 {
     private array $routes = [];
@@ -22,10 +24,10 @@ class Router
 
     public function dispatch(): bool
     {
-        $url = trim(parse_url($_GET['url'] ?? "/", PHP_URL_PATH), '/');
+        $url = trim(parse_url(Request::url(), PHP_URL_PATH), '/');
 
         foreach ($this->routes as $route) {
-            if ($route['method'] !== $_SERVER['REQUEST_METHOD']) continue;
+            if ($route['method'] !== Request::method()) continue;
 
             $pattern = preg_replace('/\{([a-zA-Z0-9_]+)\}/', '(?P<$1>[^/]+)', $route['path']);
 
