@@ -67,10 +67,10 @@ CREATE TABLE `partners` (
 
 
 CREATE TABLE `discount_offers` (
-    `id`                                BIGINT                    PRIMARY KEY AUTO_INCREMENT,
-    `partner_id`                        BIGINT                    NOT NULL,
-    `card_type_id`                      BIGINT                    NOT NULL,
-    `percentage`                        DECIMAL(10, 2)            NOT NULL,
+    `id`                                BIGINT                  PRIMARY KEY AUTO_INCREMENT,
+    `partner_id`                        BIGINT                  NOT NULL,
+    `card_type_id`                      BIGINT                  NOT NULL,
+    `percentage`                        DECIMAL(10, 2)          NOT NULL,
 
     FOREIGN KEY (`partner_id`) REFERENCES `partners` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (`card_type_id`) REFERENCES `card_types` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
@@ -78,12 +78,12 @@ CREATE TABLE `discount_offers` (
 
 
 CREATE TABLE `limited_discounts` (
-    `id`                                BIGINT                    PRIMARY KEY AUTO_INCREMENT,
-    `partner_id`                        BIGINT                    NOT NULL,
-    `card_type_id`                      BIGINT                    NOT NULL,
-    `percentage`                        DECIMAL(10, 2)            NOT NULL,
-    `start_date`                        DATETIME                  NOT NULL,
-    `end_date`                          DATETIME                  NOT NULL,
+    `id`                                BIGINT                  PRIMARY KEY AUTO_INCREMENT,
+    `partner_id`                        BIGINT                  NOT NULL,
+    `card_type_id`                      BIGINT                  NOT NULL,
+    `percentage`                        DECIMAL(10, 2)          NOT NULL,
+    `start_date`                        DATETIME                NOT NULL,
+    `end_date`                          DATETIME                NOT NULL,
 
     FOREIGN KEY (`partner_id`) REFERENCES `partners` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (`card_type_id`) REFERENCES `card_types` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
@@ -91,10 +91,10 @@ CREATE TABLE `limited_discounts` (
 
 
 CREATE TABLE `discounts` (
-    `id`                                BIGINT                    PRIMARY KEY AUTO_INCREMENT,
-    `partner_id`                        BIGINT                    NOT NULL,
-    `user_id`                           BIGINT                    NOT NULL,
-    `amount`                            DECIMAL(10, 2)            NOT NULL,
+    `id`                                BIGINT                  PRIMARY KEY AUTO_INCREMENT,
+    `partner_id`                        BIGINT                  NOT NULL,
+    `user_id`                           BIGINT                  NOT NULL,
+    `amount`                            DECIMAL(10, 2)          NOT NULL,
 
     FOREIGN KEY (`partner_id`) REFERENCES `partners` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
@@ -102,27 +102,27 @@ CREATE TABLE `discounts` (
 
 
 CREATE TABLE `news` (
-    `id`                                BIGINT                    PRIMARY KEY AUTO_INCREMENT,
-    `title`                             VARCHAR(255)              NOT NULL,
-    `description`                       LONGTEXT                  NOT NULL,
+    `id`                                BIGINT                  PRIMARY KEY AUTO_INCREMENT,
+    `title`                             VARCHAR(255)            NOT NULL,
+    `description`                       LONGTEXT                NOT NULL,
     `image_url`                         VARCHAR(255),
-    `date`                              DATETIME                  NOT NULL DEFAULT CURRENT_TIMESTAMP
+    `date`                              DATETIME                NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 
 CREATE TABLE `activities` (
-    `id`                                BIGINT                    PRIMARY KEY AUTO_INCREMENT,
-    `title`                             VARCHAR(255)              NOT NULL,
-    `description`                       LONGTEXT                  NOT NULL,
+    `id`                                BIGINT                  PRIMARY KEY AUTO_INCREMENT,
+    `title`                             VARCHAR(255)            NOT NULL,
+    `description`                       LONGTEXT                NOT NULL,
     `image_url`                         VARCHAR(255),
-    `date`                              DATETIME                  NOT NULL DEFAULT CURRENT_TIMESTAMP
+    `date`                              DATETIME                NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 
 CREATE TABLE `volunteerings` (
-    `id`                                BIGINT                    PRIMARY KEY AUTO_INCREMENT,
-    `user_id`                           BIGINT                    NOT NULL,
-    `activity_id`                       BIGINT                    NOT NULL,
+    `id`                                BIGINT                  PRIMARY KEY AUTO_INCREMENT,
+    `user_id`                           BIGINT                  NOT NULL,
+    `activity_id`                       BIGINT                  NOT NULL,
 
     FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (`activity_id`) REFERENCES `activities` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
@@ -130,11 +130,11 @@ CREATE TABLE `volunteerings` (
 
 
 CREATE TABLE `payments` (
-    `id`                                BIGINT                    PRIMARY KEY AUTO_INCREMENT,
-    `user_id`                           BIGINT                    NOT NULL,
-    `receipt_image_url`                 VARCHAR(255)              NOT NULL,
-    `date`                              DATETIME                  NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `amount`                            DECIMAL(10, 2)            NOT NULL,
+    `id`                                BIGINT                  PRIMARY KEY AUTO_INCREMENT,
+    `user_id`                           BIGINT                  NOT NULL,
+    `receipt_image_url`                 VARCHAR(255)            NOT NULL,
+    `date`                              DATETIME                NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `amount`                            DECIMAL(10, 2)          NOT NULL,
     `type`                              ENUM('donation', 'registration_fee'),
 
     FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
@@ -142,20 +142,20 @@ CREATE TABLE `payments` (
 
 
 CREATE TABLE `help_types` (
-    `id`                                BIGINT                    PRIMARY KEY AUTO_INCREMENT,
-    `type`                              VARCHAR(255)              NOT NULL UNIQUE,
-    `attachments_description`           LONGTEXT                  NOT NULL
+    `id`                                BIGINT                  PRIMARY KEY AUTO_INCREMENT,
+    `type`                              VARCHAR(255)            NOT NULL UNIQUE,
+    `attachments_description`           LONGTEXT                NOT NULL
 );
 
 
 CREATE TABLE `helps` (
-    `id`                                BIGINT                    PRIMARY KEY AUTO_INCREMENT,
-    `user_id`                           BIGINT                    NOT NULL,
-    `help_type_id`                      BIGINT                    NOT NULL,
-    `description`                       LONGTEXT                  NOT NULL,
-    `attachments_url`                   VARCHAR(255)              NOT NULL,
-    `date`                              DATETIME                  NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `is_valid`                          BOOLEAN                   NOT NULL DEFAULT FALSE,
+    `id`                                BIGINT                  PRIMARY KEY AUTO_INCREMENT,
+    `user_id`                           BIGINT                  NOT NULL,
+    `help_type_id`                      BIGINT                  NOT NULL,
+    `description`                       LONGTEXT                NOT NULL,
+    `attachments_url`                   VARCHAR(255)            NOT NULL,
+    `date`                              DATETIME                NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `is_valid`                          BOOLEAN                 NOT NULL DEFAULT FALSE,
 
     FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (`help_type_id`) REFERENCES `help_types` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
@@ -163,9 +163,9 @@ CREATE TABLE `helps` (
 
 
 CREATE TABLE `suggestions` (
-    `id`                                BIGINT                    PRIMARY KEY AUTO_INCREMENT,
-    `user_id`                           BIGINT                    NOT NULL,
-    `title`                             VARCHAR(255)              NOT NULL,
+    `id`                                BIGINT                  PRIMARY KEY AUTO_INCREMENT,
+    `user_id`                           BIGINT                  NOT NULL,
+    `title`                             VARCHAR(255)            NOT NULL,
     `description`                       LONGTEXT,
 
     FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
@@ -173,10 +173,10 @@ CREATE TABLE `suggestions` (
 
 
 CREATE TABLE `feedbacks` (
-    `id`                                BIGINT                    PRIMARY KEY AUTO_INCREMENT,
-    `user_id`                           BIGINT                    NOT NULL,
-    `partner_id`                        BIGINT                    NOT NULL,
-    `title`                             VARCHAR(255)              NOT NULL,
+    `id`                                BIGINT                  PRIMARY KEY AUTO_INCREMENT,
+    `user_id`                           BIGINT                  NOT NULL,
+    `partner_id`                        BIGINT                  NOT NULL,
+    `title`                             VARCHAR(255)            NOT NULL,
     `description`                       LONGTEXT,
 
     FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
@@ -185,12 +185,12 @@ CREATE TABLE `feedbacks` (
 
 
 CREATE TABLE `notifications` (
-    `id`                                BIGINT                    PRIMARY KEY AUTO_INCREMENT,
-    `user_id`                           BIGINT                    NOT NULL,
-    `title`                             VARCHAR(255)              NOT NULL,
+    `id`                                BIGINT                  PRIMARY KEY AUTO_INCREMENT,
+    `user_id`                           BIGINT                  NOT NULL,
+    `title`                             VARCHAR(255)            NOT NULL,
     `description`                       LONGTEXT,
     `url`                               VARCHAR(255),
-    `date`                              DATETIME                  NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `date`                              DATETIME                NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `reminder`                          DATE,
 
     FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
