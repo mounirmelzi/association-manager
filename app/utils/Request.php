@@ -4,13 +4,13 @@ namespace App\Utils;
 
 class Request
 {
-    static public function header(string $key, $default = null): mixed
+    public static function header(string $key, $default = null): mixed
     {
         $headers = getallheaders();
         return $headers[$key] ?? $default;
     }
 
-    public function data(string $key, $default = null): mixed
+    public static function data(string $key, $default = null): mixed
     {
         $data = match (self::method()) {
             "GET" => $_GET,
@@ -30,22 +30,22 @@ class Request
         return null;
     }
 
-    static public function ajax(): bool
+    public static function ajax(): bool
     {
         return self::header("X-Requested-With") === "XMLHttpRequest";
     }
 
-    static public function url(): string
+    public static function url(): string
     {
         return $_GET["url"] ?? "/";
     }
 
-    static public function method(): string
+    public static function method(): string
     {
         return $_SERVER["REQUEST_METHOD"];
     }
 
-    static public function ip(): string
+    public static function ip(): string
     {
         return $_SERVER["REMOTE_ADDR"];
     }
