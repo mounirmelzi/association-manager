@@ -135,7 +135,7 @@ CREATE TABLE `payments` (
 	`receipt_image_url`					VARCHAR(255)			NOT NULL,
 	`date`								DATETIME				NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`amount`							DECIMAL(10, 2)			NOT NULL,
-	`type`								ENUM('donations', 'registration_fee'),
+	`type`								ENUM('donation', 'registration_fee'),
 
 	FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
 );
