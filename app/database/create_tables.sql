@@ -28,7 +28,7 @@ CREATE TABLE `card_types` (
 
 CREATE TABLE `cards` (
     `id`                                BIGINT                  PRIMARY KEY AUTO_INCREMENT,
-    `user_id`                           BIGINT                  NOT NULL,
+    `user_id`                           BIGINT                  NOT NULL UNIQUE,
     `card_type_id`                      BIGINT                  NOT NULL,
     `qrcode_image_url`                  VARCHAR(255)            NOT NULL,
     `expiration_date`                   DATETIME,
@@ -72,6 +72,8 @@ CREATE TABLE `discount_offers` (
     `card_type_id`                      BIGINT                  NOT NULL,
     `percentage`                        DECIMAL(10, 2)          NOT NULL,
 
+    CONSTRAINT `unique__partner_id__card_type_id` UNIQUE (`partner_id`, `card_type_id`),
+
     FOREIGN KEY (`partner_id`) REFERENCES `partners` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (`card_type_id`) REFERENCES `card_types` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
 );
@@ -85,6 +87,8 @@ CREATE TABLE `limited_discounts` (
     `start_date`                        DATETIME                NOT NULL,
     `end_date`                          DATETIME                NOT NULL,
 
+    CONSTRAINT `unique__partner_id__card_type_id` UNIQUE (`partner_id`, `card_type_id`),
+
     FOREIGN KEY (`partner_id`) REFERENCES `partners` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (`card_type_id`) REFERENCES `card_types` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
 );
@@ -95,6 +99,7 @@ CREATE TABLE `discounts` (
     `partner_id`                        BIGINT                  NOT NULL,
     `user_id`                           BIGINT                  NOT NULL,
     `amount`                            DECIMAL(10, 2)          NOT NULL,
+    `date`								DATETIME				NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (`partner_id`) REFERENCES `partners` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
@@ -123,6 +128,8 @@ CREATE TABLE `volunteerings` (
     `id`                                BIGINT                  PRIMARY KEY AUTO_INCREMENT,
     `user_id`                           BIGINT                  NOT NULL,
     `activity_id`                       BIGINT                  NOT NULL,
+
+    CONSTRAINT `unique__user_id__activity_id` UNIQUE (`user_id`, `activity_id`),
 
     FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (`activity_id`) REFERENCES `activities` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
@@ -191,7 +198,7 @@ CREATE TABLE `notifications` (
     `description`                       LONGTEXT,
     `url`                               VARCHAR(255),
     `date`                              DATETIME                NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `reminder`                          DATE,
+    `reminder`                          DATETIME,
 
     FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
 );
