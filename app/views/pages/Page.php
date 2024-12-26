@@ -12,13 +12,13 @@ abstract class Page extends View
     #[\Override]
     public function renderHtml(): void
     {
-    ?>
-    <!DOCTYPE html>
-    <html lang="en">
-        <?= $this->head() ?>
-        <?= $this->body() ?>
-    </html>
-    <?php
+        ?>
+            <!DOCTYPE html>
+            <html lang="en">
+                <?= $this->head() ?>
+                <?= $this->body() ?>
+            </html>
+        <?php
     }
 }
 ?>
