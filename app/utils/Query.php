@@ -6,7 +6,7 @@ use App\Core\Database;
 
 class Query
 {
-    private Database $database;
+    public Database $database;
     private ?string $table = null;
 
     public function __construct(Database $database)

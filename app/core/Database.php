@@ -10,7 +10,7 @@ use App\Utils\Logger;
 
 class Database
 {
-    private static ?Database $instance = null;
+    private static ?self $instance = null;
     private ?PDO $pdo = null;
 
     private function __construct()
@@ -26,10 +26,10 @@ class Database
         }
     }
 
-    public static function getInstance(): Database
+    public static function getInstance(): self
     {
         if (self::$instance === null)
-            self::$instance = new Database();
+            self::$instance = new self();
         return self::$instance;
     }
 
