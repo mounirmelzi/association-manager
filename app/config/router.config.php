@@ -17,3 +17,17 @@ $router->addRoute(
     App\Controllers\Home::class,
     'index'
 );
+
+$router->addRoute(
+    'GET',
+    '/login',
+    App\Controllers\Auth::class,
+    'login'
+);
+
+$router->addRoute(
+    'POST',
+    '/login',
+    App\Controllers\Auth::class,
+    'login'
+);
