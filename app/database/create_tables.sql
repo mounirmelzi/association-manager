@@ -1,14 +1,3 @@
-CREATE TABLE `admins` (
-    `id`                                BIGINT                  PRIMARY KEY AUTO_INCREMENT,
-    `first_name`                        VARCHAR(255)            NOT NULL,
-    `last_name`                         VARCHAR(255)            NOT NULL,
-    `username`                          VARCHAR(255)            NOT NULL UNIQUE,
-    `email`                             VARCHAR(255)            NOT NULL UNIQUE,
-    `password`                          VARCHAR(255)            NOT NULL,
-    `created_at`                        DATETIME                NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-
-
 CREATE TABLE `users` (
     `id`                                BIGINT                  PRIMARY KEY AUTO_INCREMENT,
     `username`                          VARCHAR(255)            NOT NULL UNIQUE,
@@ -16,6 +5,15 @@ CREATE TABLE `users` (
     `phone`                             VARCHAR(20)             NOT NULL UNIQUE,
     `password`                          VARCHAR(255)            NOT NULL,
     `created_at`                        DATETIME                NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE `admins` (
+    `id`                                BIGINT                  PRIMARY KEY AUTO_INCREMENT,
+    `first_name`                        VARCHAR(255)            NOT NULL,
+    `last_name`                         VARCHAR(255)            NOT NULL,
+
+    FOREIGN KEY (`id`) REFERENCES `users` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 
@@ -45,7 +43,9 @@ CREATE TABLE `members` (
     `birth_date`                        DATE                    NOT NULL,
     `member_image_url`                  VARCHAR(255)            NOT NULL,
     `identity_image_url`                VARCHAR(255)            NOT NULL,
-    `is_active`                         BOOLEAN                 NOT NULL DEFAULT FALSE
+    `is_active`                         BOOLEAN                 NOT NULL DEFAULT FALSE,
+
+    FOREIGN KEY (`id`) REFERENCES `users` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 
@@ -62,6 +62,7 @@ CREATE TABLE `partners` (
     `partner_category_id`               BIGINT                  NOT NULL,
     `address`                           VARCHAR(255)            NOT NULL,
 
+    FOREIGN KEY (`id`) REFERENCES `users` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (`partner_category_id`) REFERENCES `partner_categories` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
