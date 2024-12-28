@@ -27,11 +27,7 @@ class Query
         }
 
         $response = $this->query($sql);
-        if ($response["success"]) {
-            return $response["data"];
-        } else {
-            return [];
-        }
+        return $response["success"] ? $response["data"] : [];
     }
 
     public function getById(int $id): mixed
@@ -42,6 +38,15 @@ class Query
         } else {
             return null;
         }
+    }
+
+    public function where(array $data): mixed
+    {
+        $conditions = array_map(fn($key) => "$key = :$key", array_keys($data));
+        $conditions = implode(' AND ', $conditions);
+
+        $response = $this->query("SELECT * FROM $this->table WHERE $conditions", $data);
+        return $response["success"] ? $response["data"] : [];
     }
 
     public function insert(array $data): bool
