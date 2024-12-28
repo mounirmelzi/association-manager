@@ -23,7 +23,7 @@ class Auth extends Controller
 
             $errors = User::login($values["username"], $values["password"]);
             if (empty($errors)) {
-                App::redirect("/home");
+                App::redirect("/");
             } else {
                 $login_page = new LoginPage(["values" => $values, "errors" => $errors]);
                 $login_page->renderHtml();

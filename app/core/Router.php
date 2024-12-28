@@ -3,22 +3,25 @@
 namespace App\Core;
 
 use App\Utils\Request;
+use App\Models\User;
 
 class Router
 {
     private array $routes = [];
 
     public function addRoute(
-        string $method,
+        array $methods,
         string $path,
         string $controller,
         string $action,
+        array $roles = [],
     ): void {
         $this->routes[] = [
-            'method' => strtoupper($method),
+            'methods' => $methods,
             'path' => trim($path, '/'),
             'controller' => $controller,
             'action' => $action,
+            'roles' => $roles,
         ];
     }
 
@@ -27,11 +30,26 @@ class Router
         $url = trim(parse_url(Request::url(), PHP_URL_PATH), '/');
 
         foreach ($this->routes as $route) {
-            if ($route['method'] !== Request::method()) continue;
+            if (!in_array(Request::method(), $route['methods'])) {
+                continue;
+            }
 
             $pattern = preg_replace('/\{([a-zA-Z0-9_]+)\}/', '(?P<$1>[^/]+)', $route['path']);
 
             if (preg_match("#^$pattern$#", $url, $matches)) {
+                if (!empty($route['roles'])) {
+                    $user = User::current();
+                    if (!$user) {
+                        App::redirect("/login");
+                        return false;
+                    }
+
+                    if (!in_array($user["role"], $route['roles'])) {
+                        call_user_func_array([new \App\Controllers\Error(), "index"], ["error_code" => 403, "error_message" => "Forbidden"]);
+                        return false;
+                    }
+                }
+
                 $params = array_filter(
                     $matches,
                     fn($key) => !is_numeric($key),

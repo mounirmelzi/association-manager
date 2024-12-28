@@ -5,29 +5,22 @@ use App\Core\Router;
 $router = new Router();
 
 $router->addRoute(
-    'GET',
-    '/',
-    App\Controllers\Home::class,
-    'index'
+    path: '/',
+    methods: ['GET'],
+    controller: App\Controllers\Home::class,
+    action: 'index',
 );
 
 $router->addRoute(
-    'GET',
-    '/home',
-    App\Controllers\Home::class,
-    'index'
+    path: '/home',
+    methods: ['GET'],
+    controller: App\Controllers\Home::class,
+    action: 'index',
 );
 
 $router->addRoute(
-    'GET',
-    '/login',
-    App\Controllers\Auth::class,
-    'login'
-);
-
-$router->addRoute(
-    'POST',
-    '/login',
-    App\Controllers\Auth::class,
-    'login'
+    path: '/login',
+    methods: ['GET', 'POST'],
+    controller: App\Controllers\Auth::class,
+    action: 'login',
 );
