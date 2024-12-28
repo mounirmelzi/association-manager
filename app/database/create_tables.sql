@@ -49,21 +49,14 @@ CREATE TABLE `members` (
 );
 
 
-CREATE TABLE `partner_categories` (
-    `id`                                BIGINT                  PRIMARY KEY AUTO_INCREMENT,
-    `category`                          VARCHAR(255)            NOT NULL UNIQUE
-);
-
-
 CREATE TABLE `partners` (
     `id`                                BIGINT                  PRIMARY KEY AUTO_INCREMENT,
     `name`                              VARCHAR(255)            NOT NULL,
     `description`                       LONGTEXT,
-    `partner_category_id`               BIGINT                  NOT NULL,
+    `category`                          VARCHAR(255)            NOT NULL,
     `address`                           VARCHAR(255)            NOT NULL,
 
-    FOREIGN KEY (`id`) REFERENCES `users` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY (`partner_category_id`) REFERENCES `partner_categories` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
+    FOREIGN KEY (`id`) REFERENCES `users` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 
