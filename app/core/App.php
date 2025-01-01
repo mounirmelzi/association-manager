@@ -13,6 +13,11 @@ class App
         $this->setRouter($router);
     }
 
+    public function __destruct()
+    {
+        Database::close();
+    }
+
     public function getRouter(): Router
     {
         return $this->router;

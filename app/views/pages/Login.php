@@ -80,7 +80,7 @@ class Login extends Page
                                 <div class="mt-3 text-center">
                                     <p class="mb-0">
                                         Don't have an account? 
-                                        <a href="<?= BASE_URL ?>register" class="text-primary text-decoration-none">Sign up</a>
+                                        <a href="<?= BASE_URL ?>register" class="text-primary text-decoration-none">Register</a>
                                     </p>
                                 </div>
                             </div>

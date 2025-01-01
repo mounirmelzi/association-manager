@@ -89,7 +89,7 @@ class Form extends Component
         $this->renderHeader();
 
         ?>
-            <form id="<?= $this->id ?>" method="<?= $this->method ?>" action="<?= $this->action ?>">
+            <form id="<?= $this->id ?>" method="<?= $this->method ?>" action="<?= $this->action ?>" enctype="multipart/form-data">
                 <?= $this->renderInputs() ?>
                 <?= $this->renderButtons() ?>
             </form>
