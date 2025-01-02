@@ -9,10 +9,10 @@ use App\Utils\PDOExceptionParser;
 class Member extends User
 {
     #[\Override]
-    public function all(): array
+    public function all(int $limit = 0, int $offset = 0): array
     {
         $this->query->setTable("members JOIN users USING(id)");
-        return $this->query->getAll();
+        return $this->query->getAll($limit, $offset);
     }
 
     #[\Override]

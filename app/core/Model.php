@@ -19,9 +19,9 @@ abstract class Model
         $this->query = new Query(Database::getInstance());
     }
 
-    public function all(): array
+    public function all(int $limit = 0, int $offset = 0): array
     {
-        return $this->query->getAll();
+        return $this->query->getAll($limit, $offset);
     }
 
     public function get(int $id): mixed
