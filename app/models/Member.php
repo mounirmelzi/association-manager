@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Exception;
+use PDOException;
 use App\Utils\Logger;
+use App\Utils\PDOExceptionParser;
 
 class Member extends User
 {
@@ -22,7 +23,7 @@ class Member extends User
     }
 
     #[\Override]
-    public function validate(): bool
+    public function validate(): array
     {
         $requiredFields = [
             "username",
@@ -36,20 +37,23 @@ class Member extends User
             "password"
         ];
 
+        $errors = [];
+
         foreach ($requiredFields as $field) {
             if (!isset($this->data[$field])) {
-                return false;
+                $errors[$field] = "$field is required";
             }
         }
 
-        return true;
+        return $errors;
     }
 
     #[\Override]
-    public function save(): bool
+    public function save(): array
     {
-        if (!$this->validate()) {
-            return false;
+        $errors = $this->validate();
+        if (!empty($errors)) {
+            return $errors;
         }
 
         $this->query->database->getConnection()->beginTransaction();
@@ -90,11 +94,11 @@ class Member extends User
             }
 
             $this->query->database->getConnection()->commit();
-            return true;
-        } catch (Exception $e) {
+            return [];
+        } catch (PDOException $exception) {
             $this->query->database->getConnection()->rollback();
-            Logger::error($e->getMessage());
-            return false;
+            Logger::error($exception->getMessage());
+            return PDOExceptionParser::toErrorArray($exception);
         }
     }
 }

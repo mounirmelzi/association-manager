@@ -2,8 +2,11 @@
 
 namespace App\Core;
 
+use PDOException;
 use App\Core\Database;
+use App\Utils\Logger;
 use App\Utils\Query;
+use App\Utils\PDOExceptionParser;
 
 abstract class Model
 {
@@ -26,21 +29,29 @@ abstract class Model
         return $this->query->getById($id);
     }
 
-    public function validate(): bool
+    public function validate(): array
     {
-        return true;
+        return [];
     }
 
-    public function save(): bool
+    public function save(): array
     {
-        if (!$this->validate()) {
-            return false;
+        $errors = $this->validate();
+        if (!empty($errors)) {
+            return $errors;
         }
 
-        if (isset($this->data["id"]) && (self::get($this->data["id"]) !== null)) {
-            return $this->query->update($this->data);
-        } else {
-            return $this->query->insert($this->data);
+        try {
+            if (isset($this->data["id"]) && (self::get($this->data["id"]) !== null)) {
+                $this->query->update($this->data);
+            } else {
+                $this->query->insert($this->data);
+            }
+
+            return [];
+        } catch (PDOException $exception) {
+            Logger::error($exception->getMessage());
+            return PDOExceptionParser::toErrorArray($exception);
         }
     }
 
