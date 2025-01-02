@@ -7,6 +7,7 @@ use App\Core\Controller;
 use App\Models\Member;
 use App\Models\User;
 use App\Utils\Request;
+use App\Utils\Session;
 use App\Utils\File;
 use App\Views\Pages\Login as LoginPage;
 use App\Views\Pages\Register as RegisterPage;
@@ -31,7 +32,14 @@ class Auth extends Controller
                 return;
             }
 
-            App::redirect("/");
+            $session = new Session("auth");
+            $role = $session->get("role");
+            App::redirect(match ($role) {
+                "admin" => "/",
+                "member" => "/",
+                "partner" => "/",
+                default => "/",
+            });
         }
     }
 
