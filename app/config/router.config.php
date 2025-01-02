@@ -24,3 +24,10 @@ $router->addRoute(
     controller: App\Controllers\Auth::class,
     action: 'login',
 );
+
+$router->addRoute(
+    path: '/register',
+    methods: ['GET', 'POST'],
+    controller: App\Controllers\Auth::class,
+    action: 'register',
+);

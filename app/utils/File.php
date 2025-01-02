@@ -22,7 +22,7 @@ class File
         return copy($source, $destination);
     }
 
-    public static function delete(string $path, bool $recursive = true): bool
+    public static function delete(string $path, bool $recursive = false): bool
     {
         if (!file_exists($path)) {
             return false;
@@ -35,7 +35,7 @@ class File
         if ($recursive) {
             foreach (scandir($path) as $file) {
                 if ($file === '.' || $file === '..') continue;
-                self::delete($path . DIRECTORY_SEPARATOR . $file);
+                self::delete($path . DIRECTORY_SEPARATOR . $file, true);
             }
         }
 

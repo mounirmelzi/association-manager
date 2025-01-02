@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Core\Model;
 use App\Core\Database;
 use App\Utils\Session;
-use App\Utils\Logger;
 use App\Utils\Query;
 
 abstract class User extends Model
@@ -19,6 +18,9 @@ abstract class User extends Model
 
     public static function login(string $username, string $password): array
     {
+        $session = new Session("auth");
+        $session->clear();
+
         $query = new Query(Database::getInstance());
         $query->setTable("users");
         $response = $query->where(["username" => $username]);
@@ -32,34 +34,30 @@ abstract class User extends Model
             return ["password" => "wrong password"];
         }
 
-        $session = new Session("auth");
-        $session->clear();
-        $session->set("id", $user["id"]);
+        $member = new Member();
+        $member = $member->get($user["id"]);
+        if ($member !== null) {
+            if (!$member["is_active"]) {
+                return ["username" => "this account have not been activated yet"];
+            }
+
+            $session->set("role", "member");
+        }
 
         $admin = new Admin();
         $admin = $admin->get($user["id"]);
         if ($admin !== null) {
             $session->set("role", "admin");
-            return [];
-        }
-
-        $member = new Member();
-        $member = $member->get($user["id"]);
-        if ($member !== null) {
-            $session->set("role", "member");
-            return [];
         }
 
         $partner = new Partner();
         $partner = $partner->get($user["id"]);
         if ($partner !== null) {
             $session->set("role", "partner");
-            return [];
         }
 
-        Logger::warning("unreachable code");
-        Logger::error("invalid role");
-        return ["role" => "invalid role"];
+        $session->set("id", $user["id"]);
+        return [];
     }
 
     public static function logout(): void
