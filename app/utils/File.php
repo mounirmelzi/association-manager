@@ -64,7 +64,8 @@ class File
         }
 
         if ($maxSize > 0 && $file['size'] > $maxSize) {
-            return ['success' => false, 'message' => 'File too large'];
+            $maxSizeMB = $maxSize / 1024 / 1024;
+            return ['success' => false, 'message' => "File too large (max {$maxSizeMB}MB)"];
         }
 
         if (!empty($allowedExtensions) && !in_array(self::extension($file['name']), $allowedExtensions)) {

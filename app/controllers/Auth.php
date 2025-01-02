@@ -53,14 +53,28 @@ class Auth extends Controller
                 "confirm_password" => Request::data("confirm_password")
             ];
 
-            $result = File::upload(Request::file("member_image"));
+            $result = File::upload(
+                Request::file("member_image"),
+                "uploads" . DIRECTORY_SEPARATOR . "members",
+                ['jpg', 'jpeg', 'png', 'gif', 'webp'],
+                ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
+                5 * 1024 * 1024 // 5 MB in bytes
+            );
+
             if ($result["success"]) {
                 $values["member_image_url"] = $result["path"];
             } else {
                 $errors["member_image"] = $result["message"];
             }
 
-            $result = File::upload(Request::file("identity_image"));
+            $result = File::upload(
+                Request::file("identity_image"),
+                "uploads" . DIRECTORY_SEPARATOR . "members",
+                ['jpg', 'jpeg', 'png', 'gif', 'webp'],
+                ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
+                5 * 1024 * 1024 // 5 MB in bytes
+            );
+
             if ($result["success"]) {
                 $values["identity_image_url"] = $result["path"];
             } else {
@@ -72,11 +86,15 @@ class Auth extends Controller
             }
 
             if (!empty($errors)) {
-                File::delete($values["member_image_url"]);
-                File::delete($values["identity_image_url"]);
+                if (isset($values["member_image_url"])) {
+                    File::delete($values["member_image_url"]);
+                    unset($values["member_image_url"]);
+                }
 
-                unset($values["member_image_url"]);
-                unset($values["identity_image_url"]);
+                if (isset($values["identity_image_url"])) {
+                    File::delete($values["identity_image_url"]);
+                    unset($values["identity_image_url"]);
+                }
 
                 $register_page = new RegisterPage(["values" => $values, "errors" => $errors]);
                 $register_page->renderHtml();
