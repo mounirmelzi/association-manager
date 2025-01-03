@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Models\Member;
-use App\Views\Pages\Members as MembersPage;
+use App\Views\Pages\MembersList as MembersPage;
 
 class Members extends Controller
 {

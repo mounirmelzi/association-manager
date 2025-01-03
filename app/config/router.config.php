@@ -39,3 +39,19 @@ $router->addRoute(
     controller: App\Controllers\Members::class,
     action: 'index',
 );
+
+$router->addRoute(
+    path: '/members/{id}',
+    roles: ["admin", "member", "partner"],
+    methods: ['GET'],
+    controller: App\Controllers\Members::class,
+    action: 'details',
+);
+
+$router->addRoute(
+    path: '/members/{id}/edit',
+    roles: ["admin", "member"],
+    methods: ['GET', 'POST'],
+    controller: App\Controllers\Members::class,
+    action: 'edit',
+);

@@ -5,7 +5,7 @@ namespace App\Views\Pages;
 use App\Views\Components\Table;
 use App\Views\Components\Column;
 
-class Members extends Page
+class MembersList extends Page
 {
     private Table $membersTable;
 
@@ -91,7 +91,7 @@ class Members extends Page
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     <li>
-                                        <a class="dropdown-item" href="<?= BASE_URL . "members/$member[id]" ?>">
+                                        <a class="dropdown-item" href="<?= BASE_URL . "members/$member[id]/edit" ?>">
                                             <i class="bi bi-pencil me-2"></i>
                                             Edit
                                         </a>
