@@ -55,3 +55,11 @@ $router->addRoute(
     controller: App\Controllers\Members::class,
     action: 'edit',
 );
+
+$router->addRoute(
+    path: '/members/{id}/delete',
+    roles: ["admin", "member"],
+    methods: ['GET'],
+    controller: App\Controllers\Members::class,
+    action: 'delete',
+);

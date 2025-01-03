@@ -33,6 +33,43 @@ class Input extends Component
 
     public function renderHtml(): void
     {
+        if ($this->type === 'hidden') {
+            ?>
+                <input 
+                    type="hidden"
+                    id="<?= $this->name ?>"
+                    name="<?= $this->name ?>"
+                    value="<?= htmlspecialchars((string)$this->value) ?>"
+                >
+            <?php
+            return;
+        }
+
+        if ($this->type === 'checkbox') {
+            ?>
+                <div class="mb-3 form-check">
+                    <label class="form-check-label" for="<?= $this->name ?>">
+                        <?= $this->label ?>
+                    </label>
+                    <input 
+                        type="checkbox"
+                        class="form-check-input <?= $this->error ? 'is-invalid' : '' ?>"
+                        id="<?= $this->name ?>"
+                        name="<?= $this->name ?>"
+                        value="<?= true ?>"
+                        <?= $this->value ? 'checked' : '' ?>
+                        <?= $this->required ? 'required' : '' ?>
+                    >                    
+                    <?php if ($this->error): ?>
+                        <div class="invalid-feedback">
+                            <?= htmlspecialchars($this->error) ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            <?php
+            return;
+        }
+
         ?>
             <div class="mb-3">
                 <label for="<?= $this->name ?>" class="form-label"><?= $this->label ?></label>

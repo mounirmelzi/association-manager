@@ -83,6 +83,7 @@ class Member extends User
                 "birth_date" => $this->data["birth_date"],
                 "member_image_url" => $this->data["member_image_url"],
                 "identity_image_url" => $this->data["identity_image_url"],
+                "is_active" => $this->data["is_active"] ?? false,
             ];
 
             if (self::get($this->data["id"]) !== null) {

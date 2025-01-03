@@ -22,7 +22,7 @@ class MembersList extends Page
                         ?>
                             <div class="d-flex align-items-center">
                                 <img 
-                                    src="<?= $member['member_image_url'] ?>" 
+                                    src="<?= BASE_URL . $member['member_image_url'] ?>" 
                                     alt="<?= $member['first_name'] ?>'s photo"
                                     class="rounded-circle me-3"
                                     width="40" 
@@ -94,6 +94,17 @@ class MembersList extends Page
                                         <a class="dropdown-item" href="<?= BASE_URL . "members/$member[id]/edit" ?>">
                                             <i class="bi bi-pencil me-2"></i>
                                             Edit
+                                        </a>
+                                    </li>
+                                    <li> <hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a
+                                            class="dropdown-item text-danger"
+                                            href="<?= BASE_URL . "members/$member[id]/delete" ?>"
+                                            onclick="return confirm('Are you sure you want to delete this member?')"
+                                        >
+                                            <i class="bi bi-trash me-2"></i>
+                                            Delete
                                         </a>
                                     </li>
                                 </ul>
