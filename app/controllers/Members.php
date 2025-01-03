@@ -61,7 +61,7 @@ class Members extends Controller
         }
 
         if (Request::method() === "GET") {
-            $page = new MemberEditPage(["member" => $member]);
+            $page = new MemberEditPage(["values" => $member]);
             $page->renderHtml();
         } else if (Request::method() === "POST") {
             $errors = [];
@@ -113,7 +113,7 @@ class Members extends Controller
                     unset($new_member_image_url);
                 }
 
-                $page = new MemberEditPage(["member" => array_merge($member, $values), "errors" => $errors]);
+                $page = new MemberEditPage(["values" => array_merge($member, $values), "errors" => $errors]);
                 $page->renderHtml();
                 return;
             }
@@ -131,7 +131,7 @@ class Members extends Controller
                     unset($new_member_image_url);
                 }
 
-                $page = new MemberEditPage(["member" => array_merge($member->data, $values), "errors" => $errors]);
+                $page = new MemberEditPage(["values" => array_merge($member->data, $values), "errors" => $errors]);
                 $page->renderHtml();
                 return;
             }

@@ -18,7 +18,7 @@ class MemberEdit extends Page
         $inputComponents = [
             new Input(
                 name: 'first_name',
-                value: $this->data["member"]["first_name"] ?? null,
+                value: $this->data["values"]["first_name"] ?? null,
                 error: $this->data["errors"]["first_name"] ?? null,
                 config: [
                     'icon' => 'person',
@@ -28,7 +28,7 @@ class MemberEdit extends Page
             ),
             new Input(
                 name: 'last_name',
-                value: $this->data["member"]["last_name"] ?? null,
+                value: $this->data["values"]["last_name"] ?? null,
                 error: $this->data["errors"]["last_name"] ?? null,
                 config: [
                     'icon' => 'person',
@@ -38,7 +38,7 @@ class MemberEdit extends Page
             ),
             new Input(
                 name: 'email',
-                value: $this->data["member"]["email"] ?? null,
+                value: $this->data["values"]["email"] ?? null,
                 error: $this->data["errors"]["email"] ?? null,
                 config: [
                     'type' => 'email',
@@ -49,7 +49,7 @@ class MemberEdit extends Page
             ),
             new Input(
                 name: 'phone',
-                value: $this->data["member"]["phone"] ?? null,
+                value: $this->data["values"]["phone"] ?? null,
                 error: $this->data["errors"]["phone"] ?? null,
                 config: [
                     'type' => 'tel',
@@ -60,7 +60,7 @@ class MemberEdit extends Page
             ),
             new Input(
                 name: 'birth_date',
-                value: $this->data["member"]["birth_date"] ?? null,
+                value: $this->data["values"]["birth_date"] ?? null,
                 error: $this->data["errors"]["birth_date"] ?? null,
                 config: [
                     'type' => 'date',
@@ -83,7 +83,7 @@ class MemberEdit extends Page
             ),
             new Input(
                 name: 'old_password',
-                value: null,
+                value: $this->data["values"]["old_password"] ?? null,
                 error: $this->data["errors"]["old_password"] ?? null,
                 config: [
                     'type' => 'password',
@@ -95,7 +95,7 @@ class MemberEdit extends Page
             ),
             new Input(
                 name: 'new_password',
-                value: null,
+                value: $this->data["values"]["new_password"] ?? null,
                 error: $this->data["errors"]["new_password"] ?? null,
                 config: [
                     'type' => 'password',
@@ -107,7 +107,7 @@ class MemberEdit extends Page
             ),
             new Input(
                 name: 'confirm_password',
-                value: null,
+                value: $this->data["values"]["confirm_password"] ?? null,
                 error: $this->data["errors"]["confirm_password"] ?? null,
                 config: [
                     'type' => 'password',
@@ -123,7 +123,7 @@ class MemberEdit extends Page
         if ($user["role"] === "admin") {
             array_unshift($inputComponents, new Input(
                 name: 'is_active',
-                value: $this->data["member"]["is_active"] ?? null,
+                value: $this->data["values"]["is_active"] ?? null,
                 error: $this->data["errors"]["is_active"] ?? null,
                 config: [
                     'type' => 'checkbox',
@@ -172,10 +172,10 @@ class MemberEdit extends Page
                 <div class="container py-5">
                     <div class="row justify-content-center">
                         <div class="col-md-8">
-                            <?php if (isset($this->data["member"]["member_image_url"])): ?>
+                            <?php if (isset($this->data["values"]["member_image_url"])): ?>
                                 <div class="text-center mb-4">
                                     <img
-                                        src="<?= BASE_URL . htmlspecialchars($this->data["member"]["member_image_url"]) ?>" 
+                                        src="<?= BASE_URL . htmlspecialchars($this->data["values"]["member_image_url"]) ?>" 
                                         class="rounded-circle" 
                                         alt="Profile Picture"
                                         style="width: 150px; height: 150px; object-fit: cover;"
