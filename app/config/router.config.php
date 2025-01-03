@@ -31,3 +31,11 @@ $router->addRoute(
     controller: App\Controllers\Auth::class,
     action: 'register',
 );
+
+$router->addRoute(
+    path: '/members',
+    roles: ["admin"],
+    methods: ['GET'],
+    controller: App\Controllers\Members::class,
+    action: 'index',
+);
