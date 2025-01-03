@@ -96,6 +96,12 @@ class MembersList extends Page
                                             Edit
                                         </a>
                                     </li>
+                                    <li>
+                                        <a class="dropdown-item" href="<?= BASE_URL . "members/$member[id]" ?>">
+                                            <i class="bi bi-person-vcard me-2"></i>
+                                            View Details
+                                        </a>
+                                    </li>
                                     <li> <hr class="dropdown-divider"></li>
                                     <li>
                                         <a
