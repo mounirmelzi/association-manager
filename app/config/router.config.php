@@ -81,11 +81,27 @@ $router->addRoute(
 );
 
 $router->addRoute(
+    path: '/partners/create',
+    roles: ["admin"],
+    methods: ['GET', 'POST'],
+    controller: App\Controllers\Partners::class,
+    action: 'create',
+);
+
+$router->addRoute(
     path: '/partners/{id}',
     roles: ["admin", "partner"],
     methods: ['GET'],
     controller: App\Controllers\Partners::class,
     action: 'details',
+);
+
+$router->addRoute(
+    path: '/partners/{id}/edit',
+    roles: ["admin", "partner"],
+    methods: ['GET', 'POST'],
+    controller: App\Controllers\Partners::class,
+    action: 'edit',
 );
 
 $router->addRoute(
