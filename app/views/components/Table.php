@@ -6,16 +6,19 @@ class Table extends Component
 {
     private string $title;
     private array $columns;
+    private string $minHeight;
 
     public function __construct(
         string $title,
         array $data,
         array $columns,
+        array $config = []
     ) {
         parent::__construct($data);
 
         $this->title = $title;
         $this->columns = $columns;
+        $this->minHeight = $config['minHeight'] ?? "0px";
     }
 
     public function renderHtml(): void
@@ -26,7 +29,7 @@ class Table extends Component
             </div>
 
             <div class="card shadow-sm">
-                <div class="table-responsive">
+                <div class="table-responsive" style="min-height: <?= $this->minHeight ?>">
                     <table class="table table-hover mb-0">
                         <thead class="table-light">
                             <tr>

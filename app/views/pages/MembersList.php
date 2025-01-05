@@ -15,6 +15,9 @@ class MembersList extends Page
         $this->membersTable = new Table(
             title: 'Members List',
             data: $this->data["members"],
+            config: [
+                'minHeight' => "75vh",
+            ],
             columns: [
                 new Column(
                     label: 'Member',
