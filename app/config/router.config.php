@@ -79,3 +79,19 @@ $router->addRoute(
     controller: App\Controllers\Partners::class,
     action: 'index',
 );
+
+$router->addRoute(
+    path: '/partners/{id}',
+    roles: ["admin", "partner"],
+    methods: ['GET'],
+    controller: App\Controllers\Partners::class,
+    action: 'details',
+);
+
+$router->addRoute(
+    path: '/partners/{id}/delete',
+    roles: ["admin", "partner"],
+    methods: ['GET'],
+    controller: App\Controllers\Partners::class,
+    action: 'delete',
+);

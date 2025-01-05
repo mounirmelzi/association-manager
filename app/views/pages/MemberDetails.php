@@ -17,7 +17,7 @@ class MemberDetails extends Page
 
                 <link href="<?= BASE_URL ?>css/libs/bootstrap.min.css" rel="stylesheet">
                 <link href="<?= BASE_URL ?>assets/icons/libs/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet">
-                
+
                 <script src="<?= BASE_URL ?>js/libs/jquery-3.7.1.min.js" defer></script>
                 <script src="<?= BASE_URL ?>js/libs/bootstrap.min.js" defer></script>
             </head>
