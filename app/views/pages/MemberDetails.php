@@ -33,20 +33,20 @@ class MemberDetails extends Page
         ?>
             <body class="bg-light">
                 <div class="container py-5">
-                    <div class="card shadow">
+                    <div class="card shadow-lg">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h3 class="mb-0">Member Profile</h3>
                             <?php if ($user["role"] !== "partner"): ?>
-                                <div class="d-flex justify-content-center align-items-center gap-2">
+                                <div class="d-flex gap-2">
                                     <a
                                         href="<?= BASE_URL . "members/$member[id]/edit" ?>"
-                                        class="btn btn-primary btn-sm px-3 py-2"
+                                        class="btn btn-primary btn-sm px-3"
                                     >
                                         <i class="bi bi-pencil me-2"></i>
                                         Edit
                                     </a>
                                     <a
-                                        class="btn btn-danger btn-sm px-3 py-2"
+                                        class="btn btn-danger btn-sm px-3"
                                         href="<?= BASE_URL . "members/$member[id]/delete" ?>"
                                         onclick="return confirm('Are you sure you want to delete this member?')"
                                     >
@@ -62,11 +62,13 @@ class MemberDetails extends Page
                                 <div class="col-md-4 text-center mb-4">
                                     <img
                                         src="<?= BASE_URL . htmlspecialchars($member['member_image_url']) ?>" 
-                                        class="img-fluid rounded-circle mb-3"
+                                        class="img-fluid rounded-circle mb-4"
                                         alt="Profile Picture"
-                                        style="max-width: 200px;"
+                                        style="width: 200px; height: 200px; object-fit: cover;"
                                     >
-                                    <h4><?= htmlspecialchars($member['first_name'] . ' ' . $member['last_name']) ?></h4>
+                                    <h4 class="mb-2">
+                                        <?= htmlspecialchars($member['first_name'] . ' ' . $member['last_name']) ?>
+                                    </h4>
                                     <span class="badge <?= $member['is_active'] ? 'bg-success' : 'bg-danger' ?>">
                                         <?= $member['is_active'] ? 'Active' : 'Inactive' ?>
                                     </span>
@@ -95,7 +97,7 @@ class MemberDetails extends Page
                                             <p><?= htmlspecialchars($member['created_at']) ?></p>
                                         </div>
                                         <div class="col-md-6">
-                                            <label class="fw-bold">Identity Document</label>
+                                            <label class="fw-bold mb-2">Identity Document</label>
                                             <img
                                                 src="<?= BASE_URL . htmlspecialchars($member['identity_image_url']) ?>"
                                                 class="img-fluid rounded"
