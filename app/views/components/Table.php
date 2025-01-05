@@ -7,6 +7,9 @@ class Table extends Component
     private string $title;
     private array $columns;
     private string $minHeight;
+    private ?string $createText;
+    private ?string $createUrl;
+    private string $theme;
 
     public function __construct(
         string $title,
@@ -19,13 +22,21 @@ class Table extends Component
         $this->title = $title;
         $this->columns = $columns;
         $this->minHeight = $config['minHeight'] ?? "0px";
+        $this->createText = $config['createText'] ?? null;
+        $this->createUrl = $config['createUrl'] ?? null;
+        $this->theme = $config['theme'] ?? 'primary';
     }
 
     public function renderHtml(): void
     {
         ?>
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="h3 mb-0"><?= $this->title ?></h1>                
+                <h1 class="h3 mb-0"><?= $this->title ?></h1>
+                <?php if ($this->createText && $this->createUrl): ?>
+                    <a href="<?= $this->createUrl ?>" class="btn btn-<?= $this->theme ?>">
+                        <i class="bi bi-plus-lg me-1"></i><?= $this->createText ?>
+                    </a>
+                <?php endif ?>
             </div>
 
             <div class="card shadow-sm">
