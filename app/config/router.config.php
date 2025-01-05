@@ -19,6 +19,14 @@ $router->addRoute(
 );
 
 $router->addRoute(
+    path: '/dashboard',
+    roles: ["admin"],
+    methods: ['GET'],
+    controller: App\Controllers\Home::class,
+    action: 'dashboard',
+);
+
+$router->addRoute(
     path: '/login',
     methods: ['GET', 'POST'],
     controller: App\Controllers\Auth::class,

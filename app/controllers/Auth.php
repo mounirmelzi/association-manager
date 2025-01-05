@@ -35,7 +35,7 @@ class Auth extends Controller
             $session = new Session("auth");
             $role = $session->get("role");
             App::redirect(match ($role) {
-                "admin" => "/",
+                "admin" => "/dashboard",
                 "member" => "/",
                 "partner" => "/",
                 default => "/",
