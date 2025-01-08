@@ -52,6 +52,12 @@ class Dashboard extends Page
                 'description' => 'Click to manage',
                 'link' => $card['link'],
                 'icon' => $card['icon'],
+                'bgColor' => '#f0f9ff',
+                'borderColor' => '#dbeafe',
+                'iconColor' => '#1d4ed8',
+                'titleColor' => '#1e3a8a',
+                'textColor' => '#334155',
+                'chevronColor' => '#1d4ed8',
             ]
         );
 
