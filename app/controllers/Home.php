@@ -20,6 +20,7 @@ class Home extends Controller
             ["title" => "Members Managment", "link" => BASE_URL . "members", "icon" => "people"],
             ["title" => "Partners Managment", "link" => BASE_URL . "partners", "icon" => "people-fill"],
             ["title" => "Activities Managment", "link" => BASE_URL . "activities", "icon" => "activity"],
+            ["title" => "Diaporama Managment", "link" => BASE_URL . "diaporama", "icon" => "file-earmark-slides"],
         ];
 
         $page = new DashboardPage(["cards" => $cards]);

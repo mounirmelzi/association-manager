@@ -197,3 +197,9 @@ CREATE TABLE `notifications` (
 
     FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
 );
+
+
+CREATE TABLE `diaporama` (
+    `id`                                BIGINT                  PRIMARY KEY AUTO_INCREMENT,
+    `image_url`                         VARCHAR(255)            NOT NULL
+);

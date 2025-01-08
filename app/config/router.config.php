@@ -120,7 +120,6 @@ $router->addRoute(
     action: 'index',
 );
 
-
 $router->addRoute(
     path: '/activities/create',
     roles: ["admin"],
@@ -150,5 +149,21 @@ $router->addRoute(
     roles: ["admin"],
     methods: ['GET'],
     controller: App\Controllers\Activities::class,
+    action: 'delete',
+);
+
+$router->addRoute(
+    path: '/diaporama',
+    roles: ["admin"],
+    methods: ['GET', 'POST'],
+    controller: App\Controllers\Diaporama::class,
+    action: 'index',
+);
+
+$router->addRoute(
+    path: '/diaporama/{id}/delete',
+    roles: ["admin"],
+    methods: ['GET'],
+    controller: App\Controllers\Diaporama::class,
     action: 'delete',
 );
