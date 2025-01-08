@@ -2,6 +2,8 @@
 
 namespace App\Views\Pages;
 
+use App\Views\Components\Diaporama as DiaporamaComponent;
+
 class Home extends Page
 {
     #[\Override]
@@ -24,9 +26,13 @@ class Home extends Page
     #[\Override]
     protected function body(): void
     {
+        $diaporama = new DiaporamaComponent(['slides' => $this->data['slides']]);
+
         ?>
             <body>
-                <h1><?= $this->data["message"] ?></h1>
+                <div class="container my-5">
+                    <?php $diaporama->renderHtml() ?>
+                </div>
             </body>
         <?php
     }

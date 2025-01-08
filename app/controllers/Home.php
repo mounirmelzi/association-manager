@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
+use App\Models\Diaporama as DiaporamaModel;
 use App\Views\Pages\Home as HomePage;
 use App\Views\Pages\Dashboard as DashboardPage;
 
@@ -10,7 +11,9 @@ class Home extends Controller
 {
     public function index(): void
     {
-        $page = new HomePage(["message" => "Hello, world!"]);
+        $slides = (new DiaporamaModel())->all();
+
+        $page = new HomePage(["slides" => $slides]);
         $page->renderHtml();
     }
 
