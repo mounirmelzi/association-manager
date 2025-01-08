@@ -163,11 +163,21 @@ class Members extends Controller
         }
 
         $member = new Member($member);
+        $member_image_url = $member->data['member_image_url'] ?? null;
+        $identity_image_url = $member->data['identity_image_url'] ?? null;
 
         if (!$member->delete()) {
             $controller = new ErrorController();
             $controller->index(500, "Cannot delete the member account, try again later!");
             return;
+        }
+
+        if ($member_image_url !== null) {
+            File::delete($member_image_url);
+        }
+
+        if ($identity_image_url !== null) {
+            File::delete($identity_image_url);
         }
 
         if ($user["role"] === "admin") {

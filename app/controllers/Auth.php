@@ -113,11 +113,15 @@ class Auth extends Controller
             $errors = $member->save();
 
             if (!empty($errors)) {
-                File::delete($values["member_image_url"]);
-                File::delete($values["identity_image_url"]);
+                if (isset($values["member_image_url"])) {
+                    File::delete($values["member_image_url"]);
+                    unset($values["member_image_url"]);
+                }
 
-                unset($values["member_image_url"]);
-                unset($values["identity_image_url"]);
+                if (isset($values["identity_image_url"])) {
+                    File::delete($values["identity_image_url"]);
+                    unset($values["identity_image_url"]);
+                }
 
                 $register_page = new RegisterPage(["values" => $values, "errors" => $errors]);
                 $register_page->renderHtml();

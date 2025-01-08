@@ -27,6 +27,14 @@ class PartnersList extends Page
                     renderer: function($partner): void {
                         ?>
                             <div class="d-flex align-items-center">
+                                <img
+                                    src="<?= BASE_URL . $partner['logo_url'] ?>"
+                                    alt="<?= $partner['name'] ?>'s photo"
+                                    class="rounded-circle me-3"
+                                    width="40"
+                                    height="40"
+                                    style="object-fit: cover"
+                                >
                                 <div>
                                     <div class="fw-medium">
                                         <?= htmlspecialchars($partner['name']) ?>

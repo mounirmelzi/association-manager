@@ -81,6 +81,17 @@ class PartnersForm extends Page
 
         $createInputComponents = [
             new Input(
+                name: 'logo',
+                value: null,
+                error: $this->data["errors"]["logo"] ?? null,
+                config: [
+                    'type' => 'file',
+                    'icon' => 'image',
+                    'placeholder' => 'Logo',
+                    'label' => 'Logo',
+                ]
+            ),
+            new Input(
                 name: 'username',
                 value: $this->data["values"]["username"] ?? null,
                 error: $this->data["errors"]["username"] ?? null,
@@ -115,6 +126,18 @@ class PartnersForm extends Page
         ];
 
         $editInputComponents = [
+            new Input(
+                name: 'logo',
+                value: null,
+                error: $this->data["errors"]["logo"] ?? null,
+                config: [
+                    'type' => 'file',
+                    'icon' => 'image',
+                    'placeholder' => 'Logo',
+                    'label' => 'Logo',
+                    'required' => false,
+                ]
+            ),
             new Input(
                 name: 'old_password',
                 value: $this->data["values"]["old_password"] ?? null,
@@ -197,6 +220,16 @@ class PartnersForm extends Page
                 <div class="container py-5">
                     <div class="row justify-content-center">
                         <div class="col-md-8">
+                            <?php if (isset($this->data["values"]["logo_url"])): ?>
+                                <div class="text-center mb-4">
+                                    <img
+                                        src="<?= BASE_URL . htmlspecialchars($this->data["values"]["logo_url"]) ?>"
+                                        class="rounded-circle"
+                                        alt="Profile Picture"
+                                        style="width: 150px; height: 150px; object-fit: cover;"
+                                    >
+                                </div>
+                            <?php endif ?>
                             <?php $this->partnersForm->renderHtml() ?>
                         </div>
                     </div>

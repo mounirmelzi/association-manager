@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Core\App;
 use App\Core\Controller;
 use App\Utils\Request;
+use App\Utils\File;
 use App\Models\Partner;
 use App\Models\User;
 use App\Controllers\Error as ErrorController;
@@ -64,11 +65,32 @@ class Partners extends Controller
                 "confirm_password" => Request::data("confirm_password"),
             ];
 
+            if (Request::file("logo")) {
+                $result = File::upload(
+                    Request::file("logo"),
+                    "uploads" . DIRECTORY_SEPARATOR . "partners",
+                    ['jpg', 'jpeg', 'png', 'gif', 'webp'],
+                    ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
+                    5 * 1024 * 1024 // 5 MB in bytes
+                );
+
+                if ($result["success"]) {
+                    $values["logo_url"] = $result["path"];
+                } else {
+                    $errors["logo"] = $result["message"];
+                }
+            }
+
             if ($values["password"] !== $values["confirm_password"]) {
                 $errors["confirm_password"] = "password mismatch";
             }
 
             if (!empty($errors)) {
+                if (isset($values["logo_url"])) {
+                    File::delete($values["logo_url"]);
+                    unset($values["logo_url"]);
+                }
+
                 $page = new PartnersFormPage([
                     'title' => 'Create Partner',
                     'action' => 'create',
@@ -83,6 +105,11 @@ class Partners extends Controller
             $errors = $partner->save();
 
             if (!empty($errors)) {
+                if (isset($values["logo_url"])) {
+                    File::delete($values["logo_url"]);
+                    unset($values["logo_url"]);
+                }
+
                 $page = new PartnersFormPage([
                     'title' => 'Create Partner',
                     'action' => 'create',
@@ -136,6 +163,23 @@ class Partners extends Controller
             $partner['email'] = Request::data('email');
             $partner['phone'] = Request::data('phone');
 
+            if (Request::file("logo")) {
+                $result = File::upload(
+                    Request::file("logo"),
+                    "uploads" . DIRECTORY_SEPARATOR . "partners",
+                    ['jpg', 'jpeg', 'png', 'gif', 'webp'],
+                    ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
+                    5 * 1024 * 1024 // 5 MB in bytes
+                );
+
+                if ($result["success"]) {
+                    $old_logo_url = $partner["logo_url"];
+                    $new_logo_url = $result["path"];
+                } else {
+                    $errors["logo"] = $result["message"];
+                }
+            }
+
             if (($values["new_password"] !== "") || ($values["confirm_password"] !== "")) {
                 if (($user["role"] === "partner") && ($partner["password"] !== $values["old_password"])) {
                     $errors["old_password"] = "wrong password";
@@ -149,6 +193,11 @@ class Partners extends Controller
             }
 
             if (!empty($errors)) {
+                if (isset($new_logo_url)) {
+                    File::delete($new_logo_url);
+                    unset($new_logo_url);
+                }
+
                 $page = new PartnersFormPage([
                     'title' => 'Edit Partner',
                     'action' => 'edit',
@@ -159,10 +208,19 @@ class Partners extends Controller
                 return;
             }
 
+            if (isset($new_logo_url)) {
+                $partner["logo_url"] = $new_logo_url;
+            }
+
             $partner = new Partner($partner);
             $errors = $partner->save();
 
             if (!empty($errors)) {
+                if (isset($new_logo_url)) {
+                    File::delete($new_logo_url);
+                    unset($new_logo_url);
+                }
+
                 $page = new PartnersFormPage([
                     'title' => 'Edit Partner',
                     'action' => 'edit',
@@ -171,6 +229,11 @@ class Partners extends Controller
                 ]);
                 $page->renderHtml();
                 return;
+            }
+
+            if (isset($old_logo_url)) {
+                File::delete($old_logo_url);
+                unset($old_logo_url);
             }
 
             App::redirect("/partners/$id");
@@ -195,11 +258,16 @@ class Partners extends Controller
         }
 
         $partner = new Partner($partner);
+        $logo_url = $partner->data['logo_url'] ?? null;
 
         if (!$partner->delete()) {
             $controller = new ErrorController();
             $controller->index(500, "Cannot delete the partner account, try again later!");
             return;
+        }
+
+        if ($logo_url !== null) {
+            File::delete($logo_url);
         }
 
         if ($user["role"] === "admin") {

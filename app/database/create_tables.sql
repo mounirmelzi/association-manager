@@ -55,6 +55,7 @@ CREATE TABLE `partners` (
     `description`                       LONGTEXT,
     `category`                          VARCHAR(255)            NOT NULL,
     `address`                           VARCHAR(255)            NOT NULL,
+    `logo_url`                          VARCHAR(255)            NOT NULL,
 
     FOREIGN KEY (`id`) REFERENCES `users` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
 );

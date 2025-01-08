@@ -32,6 +32,7 @@ class Partner extends User
             "description",
             "category",
             "address",
+            "logo_url",
             "phone",
             "password"
         ];
@@ -81,6 +82,7 @@ class Partner extends User
                 "description" => $this->data["description"],
                 "category" => $this->data["category"],
                 "address" => $this->data["address"],
+                "logo_url" => $this->data["logo_url"],
             ];
 
             if (self::get($this->data["id"]) !== null) {

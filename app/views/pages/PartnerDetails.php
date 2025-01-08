@@ -53,13 +53,16 @@ class PartnerDetails extends Page {
 
                         <div class="card-body mt-4">
                             <div class="row">
-                                <div class="col-md-4 text-center mb-4">  
-                                    <h4 class="mb-2">
+                                <div class="col-md-4 text-center mb-4">
+                                    <img
+                                        src="<?= BASE_URL . htmlspecialchars($partner['logo_url']) ?>"
+                                        class="img-fluid rounded-circle mb-4"
+                                        alt="Profile Picture"
+                                        style="width: 200px; height: 200px; object-fit: cover;"
+                                    >
+                                    <h4>
                                         <?= htmlspecialchars($partner['name']) ?>
                                     </h4>
-                                    <p class="text-muted mb-4">
-                                        <?= htmlspecialchars($partner['category']) ?>
-                                    </p>
                                     <p class="text-muted">
                                         <?= htmlspecialchars($partner['description']) ?>
                                     </p>
@@ -67,6 +70,12 @@ class PartnerDetails extends Page {
 
                                 <div class="col-md-8">
                                     <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label class="fw-bold">Category</label>
+                                            <p>
+                                                <?= htmlspecialchars($partner['category']) ?>
+                                            </p>
+                                        </div>
                                         <div class="col-md-6">
                                             <label class="fw-bold">Username</label>
                                             <p>
