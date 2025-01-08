@@ -147,9 +147,11 @@ class MembersList extends Page
     protected function body(): void
     {        
         ?>
-            <div class="container py-5">
-                <?= $this->membersTable->renderHtml() ?>
-            </div>
+            <body>
+                <div class="container py-5">
+                    <?= $this->membersTable->renderHtml() ?>
+                </div>
+            </body>
         <?php
     }
 }

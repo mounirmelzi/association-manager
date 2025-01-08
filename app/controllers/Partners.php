@@ -11,7 +11,7 @@ use App\Models\User;
 use App\Controllers\Error as ErrorController;
 use App\Views\Pages\PartnersList as PartnersListPage;
 use App\Views\Pages\PartnerDetails as PartnerDetailsPage;
-use App\Views\Pages\PartnersForm as PartnersFormPage;
+use App\Views\Pages\PartnerForm as PartnerFormPage;
 
 class Partners extends Controller
 {
@@ -46,7 +46,7 @@ class Partners extends Controller
     public function create(): void
     {
         if (Request::method() === "GET") {
-            $page = new PartnersFormPage([
+            $page = new PartnerFormPage([
                 'title' => 'Create Partner',
                 'action' => 'create'
             ]);
@@ -91,7 +91,7 @@ class Partners extends Controller
                     unset($values["logo_url"]);
                 }
 
-                $page = new PartnersFormPage([
+                $page = new PartnerFormPage([
                     'title' => 'Create Partner',
                     'action' => 'create',
                     "values" => $values,
@@ -110,7 +110,7 @@ class Partners extends Controller
                     unset($values["logo_url"]);
                 }
 
-                $page = new PartnersFormPage([
+                $page = new PartnerFormPage([
                     'title' => 'Create Partner',
                     'action' => 'create',
                     "values" => $values,
@@ -142,7 +142,7 @@ class Partners extends Controller
         }
 
         if (Request::method() === "GET") {
-            $page = new PartnersFormPage([
+            $page = new PartnerFormPage([
                 'title' => 'Edit Partner',
                 'action' => 'edit',
                 "values" => $partner,
@@ -198,7 +198,7 @@ class Partners extends Controller
                     unset($new_logo_url);
                 }
 
-                $page = new PartnersFormPage([
+                $page = new PartnerFormPage([
                     'title' => 'Edit Partner',
                     'action' => 'edit',
                     "values" => array_merge($partner, $values),
@@ -221,7 +221,7 @@ class Partners extends Controller
                     unset($new_logo_url);
                 }
 
-                $page = new PartnersFormPage([
+                $page = new PartnerFormPage([
                     'title' => 'Edit Partner',
                     'action' => 'edit',
                     "values" => array_merge($partner->data, $values),

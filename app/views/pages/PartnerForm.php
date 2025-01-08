@@ -6,9 +6,9 @@ use App\Utils\Request;
 use App\Views\Components\Form;
 use App\Views\Components\Input;
 
-class PartnersForm extends Page
+class PartnerForm extends Page
 {
-    private Form $partnersForm;
+    private Form $partnerForm;
 
     public function __construct(array $data = []) {
         parent::__construct($data);
@@ -183,8 +183,8 @@ class PartnersForm extends Page
             $inputComponents = array_merge($inputComponents, $editInputComponents);
         }
 
-        $this->partnersForm = new Form(
-            id: "partners-form",
+        $this->partnerForm = new Form(
+            id: "partner-form",
             action: BASE_URL . Request::url(),
             inputComponents: $inputComponents,
             config: [
@@ -230,7 +230,7 @@ class PartnersForm extends Page
                                     >
                                 </div>
                             <?php endif ?>
-                            <?php $this->partnersForm->renderHtml() ?>
+                            <?php $this->partnerForm->renderHtml() ?>
                         </div>
                     </div>
                 </div>

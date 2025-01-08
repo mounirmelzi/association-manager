@@ -111,3 +111,44 @@ $router->addRoute(
     controller: App\Controllers\Partners::class,
     action: 'delete',
 );
+
+$router->addRoute(
+    path: '/activities',
+    roles: ["admin"],
+    methods: ['GET'],
+    controller: App\Controllers\Activities::class,
+    action: 'index',
+);
+
+
+$router->addRoute(
+    path: '/activities/create',
+    roles: ["admin"],
+    methods: ['GET', 'POST'],
+    controller: App\Controllers\Activities::class,
+    action: 'create',
+);
+
+$router->addRoute(
+    path: '/activities/{id}',
+    roles: ["admin"],
+    methods: ['GET'],
+    controller: App\Controllers\Activities::class,
+    action: 'details',
+);
+
+$router->addRoute(
+    path: '/activities/{id}/edit',
+    roles: ["admin"],
+    methods: ['GET', 'POST'],
+    controller: App\Controllers\Activities::class,
+    action: 'edit',
+);
+
+$router->addRoute(
+    path: '/activities/{id}/delete',
+    roles: ["admin"],
+    methods: ['GET'],
+    controller: App\Controllers\Activities::class,
+    action: 'delete',
+);
