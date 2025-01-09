@@ -52,7 +52,7 @@ class Diaporama extends Page
                         <h1 class="h3">Diaporama Slides</h1>
                         <button 
                             type="button"
-                            class="btn btn-primary"
+                            class="btn btn-dark"
                             data-bs-toggle="modal"
                             data-bs-target="#upload-modal"
                         >

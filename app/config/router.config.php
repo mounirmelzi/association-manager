@@ -153,6 +153,46 @@ $router->addRoute(
 );
 
 $router->addRoute(
+    path: '/news',
+    roles: ["admin"],
+    methods: ['GET'],
+    controller: App\Controllers\News::class,
+    action: 'index',
+);
+
+$router->addRoute(
+    path: '/news/create',
+    roles: ["admin"],
+    methods: ['GET', 'POST'],
+    controller: App\Controllers\News::class,
+    action: 'create',
+);
+
+$router->addRoute(
+    path: '/news/{id}',
+    roles: ["admin"],
+    methods: ['GET'],
+    controller: App\Controllers\News::class,
+    action: 'details',
+);
+
+$router->addRoute(
+    path: '/news/{id}/edit',
+    roles: ["admin"],
+    methods: ['GET', 'POST'],
+    controller: App\Controllers\News::class,
+    action: 'edit',
+);
+
+$router->addRoute(
+    path: '/news/{id}/delete',
+    roles: ["admin"],
+    methods: ['GET'],
+    controller: App\Controllers\News::class,
+    action: 'delete',
+);
+
+$router->addRoute(
     path: '/diaporama',
     roles: ["admin"],
     methods: ['GET', 'POST'],

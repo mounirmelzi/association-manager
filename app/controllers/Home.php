@@ -22,7 +22,10 @@ class Home extends Controller
         $cards = [
             ["title" => "Members Managment", "link" => BASE_URL . "members", "icon" => "people"],
             ["title" => "Partners Managment", "link" => BASE_URL . "partners", "icon" => "people-fill"],
+            ["title" => "Card Types Managment", "link" => BASE_URL . "cards/types", "icon" => "person-vcard"],
+            ["title" => "Help Types Managment", "link" => BASE_URL . "helps/types", "icon" => "person-raised-hand"],
             ["title" => "Activities Managment", "link" => BASE_URL . "activities", "icon" => "activity"],
+            ["title" => "News Managment", "link" => BASE_URL . "news", "icon" => "newspaper"],
             ["title" => "Diaporama Managment", "link" => BASE_URL . "diaporama", "icon" => "file-earmark-slides"],
         ];
 
