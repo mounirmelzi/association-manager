@@ -2,7 +2,38 @@
 
 namespace App\Views\Pages;
 
+use App\Views\Components\Table;
+use App\Views\Components\Column;
+
 class PartnerDetails extends Page {
+    private Table $discountsTable;
+    private Table $limitedDiscountsTable;
+
+    public function __construct(array $data = [])
+    {
+        parent::__construct($data);
+
+        $this->discountsTable = new Table(
+            title: 'Discounts',
+            data: $this->data["discounts"],
+            columns: [
+                new Column('Card Type', 'card_type'),
+                new Column('Percentage', 'percentage'),
+            ],
+        );
+
+        $this->limitedDiscountsTable = new Table(
+            title: 'Limited Discounts',
+            data: $this->data["limitedDiscounts"],
+            columns: [
+                new Column('Card Type', 'card_type'),
+                new Column('Percentage', 'percentage'),
+                new Column('Start', 'start_date'),
+                new Column('End', 'end_date'),
+            ],
+        );
+    }
+
     #[\Override]
     protected function head(): void
     {
@@ -27,7 +58,7 @@ class PartnerDetails extends Page {
         $partner = $this->data["partner"];
 
         ?>
-            <body class="bg-light">
+            <body>
                 <div class="container py-5">
                     <div class="card shadow-lg">
                         <div class="card-header d-flex justify-content-between align-items-center">
@@ -111,6 +142,14 @@ class PartnerDetails extends Page {
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div class="container py-5">
+                    <?= $this->discountsTable->renderHtml() ?>
+                </div>
+
+                <div class="container py-5">
+                    <?= $this->limitedDiscountsTable->renderHtml() ?>
                 </div>
             </body>
         <?php

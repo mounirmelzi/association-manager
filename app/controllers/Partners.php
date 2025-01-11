@@ -7,6 +7,9 @@ use App\Core\Controller;
 use App\Utils\Request;
 use App\Utils\File;
 use App\Models\Partner;
+use App\Models\CardType;
+use App\Models\DiscountOffer;
+use App\Models\LimitedDiscountOffer;
 use App\Models\User;
 use App\Controllers\Error as ErrorController;
 use App\Views\Pages\PartnersList as PartnersListPage;
@@ -39,7 +42,27 @@ class Partners extends Controller
             return;
         }
 
-        $page = new PartnerDetailsPage(["partner" => $partner]);
+        $cardTypeModel = new CardType();
+
+        $discountOfferModel = new DiscountOffer();
+        $discounts = array_map(function ($discount) use ($cardTypeModel) {
+            $cardType = $cardTypeModel->get($discount['card_type_id']);
+            $discount['card_type'] = $cardType['type'];
+            return $discount;
+        }, $discountOfferModel->getByPartnerId($id));
+
+        $limitedDiscountOfferModel = new LimitedDiscountOffer();
+        $limitedDiscounts = array_map(function ($discount) use ($cardTypeModel) {
+            $cardType = $cardTypeModel->get($discount['card_type_id']);
+            $discount['card_type'] = $cardType['type']; // Replace card_type_id with the actual name
+            return $discount;
+        }, $limitedDiscountOfferModel->getByPartnerId($id));
+
+        $page = new PartnerDetailsPage([
+            "partner" => $partner,
+            "discounts" => $discounts,
+            "limitedDiscounts" => $limitedDiscounts,
+        ]);
         $page->renderHtml();
     }
 
