@@ -24,14 +24,51 @@ class Home extends Controller
     public function dashboard(): void
     {
         $cards = [
-            ["title" => "Members Managment", "link" => BASE_URL . "members", "icon" => "people"],
-            ["title" => "Partners Managment", "link" => BASE_URL . "partners", "icon" => "people-fill"],
-            ["title" => "Discount Offers Managment", "link" => BASE_URL . "discounts/offers", "icon" => "cart-dash"],
-            ["title" => "Card Types Managment", "link" => BASE_URL . "cards/types", "icon" => "person-vcard"],
-            ["title" => "Help Types Managment", "link" => BASE_URL . "helps/types", "icon" => "person-raised-hand"],
-            ["title" => "Activities Managment", "link" => BASE_URL . "activities", "icon" => "activity"],
-            ["title" => "News Managment", "link" => BASE_URL . "news", "icon" => "newspaper"],
-            ["title" => "Diaporama Managment", "link" => BASE_URL . "diaporama", "icon" => "file-earmark-slides"],
+            [
+                "title" => "Members Managment",
+                "link" => BASE_URL . "members",
+                "icon" => "people"
+            ],
+            [
+                "title" => "Partners Managment",
+                "link" => BASE_URL . "partners",
+                "icon" => "people-fill"
+            ],
+            [
+                "title" => "Discount Offers Managment",
+                "link" => BASE_URL . "discounts/offers",
+                "icon" => "cart-dash"
+            ],
+            [
+                "title" => "Limited Discount Offers Managment",
+                "link" => BASE_URL . "discounts/limited/offers",
+                "icon" => "cart-dash-fill"
+            ],
+            [
+                "title" => "Card Types Managment",
+                "link" => BASE_URL . "cards/types",
+                "icon" => "person-vcard"
+            ],
+            [
+                "title" => "Help Types Managment",
+                "link" => BASE_URL . "helps/types",
+                "icon" => "person-raised-hand"
+            ],
+            [
+                "title" => "Activities Managment",
+                "link" => BASE_URL . "activities",
+                "icon" => "activity"
+            ],
+            [
+                "title" => "News Managment",
+                "link" => BASE_URL . "news",
+                "icon" => "newspaper"
+            ],
+            [
+                "title" => "Diaporama Managment",
+                "link" => BASE_URL . "diaporama",
+                "icon" => "file-earmark-slides"
+            ],
         ];
 
         $page = new DashboardPage(["cards" => $cards]);

@@ -303,3 +303,35 @@ $router->addRoute(
     controller: App\Controllers\DiscountOffers::class,
     action: 'delete',
 );
+
+$router->addRoute(
+    path: '/discounts/limited/offers',
+    roles: ["admin"],
+    methods: ['GET'],
+    controller: App\Controllers\LimitedDiscountOffers::class,
+    action: 'index',
+);
+
+$router->addRoute(
+    path: '/discounts/limited/offers/create',
+    roles: ["admin"],
+    methods: ['GET', 'POST'],
+    controller: App\Controllers\LimitedDiscountOffers::class,
+    action: 'create',
+);
+
+$router->addRoute(
+    path: '/discounts/limited/offers/{id}/edit',
+    roles: ["admin"],
+    methods: ['GET', 'POST'],
+    controller: App\Controllers\LimitedDiscountOffers::class,
+    action: 'edit',
+);
+
+$router->addRoute(
+    path: '/discounts/limited/offers/{id}/delete',
+    roles: ["admin"],
+    methods: ['GET'],
+    controller: App\Controllers\LimitedDiscountOffers::class,
+    action: 'delete',
+);
