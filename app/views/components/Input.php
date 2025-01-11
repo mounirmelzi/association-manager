@@ -20,6 +20,8 @@ class Input extends Component
         ?string $error = null,
         array $config = []
     ) {
+        parent::__construct($config['options'] ?? []);
+
         $this->name = $name;
         $this->value = $value;
         $this->error = $error;
@@ -87,6 +89,26 @@ class Input extends Component
                             rows="<?= $this->rows ?>"
                             <?= $this->required ? 'required' : '' ?>
                         ><?= htmlspecialchars((string)$this->value) ?></textarea>
+                    <?php elseif ($this->type === 'select'): ?>
+                        <select
+                            class="form-select <?= $this->error ? 'is-invalid' : '' ?>"
+                            id="<?= $this->name ?>"
+                            name="<?= $this->name ?>"
+                            <?= $this->required ? 'required' : '' ?>
+                        >
+                            <?php if ($this->placeholder): ?>
+                                <option value=""><?= htmlspecialchars($this->placeholder) ?></option>
+                            <?php endif ?>
+
+                            <?php foreach ($this->data as $option): ?>
+                                <option 
+                                    value="<?= htmlspecialchars((string)$option['value']) ?>"
+                                    <?= $this->value == $option['value'] ? 'selected' : '' ?>
+                                >
+                                    <?= htmlspecialchars($option['name']) ?>
+                                </option>
+                            <?php endforeach ?>
+                        </select>
                     <?php else: ?>
                         <input 
                             type="<?= $this->type ?>"
@@ -97,13 +119,13 @@ class Input extends Component
                             value="<?= htmlspecialchars((string)$this->value) ?>"
                             <?= $this->required ? 'required' : '' ?>
                         >
-                    <?php endif; ?>
+                    <?php endif ?>
 
                     <?php if ($this->error): ?>
                         <div class="invalid-feedback">
                             <?= htmlspecialchars($this->error) ?>
                         </div>
-                    <?php endif; ?>
+                    <?php endif ?>
                 </div>
             </div>
         <?php
