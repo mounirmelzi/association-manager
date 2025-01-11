@@ -54,7 +54,7 @@ class Partners extends Controller
         $limitedDiscountOfferModel = new LimitedDiscountOffer();
         $limitedDiscounts = array_map(function ($discount) use ($cardTypeModel) {
             $cardType = $cardTypeModel->get($discount['card_type_id']);
-            $discount['card_type'] = $cardType['type']; // Replace card_type_id with the actual name
+            $discount['card_type'] = $cardType['type'];
             return $discount;
         }, $limitedDiscountOfferModel->getByPartnerId($id));
 
