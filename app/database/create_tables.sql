@@ -203,3 +203,10 @@ CREATE TABLE `diaporama` (
     `id`                                BIGINT                  PRIMARY KEY AUTO_INCREMENT,
     `image_url`                         VARCHAR(255)            NOT NULL
 );
+
+
+CREATE TABLE `navbar` (
+    `id`                                BIGINT                  PRIMARY KEY AUTO_INCREMENT,
+    `name`                              VARCHAR(255)            NOT NULL UNIQUE,
+    `url`                               VARCHAR(255)            NOT NULL
+);

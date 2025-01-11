@@ -69,6 +69,11 @@ class Home extends Controller
                 "link" => BASE_URL . "diaporama",
                 "icon" => "file-earmark-slides"
             ],
+            [
+                "title" => "Navbar Managment",
+                "link" => BASE_URL . "navbar",
+                "icon" => "window"
+            ],
         ];
 
         $page = new DashboardPage(["cards" => $cards]);

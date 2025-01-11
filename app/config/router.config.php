@@ -209,6 +209,22 @@ $router->addRoute(
 );
 
 $router->addRoute(
+    path: '/navbar',
+    roles: ["admin"],
+    methods: ['GET', 'POST'],
+    controller: App\Controllers\Navbar::class,
+    action: 'index',
+);
+
+$router->addRoute(
+    path: '/navbar/{id}/delete',
+    roles: ["admin"],
+    methods: ['GET'],
+    controller: App\Controllers\Navbar::class,
+    action: 'delete',
+);
+
+$router->addRoute(
     path: '/cards/types',
     roles: ["admin"],
     methods: ['GET'],
