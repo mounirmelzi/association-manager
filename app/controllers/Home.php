@@ -9,11 +9,15 @@ use App\Views\Pages\Dashboard as DashboardPage;
 
 class Home extends Controller
 {
-    public function index(): void
+    public function home(): void
     {
-        $slides = (new DiaporamaModel())->all();
+        $diaporamaModel = new DiaporamaModel();
 
-        $page = new HomePage(["slides" => $slides]);
+        $slides = $diaporamaModel->all();
+
+        $page = new HomePage([
+            "slides" => $slides,
+        ]);
         $page->renderHtml();
     }
 

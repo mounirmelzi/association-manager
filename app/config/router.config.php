@@ -8,14 +8,14 @@ $router->addRoute(
     path: '/',
     methods: ['GET'],
     controller: App\Controllers\Home::class,
-    action: 'index',
+    action: 'home',
 );
 
 $router->addRoute(
     path: '/home',
     methods: ['GET'],
     controller: App\Controllers\Home::class,
-    action: 'index',
+    action: 'home',
 );
 
 $router->addRoute(
@@ -205,5 +205,69 @@ $router->addRoute(
     roles: ["admin"],
     methods: ['GET'],
     controller: App\Controllers\Diaporama::class,
+    action: 'delete',
+);
+
+$router->addRoute(
+    path: '/cards/types',
+    roles: ["admin"],
+    methods: ['GET'],
+    controller: App\Controllers\CardTypes::class,
+    action: 'index',
+);
+
+$router->addRoute(
+    path: '/cards/types/create',
+    roles: ["admin"],
+    methods: ['GET', 'POST'],
+    controller: App\Controllers\CardTypes::class,
+    action: 'create',
+);
+
+$router->addRoute(
+    path: '/cards/types/{id}/edit',
+    roles: ["admin"],
+    methods: ['GET', 'POST'],
+    controller: App\Controllers\CardTypes::class,
+    action: 'edit',
+);
+
+$router->addRoute(
+    path: '/cards/types/{id}/delete',
+    roles: ["admin"],
+    methods: ['GET'],
+    controller: App\Controllers\CardTypes::class,
+    action: 'delete',
+);
+
+$router->addRoute(
+    path: '/helps/types',
+    roles: ["admin"],
+    methods: ['GET'],
+    controller: App\Controllers\HelpTypes::class,
+    action: 'index',
+);
+
+$router->addRoute(
+    path: '/helps/types/create',
+    roles: ["admin"],
+    methods: ['GET', 'POST'],
+    controller: App\Controllers\HelpTypes::class,
+    action: 'create',
+);
+
+$router->addRoute(
+    path: '/helps/types/{id}/edit',
+    roles: ["admin"],
+    methods: ['GET', 'POST'],
+    controller: App\Controllers\HelpTypes::class,
+    action: 'edit',
+);
+
+$router->addRoute(
+    path: '/helps/types/{id}/delete',
+    roles: ["admin"],
+    methods: ['GET'],
+    controller: App\Controllers\HelpTypes::class,
     action: 'delete',
 );
