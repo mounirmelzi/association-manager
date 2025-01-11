@@ -25,52 +25,52 @@ class Home extends Controller
     {
         $cards = [
             [
-                "title" => "Members Managment",
+                "title" => "Members Management",
                 "link" => BASE_URL . "members",
                 "icon" => "people"
             ],
             [
-                "title" => "Partners Managment",
+                "title" => "Partners Management",
                 "link" => BASE_URL . "partners",
                 "icon" => "people-fill"
             ],
             [
-                "title" => "Discount Offers Managment",
+                "title" => "Discount Offers Management",
                 "link" => BASE_URL . "discounts/offers",
                 "icon" => "cart-dash"
             ],
             [
-                "title" => "Limited Discount Offers Managment",
+                "title" => "Limited Discount Offers Management",
                 "link" => BASE_URL . "discounts/limited/offers",
                 "icon" => "cart-dash-fill"
             ],
             [
-                "title" => "Card Types Managment",
+                "title" => "Card Types Management",
                 "link" => BASE_URL . "cards/types",
                 "icon" => "person-vcard"
             ],
             [
-                "title" => "Help Types Managment",
+                "title" => "Help Types Management",
                 "link" => BASE_URL . "helps/types",
                 "icon" => "person-raised-hand"
             ],
             [
-                "title" => "Activities Managment",
+                "title" => "Activities Management",
                 "link" => BASE_URL . "activities",
                 "icon" => "activity"
             ],
             [
-                "title" => "News Managment",
+                "title" => "News Management",
                 "link" => BASE_URL . "news",
                 "icon" => "newspaper"
             ],
             [
-                "title" => "Diaporama Managment",
+                "title" => "Diaporama Management",
                 "link" => BASE_URL . "diaporama",
                 "icon" => "file-earmark-slides"
             ],
             [
-                "title" => "Navbar Managment",
+                "title" => "Navbar Management",
                 "link" => BASE_URL . "navbar",
                 "icon" => "window"
             ],
