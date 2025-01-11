@@ -18,18 +18,12 @@ class HelpTypesList extends Page {
             config: [
                 'minHeight' => "75vh",
                 'createText' => 'Create New Help Type',
-                'createUrl' => BASE_URL . "/helps/types/create",
+                'createUrl' => BASE_URL . "helps/types/create",
                 'theme' => 'dark',
             ],
             columns: [
-                new Column(
-                    label: 'Help Type',
-                    key: 'type',
-                ),
-                new Column(
-                    label: 'Help Description',
-                    key: 'attachments_description',
-                ),
+                new Column(label: 'Help Type', key: 'type'),
+                new Column(label: 'Help Description', key: 'attachments_description'),
                 new Column(
                     label: 'Actions',
                     width: '100px',

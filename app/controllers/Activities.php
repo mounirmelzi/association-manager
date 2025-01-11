@@ -177,7 +177,7 @@ class Activities extends Controller
                 $page = new ActivityFormPage([
                     'title' => 'Edit Activity',
                     'action' => 'edit',
-                    "values" => $activity,
+                    "values" => $activity->data,
                     "errors" => $errors,
                 ]);
                 $page->renderHtml();

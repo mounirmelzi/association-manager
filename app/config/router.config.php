@@ -271,3 +271,35 @@ $router->addRoute(
     controller: App\Controllers\HelpTypes::class,
     action: 'delete',
 );
+
+$router->addRoute(
+    path: '/discounts/offers',
+    roles: ["admin"],
+    methods: ['GET'],
+    controller: App\Controllers\DiscountOffers::class,
+    action: 'index',
+);
+
+$router->addRoute(
+    path: '/discounts/offers/create',
+    roles: ["admin"],
+    methods: ['GET', 'POST'],
+    controller: App\Controllers\DiscountOffers::class,
+    action: 'create',
+);
+
+$router->addRoute(
+    path: '/discounts/offers/{id}/edit',
+    roles: ["admin"],
+    methods: ['GET', 'POST'],
+    controller: App\Controllers\DiscountOffers::class,
+    action: 'edit',
+);
+
+$router->addRoute(
+    path: '/discounts/offers/{id}/delete',
+    roles: ["admin"],
+    methods: ['GET'],
+    controller: App\Controllers\DiscountOffers::class,
+    action: 'delete',
+);

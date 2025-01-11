@@ -177,7 +177,7 @@ class News extends Controller
                 $page = new NewsFormPage([
                     'title' => 'Edit News',
                     'action' => 'edit',
-                    "values" => $news,
+                    "values" => $news->data,
                     "errors" => $errors,
                 ]);
                 $page->renderHtml();

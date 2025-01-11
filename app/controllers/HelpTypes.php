@@ -24,7 +24,6 @@ class HelpTypes extends Controller
         if (Request::method() === "GET") {
             $page = new HelpTypesFormPage([
                 'title' => 'Create New Help Type',
-                'action' => 'create',
             ]);
             $page->renderHtml();
         } else if (Request::method() === "POST") {
@@ -39,7 +38,6 @@ class HelpTypes extends Controller
             if (!empty($errors)) {
                 $page = new HelpTypesFormPage([
                     'title' => 'Create New Help Type',
-                    'action' => 'create',
                     "values" => $values,
                     "errors" => $errors,
                 ]);
@@ -64,7 +62,6 @@ class HelpTypes extends Controller
         if (Request::method() === "GET") {
             $page = new HelpTypesFormPage([
                 'title' => 'Edit Help Type',
-                'action' => 'edit',
                 "values" => $type,
             ]);
             $page->renderHtml();
@@ -78,8 +75,7 @@ class HelpTypes extends Controller
             if (!empty($errors)) {
                 $page = new HelpTypesFormPage([
                     'title' => 'Edit Help Type',
-                    'action' => 'edit',
-                    "values" => $type,
+                    "values" => $type->data,
                     "errors" => $errors,
                 ]);
                 $page->renderHtml();

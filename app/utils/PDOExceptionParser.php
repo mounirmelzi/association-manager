@@ -35,14 +35,28 @@ class PDOExceptionParser
             }
 
             if (preg_match($config['pattern'], $message, $matches)) {
-                $columnName = $matches[count($matches) - 1];
-                $errorMessage = $config['message'];
+                if ($type === 'duplicate') {
+                    $constraintName = $matches[2];
+                    if (strpos($constraintName, 'unique__') === 0) {
+                        $columns = explode('__', $constraintName);
+                        array_shift($columns);
 
-                if (strpos($errorMessage, '{value}') !== false) {
-                    $errorMessage = str_replace('{value}', $matches[1], $errorMessage);
+                        foreach ($columns as $column) {
+                            $errors[$column] = str_replace('{value}', $matches[1], $config['message']);
+                        }
+                    } else {
+                        $errors[$matches[2]] = str_replace('{value}', $matches[1], $config['message']);
+                    }
+                } else {
+                    $columnName = $matches[count($matches) - 1];
+                    $errorMessage = $config['message'];
+
+                    if (strpos($errorMessage, '{value}') !== false) {
+                        $errorMessage = str_replace('{value}', $matches[1], $errorMessage);
+                    }
+
+                    $errors[$columnName] = $errorMessage;
                 }
-
-                $errors[$columnName] = $errorMessage;
             }
         }
 

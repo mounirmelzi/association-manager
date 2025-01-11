@@ -51,7 +51,7 @@ CREATE TABLE `members` (
 
 CREATE TABLE `partners` (
     `id`                                BIGINT                  PRIMARY KEY AUTO_INCREMENT,
-    `name`                              VARCHAR(255)            NOT NULL,
+    `name`                              VARCHAR(255)            NOT NULL UNIQUE,
     `description`                       LONGTEXT,
     `category`                          VARCHAR(255)            NOT NULL,
     `address`                           VARCHAR(255)            NOT NULL,
