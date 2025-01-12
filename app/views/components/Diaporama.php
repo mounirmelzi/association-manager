@@ -4,96 +4,156 @@ namespace App\Views\Components;
 
 class Diaporama extends Component
 {
+    private array $options;
+
+    public function __construct(array $data, array $options = [])
+    {
+        parent::__construct($data);
+
+        $this->options = array_merge([
+            'slideDuration' => 3,
+            'transitionDuration' => 1.5,
+            'showControls' => true,
+            'showIndicators' => true,
+            'autoplay' => true,
+            'loop' => true
+        ], $options);
+    }
+
     #[\Override]
     public function renderHtml(): void
     {
-        $this->style();
-        $this->script();
+        $carouselId = 'carousel-' . uniqid();
 
         ?>
-            <div class="diaporama-container">
-                <div class="diaporama">
-                    <?php foreach ($this->data['slides'] as $slide): ?>
-                        <img
-                            src="<?= BASE_URL . $slide['image_url'] ?>"
-                            alt="<?= "Slide $slide[id]" ?>"
+            <div class="container my-4 px-0">
+                <div 
+                    id="<?= $carouselId ?>"
+                    class="carousel slide"
+                    data-bs-ride="carousel"
+                    data-bs-interval="<?= $this->options['slideDuration'] * 1000 ?>"
+                >
+                    <?php if ($this->options['showIndicators']): ?>
+                        <div class="carousel-indicators">
+                            <?php foreach ($this->data['slides'] as $index => $slide): ?>
+                                <button 
+                                    type="button" 
+                                    data-bs-target="#<?= $carouselId ?>" 
+                                    data-bs-slide-to="<?= $index ?>" 
+                                    <?= $index === 0 ? 'class="active" aria-current="true"' : '' ?>
+                                    aria-label="Slide <?= $index + 1 ?>"
+                                ></button>
+                            <?php endforeach ?>
+                        </div>
+                    <?php endif ?>
+
+                    <div class="carousel-inner">
+                        <?php foreach ($this->data['slides'] as $index => $slide): ?>
+                            <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+                                <img 
+                                    src="<?= htmlspecialchars(BASE_URL . $slide['image_url']) ?>" 
+                                    class="d-block w-100" 
+                                    alt="Slide <?= $index + 1 ?>"
+                                    loading="lazy"
+                                >
+                            </div>
+                        <?php endforeach ?>
+                    </div>
+
+                    <?php if ($this->options['showControls']): ?>
+                        <button 
+                            class="carousel-control-prev"
+                            type="button"
+                            data-bs-target="#<?= $carouselId ?>"
+                            data-bs-slide="prev"
                         >
-                    <?php endforeach ?>
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button
+                            class="carousel-control-next"
+                            type="button"
+                            data-bs-target="#<?= $carouselId ?>"
+                            data-bs-slide="next"
+                        >
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    <?php endif ?>
                 </div>
             </div>
-        <?php
-    }
 
-    private function style(): void
-    {
-        ?>
             <style>
-                div.diaporama-container {
-                    width: 100% - 10%;
-                    height: 75vh;
+                .carousel {
+                    max-height: 70vh;
+                    border-radius: 1rem;
                     overflow: hidden;
-                    margin: 0 5%;
                 }
 
-                div.diaporama-container > div.diaporama {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
+                .carousel-item {
+                    height: 70vh;
+                    background-color: transparent;
+                }
+
+                .carousel-item img {
+                    object-fit: cover;
                     height: 100%;
+                    width: 100%;
                 }
 
-                div.diaporama-container > div.diaporama > img {
-                    background-color: black;
-                    box-sizing: border-box;
-                    padding: 0 1%;
+                .carousel-control-prev,
+                .carousel-control-next {
+                    width: 5%;
+                    opacity: 0;
+                    transition: opacity 0.3s ease;
+                }
+
+                .carousel:hover .carousel-control-prev,
+                .carousel:hover .carousel-control-next {
+                    opacity: 0.8;
+                }
+
+                .carousel-control-prev:hover,
+                .carousel-control-next:hover {
+                    opacity: 1;
+                }
+
+                .carousel-indicators {
+                    margin-bottom: 1rem;
+                }
+
+                <?= "#$carouselId" ?> .carousel-item {
+                    transition: transform <?= $this->options['transitionDuration'] ?>s ease-in-out;
+                }
+
+                @media (max-width: 768px) {
+                    .carousel, .carousel-item {
+                        height: 50vh;
+                    }
+
+                    .carousel-control-prev,
+                    .carousel-control-next {
+                        opacity: 0.8;
+                    }
                 }
             </style>
-        <?php
-    }
-
-    private function script(): void
-    {
-        ?>
+            
             <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    const diaporama = document.querySelector('.diaporama');
-                    const slides = document.querySelectorAll('.diaporama img');
-                    const slideCount = slides.length;
+                $(document).ready(function() {
+                    const $carousel = $('#<?= $carouselId ?>');
 
-                    const diaporamaWidth = slideCount * 100;
-                    const slideWidth = 100 / slideCount;
-                    diaporama.style.width = `${diaporamaWidth}%`;
-                    slides.forEach(slide => {
-                        slide.style.width = `${slideWidth}%`;
+                    const bsCarousel = new bootstrap.Carousel($carousel[0], {
+                        interval: <?= $this->options['slideDuration'] * 1000 ?>,
+                        wrap: <?= json_encode($this->options['loop']) ?>,
+                        pause: 'hover'
                     });
 
-                    const duration = slideCount * 5;
-                    diaporama.style.animation = `slide ${duration}s infinite ease-in-out`;
-                    const style = document.createElement('style');
-                    let keyframes = `@keyframes slide {`;
-                    for (let i = 0; i < slideCount; i++) {
-                        const startPercent = (i * 100) / slideCount;
-                        const endPercent = startPercent + (50 / slideCount);
-                        const transformValue = -(i * (100 / slideCount));
-                        keyframes += `
-                            ${startPercent}% { transform: translateX(${transformValue}%); }
-                            ${endPercent}% { transform: translateX(${transformValue}%); }
-                        `;
+                    if (!<?= json_encode($this->options['autoplay']) ?>) {
+                        bsCarousel.pause();
                     }
-                    keyframes += `100% { transform: translateX(${(1 - slideCount) * 100 / slideCount}%); }`;
-
-                    diaporama.addEventListener('mouseenter', function () {
-                        diaporama.style.animationPlayState = 'paused';
-                    });
-
-                    diaporama.addEventListener('mouseleave', function () {
-                        diaporama.style.animationPlayState = 'running';
-                    });
-
-                    style.innerHTML = keyframes;
-                    document.head.appendChild(style);
                 });
             </script>
         <?php
     }
 }
+?>
