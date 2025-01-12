@@ -3,6 +3,7 @@
 namespace App\Views\Pages;
 
 use App\Views\Components\Diaporama as DiaporamaComponent;
+use App\Views\Components\Navbar as NavbarComponent;
 
 class Home extends Page
 {
@@ -26,10 +27,13 @@ class Home extends Page
     #[\Override]
     protected function body(): void
     {
-        $diaporama = new DiaporamaComponent(['slides' => $this->data['slides']]);
+        $diaporama = new DiaporamaComponent(['slides' => $this->data['diaporamaSlides']]);
+        $navbar = new NavbarComponent(['items' => $this->data['navbarItems']]);
 
         ?>
             <body>
+                <?php $navbar->renderHtml() ?>
+
                 <div class="container my-5">
                     <?php $diaporama->renderHtml() ?>
                 </div>

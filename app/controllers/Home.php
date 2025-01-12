@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Models\Diaporama as DiaporamaModel;
+use App\Models\Navbar as NavbarModel;
 use App\Views\Pages\Home as HomePage;
 use App\Views\Pages\Dashboard as DashboardPage;
 
@@ -12,12 +13,16 @@ class Home extends Controller
     public function home(): void
     {
         $diaporamaModel = new DiaporamaModel();
+        $navbarModel = new NavbarModel();
 
-        $slides = $diaporamaModel->all();
+        $diaporamaSlides = $diaporamaModel->all();
+        $navbarItems = $navbarModel->all();
 
         $page = new HomePage([
-            "slides" => $slides,
+            "diaporamaSlides" => $diaporamaSlides,
+            "navbarItems" => $navbarItems,
         ]);
+
         $page->renderHtml();
     }
 
