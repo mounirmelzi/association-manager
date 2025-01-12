@@ -80,7 +80,7 @@ class File
             return ['success' => false, 'message' => 'Failed to create the upload directory'];
         }
 
-        $filename = uniqid() . '_' . basename($file['name']);
+        $filename = 'file' . uniqid() . '_' . basename($file['name']);
         $destination = $uploadDir . DIRECTORY_SEPARATOR . $filename;
 
         if (!move_uploaded_file($file['tmp_name'], $destination)) {

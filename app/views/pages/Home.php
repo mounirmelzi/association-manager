@@ -220,7 +220,11 @@ class Home extends Page
                             <div class="carousel-item <?= $isFirstItem ? 'active' : '' ?>">
                                 <div class="d-flex justify-content-center gap-3">
                                     <?php foreach ($chunk as $logo): ?>
-                                        <img src="<?= BASE_URL . $logo ?>" class="img-fluid" style="max-height: 100px;" alt="Logo">
+                                        <img
+                                            src="<?= BASE_URL . $logo ?>"
+                                            class="img-fluid"
+                                            alt="Logo"
+                                        >
                                     <?php endforeach ?>
                                 </div>
                             </div>
@@ -236,9 +240,9 @@ class Home extends Page
                 #logoCarousel .carousel-item {
                     height: 100px;
                 }
-                #logoCarousel .logo-img {
-                    max-height: 80px;
-                    object-fit: cover;
+                #logoCarousel img {
+                    max-height: 100px;
+                    max-width: 100px;
                 }
             </style>
         <?php
