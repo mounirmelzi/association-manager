@@ -24,6 +24,7 @@ class DiscountOffersList extends Page {
             columns: [
                 new Column(label: 'Partner Name', key: 'partner_name'),
                 new Column(label: 'Partner Category', key: 'partner_category'),
+                new Column(label: 'Partner Address', key: 'partner_address'),
                 new Column(label: 'Card Type', key: 'card_type'),
                 new Column(label: 'Percentage', key: 'percentage'),
                 new Column(

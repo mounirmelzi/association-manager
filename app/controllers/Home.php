@@ -5,6 +5,12 @@ namespace App\Controllers;
 use App\Core\Controller;
 use App\Models\Diaporama as DiaporamaModel;
 use App\Models\Navbar as NavbarModel;
+use App\Models\News as NewsModel;
+use App\Models\Activity as ActivityModel;
+use App\Models\Partner as PartnerModel;
+use App\Models\CardType as CardTypeModel;
+use App\Models\DiscountOffer as DiscountOfferModel;
+use App\Models\LimitedDiscountOffer as LimitedDiscountOfferModel;
 use App\Views\Pages\Home as HomePage;
 use App\Views\Pages\Dashboard as DashboardPage;
 
@@ -14,13 +20,59 @@ class Home extends Controller
     {
         $diaporamaModel = new DiaporamaModel();
         $navbarModel = new NavbarModel();
+        $newsModel = new NewsModel();
+        $activityModel = new ActivityModel();
+        $partnerModel = new PartnerModel();
+        $cardTypeModel = new CardTypeModel();
+        $discountOfferModel = new DiscountOfferModel();
+        $limitedDiscountOfferModel = new LimitedDiscountOfferModel();
 
         $diaporamaSlides = $diaporamaModel->all();
         $navbarItems = $navbarModel->all();
+        $news = $newsModel->all(limit: 8);
+        $activities = $activityModel->all(limit: 8);
+        $partners = $partnerModel->all();
+
+        $discounts = array_map(function ($discount) use ($partnerModel, $cardTypeModel) {
+            $partner = $partnerModel->get($discount['partner_id']);
+            $cardType = $cardTypeModel->get($discount['card_type_id']);
+            $discount['partner_name'] = $partner['name'];
+            $discount['partner_category'] = $partner['category'];
+            $discount['partner_address'] = $partner['address'];
+            $discount['card_type'] = $cardType['type'];
+            return $discount;
+        }, $discountOfferModel->all());
+
+        $limitedDiscounts = array_map(function ($discount) use ($partnerModel, $cardTypeModel) {
+            $partner = $partnerModel->get($discount['partner_id']);
+            $cardType = $cardTypeModel->get($discount['card_type_id']);
+            $discount['partner_name'] = $partner['name'];
+            $discount['partner_category'] = $partner['category'];
+            $discount['partner_address'] = $partner['address'];
+            $discount['card_type'] = $cardType['type'];
+            return $discount;
+        }, $limitedDiscountOfferModel->all());
+
+        $logos = array_map(function ($partner) {
+            return $partner['logo_url'];
+        }, $partners);
+
+        $socials = [
+            ['icon' => 'facebook', 'link' => 'https://www.facebook.com'],
+            ['icon' => 'twitter', 'link' => 'https://www.twitter.com'],
+            ['icon' => 'instagram', 'link' => 'https://www.instagram.com'],
+            ['icon' => 'linkedin', 'link' => 'https://www.linkedin.com'],
+        ];
 
         $page = new HomePage([
             "diaporamaSlides" => $diaporamaSlides,
             "navbarItems" => $navbarItems,
+            "news" => $news,
+            "activities" => $activities,
+            "logos" => $logos,
+            "socials" => $socials,
+            "discounts" => $discounts,
+            "limitedDiscounts" => $limitedDiscounts,
         ]);
 
         $page->renderHtml();

@@ -24,6 +24,7 @@ class LimitedDiscountOffers extends Controller
             $cardType = $cardTypeModel->get($discount['card_type_id']);
             $discount['partner_name'] = $partner['name'];
             $discount['partner_category'] = $partner['category'];
+            $discount['partner_address'] = $partner['address'];
             $discount['card_type'] = $cardType['type'];
             return $discount;
         }, $limitedDiscountOfferModel->all());
