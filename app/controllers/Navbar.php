@@ -24,11 +24,7 @@ class Navbar extends Controller
             ];
 
             $navbar = new NavbarModel($values);
-            $errors = $navbar->save();
-
-            if (!empty($errors)) {
-                return;
-            }
+            $navbar->save();
 
             App::redirect("/navbar");
         }

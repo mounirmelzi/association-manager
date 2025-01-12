@@ -44,7 +44,7 @@ class Diaporama extends Controller
                     unset($values["image_url"]);
                 }
 
-                return;
+                App::redirect("/diaporama");
             }
 
             $diaporama = new DiaporamaModel($values);
@@ -55,8 +55,6 @@ class Diaporama extends Controller
                     File::delete($values["image_url"]);
                     unset($values["image_url"]);
                 }
-
-                return;
             }
 
             App::redirect("/diaporama");

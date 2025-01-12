@@ -207,6 +207,6 @@ CREATE TABLE `diaporama` (
 
 CREATE TABLE `navbar` (
     `id`                                BIGINT                  PRIMARY KEY AUTO_INCREMENT,
-    `name`                              VARCHAR(255)            NOT NULL UNIQUE,
+    `name`                              VARCHAR(255)            NOT NULL,
     `url`                               VARCHAR(255)            NOT NULL
 );
