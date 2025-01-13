@@ -6,13 +6,14 @@ use App\Core\App;
 use App\Core\Controller;
 use App\Utils\Request;
 use App\Utils\File;
+use App\Models\User;
 use App\Models\Partner;
 use App\Models\CardType;
 use App\Models\DiscountOffer;
 use App\Models\LimitedDiscountOffer;
-use App\Models\User;
 use App\Controllers\Error as ErrorController;
 use App\Views\Pages\PartnersList as PartnersListPage;
+use App\Views\Pages\UserPartnersList as UserPartnersListPage;
 use App\Views\Pages\PartnerDetails as PartnerDetailsPage;
 use App\Views\Pages\PartnerForm as PartnerFormPage;
 
@@ -21,7 +22,10 @@ class Partners extends Controller
     public function index(): void
     {
         $model = new Partner();
-        $page = new PartnersListPage(["partners" => $model->all()]);
+        $user = User::current();
+        $page = (($user !== null) && ($user['role'] === 'admin')) ?
+            new PartnersListPage(['partners' => $model->all()]) :
+            new UserPartnersListPage(['partners' => $model->all()]);
         $page->renderHtml();
     }
 
