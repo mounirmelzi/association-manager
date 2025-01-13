@@ -2,6 +2,7 @@
 
 namespace App\Views\Pages;
 
+use App\Models\User;
 use App\Views\Components\Table;
 use App\Views\Components\Column;
 
@@ -56,6 +57,8 @@ class PartnerDetails extends Page {
     protected function body(): void
     {
         $partner = $this->data["partner"];
+        $user = User::current();
+        $haveFullAccess = ($user['role'] === 'admin') || (($user["role"] === "partner") && ($user["id"] === $partner['id']));
 
         ?>
             <body>
@@ -63,23 +66,25 @@ class PartnerDetails extends Page {
                     <div class="card shadow-lg">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h3 class="mb-0">Partner Details</h3>
-                            <div class="d-flex gap-2">
-                                <a
-                                    href="<?= BASE_URL . "partners/$partner[id]/edit" ?>"
-                                    class="btn btn-primary btn-sm px-3"
-                                >
-                                    <i class="bi bi-pencil me-2"></i>
-                                    Edit
-                                </a>
-                                <a
-                                    class="btn btn-danger btn-sm px-3"
-                                    href="<?= BASE_URL . "partners/$partner[id]/delete" ?>"
-                                    onclick="return confirm('Are you sure you want to delete this partner?')"
-                                >
-                                    <i class="bi bi-trash me-2"></i>
-                                    Delete
-                                </a>
-                            </div>
+                            <?php if ($haveFullAccess): ?>
+                                <div class="d-flex gap-2">
+                                    <a
+                                        href="<?= BASE_URL . "partners/$partner[id]/edit" ?>"
+                                        class="btn btn-primary btn-sm px-3"
+                                    >
+                                        <i class="bi bi-pencil me-2"></i>
+                                        Edit
+                                    </a>
+                                    <a
+                                        class="btn btn-danger btn-sm px-3"
+                                        href="<?= BASE_URL . "partners/$partner[id]/delete" ?>"
+                                        onclick="return confirm('Are you sure you want to delete this partner?')"
+                                    >
+                                        <i class="bi bi-trash me-2"></i>
+                                        Delete
+                                    </a>
+                                </div>
+                            <?php endif ?>
                         </div>
 
                         <div class="card-body mt-4">
@@ -107,12 +112,14 @@ class PartnerDetails extends Page {
                                                 <?= htmlspecialchars($partner['category']) ?>
                                             </p>
                                         </div>
-                                        <div class="col-md-6">
-                                            <label class="fw-bold">Username</label>
-                                            <p>
-                                                <?= htmlspecialchars($partner['username']) ?>
-                                            </p>
-                                        </div>
+                                        <?php if ($haveFullAccess): ?>
+                                            <div class="col-md-6">
+                                                <label class="fw-bold">Username</label>
+                                                <p>
+                                                    <?= htmlspecialchars($partner['username']) ?>
+                                                </p>
+                                            </div>
+                                        <?php endif ?>
                                         <div class="col-md-6">
                                             <label class="fw-bold">Email</label>
                                             <p>

@@ -31,13 +31,6 @@ class Partners extends Controller
 
     public function details(int $id): void
     {
-        $user = User::current();
-        if (($user["role"] === "partner") && ($user["id"] !== $id)) {
-            $controller = new ErrorController();
-            $controller->index(403, "Forbidden");
-            return;
-        }
-
         $model = new Partner();
         $partner = $model->get($id);
         if ($partner === null) {

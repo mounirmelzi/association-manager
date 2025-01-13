@@ -97,7 +97,6 @@ $router->addRoute(
 
 $router->addRoute(
     path: '/partners/{id}',
-    roles: ["admin", "partner"],
     methods: ['GET'],
     controller: App\Controllers\Partners::class,
     action: 'details',
