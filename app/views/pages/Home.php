@@ -2,6 +2,7 @@
 
 namespace App\Views\Pages;
 
+use App\Models\User;
 use App\Views\Components\Diaporama as DiaporamaComponent;
 use App\Views\Components\Navbar as NavbarComponent;
 use App\Views\Components\Card;
@@ -32,6 +33,14 @@ class Home extends Page
     #[\Override]
     protected function body(): void
     {
+        $user = User::current();
+        $profileUrl =  BASE_URL . match ($user['role'] ?? '') {
+            "admin" => 'admins/' . $user['id'],
+            "member" => 'members/' . $user['id'],
+            "partner" => 'partners/' . $user['id'],
+            default => 'login',
+        };
+
         $diaporamaComponent = new DiaporamaComponent(['slides' => $this->data['diaporamaSlides']]);
         $navbarComponent = new NavbarComponent(['items' => $this->data['navbarItems']]);
 
@@ -40,10 +49,45 @@ class Home extends Page
                 <header class="container container-fluid pt-3">
                     <div class="row align-items-center">
                         <div class="col-md-6">
-                            <h1 class="text-primary">El Mountada</h1>
+                            <a href="<?= BASE_URL . 'home' ?>" class="text-decoration-none">
+                                <h1 class="text-primary">El Mountada</h1>
+                            </a>
                         </div>
-                        <div class="col-md-6 text-end">
+                        <div class="col-md-6 text-end d-flex justify-content-end align-items-center gap-3">
                             <?php $this->renderSocialLinks() ?>
+
+                            <?php if ($user === null): ?>
+                                <a href="<?= BASE_URL . 'login' ?>" class="btn btn-outline-primary">
+                                    <i class="bi bi-box-arrow-in-right me-2"></i>
+                                    Login
+                                </a>
+                                <a href="<?= BASE_URL . 'register' ?>" class="btn btn-outline-primary">
+                                    <i class="bi bi-person-plus me-2"></i>
+                                    Register
+                                </a>
+                            <?php else: ?>
+                                <div class="dropdown">
+                                    <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                        <i class="bi bi-person-circle me-2"></i>
+                                        <?= htmlspecialchars($user['username']) ?>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li>
+                                            <a class="dropdown-item" href="<?= $profileUrl ?>">
+                                                <i class="bi bi-person me-2"></i>
+                                                Profile
+                                            </a>
+                                        </li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <a class="dropdown-item text-danger" href="<?= BASE_URL . 'logout' ?>">
+                                                <i class="bi bi-box-arrow-right me-2"></i>
+                                                Logout
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            <?php endif ?>
                         </div>
                     </div>
                 </header>
@@ -60,7 +104,7 @@ class Home extends Page
                     <div class="container py-5">
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <h1 class="h3 mb-0">News and Announcements</h1>
-                            <a href="<?= BASE_URL . 'main/news' ?>">View All</a>
+                            <a href="<?= BASE_URL . 'news' ?>">View All</a>
                         </div>
                         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
                             <?php foreach ($this->data['news'] as $news): ?>
@@ -78,7 +122,7 @@ class Home extends Page
                     <div class="container py-5">
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <h1 class="h3 mb-0">Activities and Events</h1>
-                            <a href="<?= BASE_URL . 'main/activities' ?>">View All</a>
+                            <a href="<?= BASE_URL . 'activities' ?>">View All</a>
                         </div>
                         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
                             <?php foreach ($this->data['activities'] as $activity): ?>

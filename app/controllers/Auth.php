@@ -131,4 +131,10 @@ class Auth extends Controller
             App::redirect("/login");
         }
     }
+
+    public function logout(): void
+    {
+        User::logout();
+        App::redirect("/home");
+    }
 }

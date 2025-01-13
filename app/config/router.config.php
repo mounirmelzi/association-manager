@@ -41,6 +41,14 @@ $router->addRoute(
 );
 
 $router->addRoute(
+    path: '/logout',
+    roles: ['admin', 'partner', 'member'],
+    methods: ['GET'],
+    controller: App\Controllers\Auth::class,
+    action: 'logout',
+);
+
+$router->addRoute(
     path: '/members',
     roles: ["admin"],
     methods: ['GET'],
