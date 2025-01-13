@@ -2,7 +2,9 @@
 
 namespace App\Views\Pages;
 
-use \App\Views\Components\Card;
+use App\Models\Navbar as NavbarModel;
+use App\Views\Components\Navbar as NavbarComponent;
+use App\Views\Components\Card;
 
 class Dashboard extends Page
 {
@@ -27,8 +29,15 @@ class Dashboard extends Page
     #[\Override]
     protected function body(): void
     {
+        $navbarModel = new NavbarModel();
+        $navbarComponent = new NavbarComponent(['items' => $navbarModel->all()]);
+
         ?>
             <body>
+                <section class="sticky-top">
+                    <?php $navbarComponent->renderHtml() ?>
+                </section>
+
                 <div class="container py-5">
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h1 class="h3 mb-0">Admin Dashboard</h1>

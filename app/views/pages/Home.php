@@ -3,9 +3,10 @@
 namespace App\Views\Pages;
 
 use App\Models\User;
+use App\Models\Diaporama as DiaporamaModel;
 use App\Models\Navbar as NavbarModel;
-use App\Views\Components\Navbar as NavbarComponent;
 use App\Views\Components\Diaporama as DiaporamaComponent;
+use App\Views\Components\Navbar as NavbarComponent;
 use App\Views\Components\Card;
 use App\Views\Components\Table;
 use App\Views\Components\Column;
@@ -42,7 +43,8 @@ class Home extends Page
             default => 'login',
         };
 
-        $diaporamaComponent = new DiaporamaComponent(['slides' => $this->data['diaporamaSlides']]);
+        $diaporamaModel = new DiaporamaModel();
+        $diaporamaComponent = new DiaporamaComponent(['slides' => $diaporamaModel->all()]);
 
         $navbarModel = new NavbarModel();
         $navbarComponent = new NavbarComponent(['items' => $navbarModel->all()]);
@@ -75,12 +77,21 @@ class Home extends Page
                                         <?= htmlspecialchars($user['username']) ?>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end">
-                                        <li>
-                                            <a class="dropdown-item" href="<?= $profileUrl ?>">
-                                                <i class="bi bi-person me-2"></i>
-                                                Profile
-                                            </a>
-                                        </li>
+                                        <?php if ($user['role'] === 'admin'): ?>
+                                            <li>
+                                                <a class="dropdown-item" href="<?= BASE_URL . 'dashboard' ?>">
+                                                    <i class="bi bi-person me-2"></i>
+                                                    Dashboard
+                                                </a>
+                                            </li>
+                                        <?php else: ?>
+                                            <li>
+                                                <a class="dropdown-item" href="<?= $profileUrl ?>">
+                                                    <i class="bi bi-person me-2"></i>
+                                                    Profile
+                                                </a>
+                                            </li>
+                                        <?php endif ?>
                                         <li><hr class="dropdown-divider"></li>
                                         <li>
                                             <a class="dropdown-item text-danger" href="<?= BASE_URL . 'logout' ?>">
