@@ -6,9 +6,11 @@ use App\Core\App;
 use App\Core\Controller;
 use App\Utils\Request;
 use App\Utils\File;
+use App\Models\User;
 use App\Models\Activity;
 use App\Controllers\Error as ErrorController;
 use App\Views\Pages\ActivitiesList as ActivitiesListPage;
+use App\Views\Pages\UserActivitiesList as UserActivitiesListPage;
 use App\Views\Pages\ActivityDetails as ActivityDetailsPage;
 use App\Views\Pages\ActivityForm as ActivityFormPage;
 
@@ -17,7 +19,10 @@ class Activities extends Controller
     public function index(): void
     {
         $model = new Activity();
-        $page = new ActivitiesListPage(['activities' => $model->all()]);
+        $user = User::current();
+        $page = (($user !== null) && ($user['role'] === 'admin')) ?
+            new ActivitiesListPage(['activities' => $model->all()]) :
+            new UserActivitiesListPage(['activities' => $model->all()]);
         $page->renderHtml();
     }
 

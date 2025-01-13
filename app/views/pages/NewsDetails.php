@@ -2,6 +2,8 @@
 
 namespace App\Views\Pages;
 
+use App\Models\User;
+
 class NewsDetails extends Page {
     #[\Override]
     protected function head(): void
@@ -24,6 +26,7 @@ class NewsDetails extends Page {
     #[\Override]
     protected function body(): void {
         $news = $this->data['news'];
+        $user = User::current();
 
         ?>
             <body>
@@ -34,23 +37,25 @@ class NewsDetails extends Page {
                                 <h1 class="h3 mb-0">
                                     <?= htmlspecialchars($news['title']) ?>
                                 </h1>
-                                <div>
-                                    <a
-                                        href="<?= BASE_URL . "news/$news[id]/edit" ?>"
-                                        class="btn btn-primary btn-sm me-2"
-                                    >
-                                        <i class="bi bi-pencil me-1"></i>
-                                        Edit
-                                    </a>
-                                    <a
-                                        href="<?= BASE_URL . "news/$news[id]/delete" ?>"
-                                        class="btn btn-danger btn-sm"
-                                        onclick="return confirm('Are you sure you want to delete this news?')"
-                                    >
-                                        <i class="bi bi-trash me-1"></i>
-                                        Delete
-                                    </a>
-                                </div>
+                                <?php if (($user !== null) && ($user['role'] === 'admin')): ?>
+                                    <div>
+                                        <a
+                                            href="<?= BASE_URL . "news/$news[id]/edit" ?>"
+                                            class="btn btn-primary btn-sm me-2"
+                                        >
+                                            <i class="bi bi-pencil me-1"></i>
+                                            Edit
+                                        </a>
+                                        <a
+                                            href="<?= BASE_URL . "news/$news[id]/delete" ?>"
+                                            class="btn btn-danger btn-sm"
+                                            onclick="return confirm('Are you sure you want to delete this news?')"
+                                        >
+                                            <i class="bi bi-trash me-1"></i>
+                                            Delete
+                                        </a>
+                                    </div>
+                                <?php endif ?>
                             </div>
 
                             <div class="card shadow-sm">

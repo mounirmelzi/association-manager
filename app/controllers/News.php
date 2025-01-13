@@ -6,9 +6,11 @@ use App\Core\App;
 use App\Core\Controller;
 use App\Utils\Request;
 use App\Utils\File;
+use App\Models\User;
 use App\Models\News as NewsModel;
 use App\Controllers\Error as ErrorController;
 use App\Views\Pages\NewsList as NewsListPage;
+use App\Views\Pages\UserNewsList as UserNewsListPage;
 use App\Views\Pages\NewsDetails as NewsDetailsPage;
 use App\Views\Pages\NewsForm as NewsFormPage;
 
@@ -17,7 +19,10 @@ class News extends Controller
     public function index(): void
     {
         $model = new NewsModel();
-        $page = new NewsListPage(['news' => $model->all()]);
+        $user = User::current();
+        $page = (($user !== null) && ($user['role'] === 'admin')) ?
+            new NewsListPage(['news' => $model->all()]) :
+            new UserNewsListPage(['news' => $model->all()]);
         $page->renderHtml();
     }
 

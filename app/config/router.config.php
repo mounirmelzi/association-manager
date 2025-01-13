@@ -122,7 +122,6 @@ $router->addRoute(
 
 $router->addRoute(
     path: '/activities',
-    roles: ["admin"],
     methods: ['GET'],
     controller: App\Controllers\Activities::class,
     action: 'index',
@@ -138,7 +137,6 @@ $router->addRoute(
 
 $router->addRoute(
     path: '/activities/{id}',
-    roles: ["admin"],
     methods: ['GET'],
     controller: App\Controllers\Activities::class,
     action: 'details',
@@ -162,7 +160,6 @@ $router->addRoute(
 
 $router->addRoute(
     path: '/news',
-    roles: ["admin"],
     methods: ['GET'],
     controller: App\Controllers\News::class,
     action: 'index',
@@ -178,7 +175,6 @@ $router->addRoute(
 
 $router->addRoute(
     path: '/news/{id}',
-    roles: ["admin"],
     methods: ['GET'],
     controller: App\Controllers\News::class,
     action: 'details',
