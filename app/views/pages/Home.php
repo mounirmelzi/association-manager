@@ -3,8 +3,9 @@
 namespace App\Views\Pages;
 
 use App\Models\User;
-use App\Views\Components\Diaporama as DiaporamaComponent;
+use App\Models\Navbar as NavbarModel;
 use App\Views\Components\Navbar as NavbarComponent;
+use App\Views\Components\Diaporama as DiaporamaComponent;
 use App\Views\Components\Card;
 use App\Views\Components\Table;
 use App\Views\Components\Column;
@@ -42,7 +43,9 @@ class Home extends Page
         };
 
         $diaporamaComponent = new DiaporamaComponent(['slides' => $this->data['diaporamaSlides']]);
-        $navbarComponent = new NavbarComponent(['items' => $this->data['navbarItems']]);
+
+        $navbarModel = new NavbarModel();
+        $navbarComponent = new NavbarComponent(['items' => $navbarModel->all()]);
 
         ?>
             <body>

@@ -2,6 +2,8 @@
 
 namespace App\Views\Pages;
 
+use App\Models\Navbar as NavbarModel;
+use App\Views\Components\Navbar as NavbarComponent;
 use App\Views\Components\Table;
 use App\Views\Components\Column;
 
@@ -129,8 +131,15 @@ class NewsList extends Page
     #[\Override]
     protected function body(): void
     {
+        $navbarModel = new NavbarModel();
+        $navbarComponent = new NavbarComponent(['items' => $navbarModel->all()]);
+
         ?>
             <body>
+                <section class="sticky-top">
+                    <?php $navbarComponent->renderHtml() ?>
+                </section>
+
                 <div class="container py-5">
                     <?= $this->newsTable->renderHtml() ?>
                 </div>

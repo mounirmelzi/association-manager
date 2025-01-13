@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Models\Diaporama as DiaporamaModel;
-use App\Models\Navbar as NavbarModel;
 use App\Models\News as NewsModel;
 use App\Models\Activity as ActivityModel;
 use App\Models\Partner as PartnerModel;
@@ -19,7 +18,6 @@ class Home extends Controller
     public function home(): void
     {
         $diaporamaModel = new DiaporamaModel();
-        $navbarModel = new NavbarModel();
         $newsModel = new NewsModel();
         $activityModel = new ActivityModel();
         $partnerModel = new PartnerModel();
@@ -28,7 +26,6 @@ class Home extends Controller
         $limitedDiscountOfferModel = new LimitedDiscountOfferModel();
 
         $diaporamaSlides = $diaporamaModel->all();
-        $navbarItems = $navbarModel->all();
         $news = $newsModel->all(limit: 8);
         $activities = $activityModel->all(limit: 8);
         $partners = $partnerModel->all();
@@ -66,7 +63,6 @@ class Home extends Controller
 
         $page = new HomePage([
             "diaporamaSlides" => $diaporamaSlides,
-            "navbarItems" => $navbarItems,
             "news" => $news,
             "activities" => $activities,
             "logos" => $logos,
