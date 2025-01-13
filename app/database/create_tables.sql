@@ -123,6 +123,7 @@ CREATE TABLE `volunteerings` (
     `id`                                BIGINT                  PRIMARY KEY AUTO_INCREMENT,
     `user_id`                           BIGINT                  NOT NULL,
     `activity_id`                       BIGINT                  NOT NULL,
+    `is_valid`                          BOOLEAN                 NOT NULL DEFAULT FALSE,
 
     CONSTRAINT `unique__user_id__activity_id` UNIQUE (`user_id`, `activity_id`),
 
@@ -138,6 +139,7 @@ CREATE TABLE `payments` (
     `date`                              DATETIME                NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `amount`                            DECIMAL(10, 2)          NOT NULL,
     `type`                              ENUM('donation', 'registration_fee'),
+    `is_valid`                          BOOLEAN                 NOT NULL DEFAULT FALSE,
 
     FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
 );
