@@ -19,7 +19,7 @@ class ActivitiesList extends Page
             title: 'Activities List',
             data: $this->data["activities"],
             config: [
-                'minHeight' => "75vh",
+                'minHeight' => "70vh",
                 'createText' => 'Create New Activity',
                 'createUrl' => BASE_URL . "activities/create",
                 'theme' => 'dark',

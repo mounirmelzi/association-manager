@@ -16,7 +16,7 @@ class CardTypesList extends Page {
             title: 'Card Types List',
             data: $this->data["types"],
             config: [
-                'minHeight' => "75vh",
+                'minHeight' => "70vh",
                 'createText' => 'Create New Card Type',
                 'createUrl' => BASE_URL . "cards/types/create",
                 'theme' => 'dark',

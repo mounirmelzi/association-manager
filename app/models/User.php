@@ -66,6 +66,29 @@ abstract class User extends Model
         $session->clear();
     }
 
+    public static function getRoleById(int $id): mixed
+    {
+        $member = new Member();
+        $member = $member->get($id);
+        if ($member !== null) {
+            return 'member';
+        }
+
+        $admin = new Admin();
+        $admin = $admin->get($id);
+        if ($admin !== null) {
+            return 'admin';
+        }
+
+        $partner = new Partner();
+        $partner = $partner->get($id);
+        if ($partner !== null) {
+            return 'partner';
+        }
+
+        return null;
+    }
+
     public static function current(): mixed
     {
         $session = new Session("auth");

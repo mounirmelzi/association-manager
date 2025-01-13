@@ -16,7 +16,7 @@ class MembersList extends Page
             title: 'Members List',
             data: $this->data["members"],
             config: [
-                'minHeight' => "75vh",
+                'minHeight' => "70vh",
             ],
             columns: [
                 new Column(

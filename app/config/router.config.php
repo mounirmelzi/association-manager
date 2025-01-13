@@ -353,3 +353,35 @@ $router->addRoute(
     controller: App\Controllers\LimitedDiscountOffers::class,
     action: 'delete',
 );
+
+$router->addRoute(
+    path: '/payments',
+    roles: ["admin", "member", "partner"],
+    methods: ['GET'],
+    controller: App\Controllers\Payments::class,
+    action: 'index',
+);
+
+$router->addRoute(
+    path: '/payments/create',
+    roles: ["member", "partner"],
+    methods: ['GET', 'POST'],
+    controller: App\Controllers\Payments::class,
+    action: 'create',
+);
+
+$router->addRoute(
+    path: '/payments/{id}/validation',
+    roles: ["admin"],
+    methods: ['GET'],
+    controller: App\Controllers\Payments::class,
+    action: 'validation',
+);
+
+$router->addRoute(
+    path: '/payments/{id}/delete',
+    roles: ["admin"],
+    methods: ['GET'],
+    controller: App\Controllers\Payments::class,
+    action: 'delete',
+);

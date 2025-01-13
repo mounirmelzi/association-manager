@@ -2,21 +2,23 @@
 
 namespace App\Views\Pages;
 
+use App\Models\Navbar as NavbarModel;
+use App\Views\Components\Navbar as NavbarComponent;
 use App\Views\Components\Table;
 use App\Views\Components\Column;
 
 class PartnersList extends Page
 {
-    private Table $PartnersTable;
+    private Table $partnersTable;
 
     public function __construct(array $data = []) {
         parent::__construct($data);
 
-        $this->PartnersTable = new Table(
+        $this->partnersTable = new Table(
             title: 'Partners List',
             data: $this->data["partners"],
             config: [
-                'minHeight' => "75vh",
+                'minHeight' => "70vh",
                 'createText' => 'Create Partner',
                 'createUrl' => BASE_URL . "partners/create",
                 'theme' => 'dark',
@@ -148,11 +150,18 @@ class PartnersList extends Page
 
     #[\Override]
     protected function body(): void
-    {        
+    {
+        $navbarModel = new NavbarModel();
+        $navbarComponent = new NavbarComponent(['items' => $navbarModel->all()]);
+
         ?>
             <body>
+                <section class="sticky-top">
+                    <?php $navbarComponent->renderHtml() ?>
+                </section>
+
                 <div class="container py-5">
-                    <?= $this->PartnersTable->renderHtml() ?>
+                    <?= $this->partnersTable->renderHtml() ?>
                 </div>
             </body>
         <?php

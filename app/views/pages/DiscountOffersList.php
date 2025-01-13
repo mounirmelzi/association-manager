@@ -16,7 +16,7 @@ class DiscountOffersList extends Page {
             title: 'Discount Offers List',
             data: $this->data["discounts"],
             config: [
-                'minHeight' => "75vh",
+                'minHeight' => "70vh",
                 'createText' => 'Create New Discount Offer',
                 'createUrl' => BASE_URL . "discounts/offers/create",
                 'theme' => 'dark',

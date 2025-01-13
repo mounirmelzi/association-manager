@@ -19,7 +19,7 @@ class NewsList extends Page
             title: 'News List',
             data: $this->data["news"],
             config: [
-                'minHeight' => "75vh",
+                'minHeight' => "70vh",
                 'createText' => 'Create New News',
                 'createUrl' => BASE_URL . "news/create",
                 'theme' => 'dark',

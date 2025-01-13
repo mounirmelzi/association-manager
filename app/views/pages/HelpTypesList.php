@@ -16,7 +16,7 @@ class HelpTypesList extends Page {
             title: 'Help Types List',
             data: $this->data["types"],
             config: [
-                'minHeight' => "75vh",
+                'minHeight' => "70vh",
                 'createText' => 'Create New Help Type',
                 'createUrl' => BASE_URL . "helps/types/create",
                 'theme' => 'dark',

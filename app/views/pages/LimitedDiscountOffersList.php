@@ -17,7 +17,7 @@ class LimitedDiscountOffersList extends Page
             title: 'Limited Discount Offers List',
             data: $this->data["discounts"],
             config: [
-                'minHeight' => "75vh",
+                'minHeight' => "70vh",
                 'createText' => 'Create New Limited Discount Offer',
                 'createUrl' => BASE_URL . "discounts/limited/offers/create",
                 'theme' => 'dark',
