@@ -207,6 +207,8 @@ class PartnerDetails extends Page {
 
     private function renderCards(): void
     {
+        $user = User::current();
+
         ?>
             <div class="subscription-card-container">
                 <?php if (empty($this->data['cards'])): ?>
@@ -216,14 +218,16 @@ class PartnerDetails extends Page {
                                 <i class="bi bi-credit-card"></i>
                             </div>
                             <p class="empty-state-text">No subscription cards found</p>
-                            <button
-                                type="button"
-                                class="add-card-btn"
-                                data-bs-toggle="modal"
-                                data-bs-target="#create-modal"
-                            >
-                                <i class="bi bi-plus-lg"></i>
-                            </button>
+                            <?php if ($user['role'] === 'admin'): ?>
+                                <button
+                                    type="button"
+                                    class="add-card-btn"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#create-modal"
+                                >
+                                    <i class="bi bi-plus-lg"></i>
+                                </button>
+                            <?php endif ?>
                         </div>
                     </div>
                 <?php else: ?>
@@ -249,14 +253,16 @@ class PartnerDetails extends Page {
                                         <i class="bi bi-chevron-right"></i>
                                     </button>
                                 <?php endif ?>
-                                <button
-                                    class="card-nav-btn"
-                                    type="button"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#create-modal"
-                                >
-                                    <i class="bi bi-plus-lg"></i>
-                                </button>
+                                <?php if ($user['role'] === 'admin'): ?>
+                                    <button
+                                        type="button"
+                                        class="add-card-btn"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#create-modal"
+                                    >
+                                        <i class="bi bi-plus-lg"></i>
+                                    </button>
+                                <?php endif ?>
                             </div>
                         </div>
                         <div class="subscription-carousel">
