@@ -26,7 +26,7 @@ CREATE TABLE `card_types` (
 
 CREATE TABLE `cards` (
     `id`                                BIGINT                  PRIMARY KEY AUTO_INCREMENT,
-    `user_id`                           BIGINT                  NOT NULL UNIQUE,
+    `user_id`                           BIGINT                  NOT NULL,
     `card_type_id`                      BIGINT                  NOT NULL,
     `qrcode_image_url`                  VARCHAR(255)            NOT NULL,
     `expiration_date`                   DATETIME,

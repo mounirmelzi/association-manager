@@ -1,0 +1,190 @@
+.subscription-card-container {
+  --card-padding: 2rem;
+  --card-radius: 20px;
+  --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.subscription-wrapper {
+  background: white;
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+}
+
+.subscription-header {
+  padding: 1.5rem var(--card-padding);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.card-nav-buttons {
+  gap: 0.5rem;
+}
+
+.card-nav-btn {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.card-nav-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+.subscription-carousel {
+  padding: var(--card-padding);
+}
+
+.carousel-item {
+  transition: none !important;
+}
+
+.membership-card {
+  width: 100%;
+  max-width: 31rem;
+  margin: 0 auto;
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease;
+  background: linear-gradient(135deg, #e5e4e2 0%, #b9b8b7 100%);
+  color: #2c3e50;
+}
+
+.card-content {
+  padding: 2rem;
+  position: relative;
+}
+
+.card-header-content {
+  margin-bottom: 2rem;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.member-name {
+  font-size: 1rem;
+  opacity: 0.8;
+  margin-bottom: 0.5rem;
+}
+
+.role-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.fee-display {
+  text-align: right;
+}
+
+.fee-amount {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.fee-label {
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+.card-details {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.detail-item {
+  margin-bottom: 1rem;
+}
+
+.detail-label {
+  font-size: 0.75rem;
+  opacity: 0.7;
+  margin-bottom: 0.25rem;
+}
+
+.detail-value {
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.qr-code-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.qr-code {
+  max-width: 100px;
+  max-height: 100px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.expired-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: #dc354580;
+}
+
+.empty-state {
+  background: white;
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+.empty-state-icon {
+  font-size: 2.5rem;
+  color: #6c757d;
+  margin-bottom: 1rem;
+}
+
+.empty-state-text {
+  color: #6c757d;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.add-card-btn {
+  margin-top: 1.5rem;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.add-card-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.2);
+}

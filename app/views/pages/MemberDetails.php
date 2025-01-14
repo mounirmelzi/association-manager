@@ -3,9 +3,37 @@
 namespace App\Views\Pages;
 
 use App\Models\User;
+use App\Views\Components\Input;
+use App\Models\CardType;
 
 class MemberDetails extends Page
 {
+    private Input $cardTypeInput;
+
+    public function __construct(array $data = []) {
+        parent::__construct($data);
+
+        $cardTypeModel = new CardType();
+        $this->cardTypeInput = new Input(
+            name: 'card_type_id',
+            value: $this->data["values"]["card_type_id"] ?? null,
+            error: $this->data["errors"]["card_type_id"] ?? null,
+            config: [
+                'type' => 'select',
+                'options' =>
+                    array_map(function ($type) {
+                        return [
+                            'name' => "[$type[id]] - $type[type] ($type[fee])",
+                            'value' => $type['id'],
+                        ];
+                    }, $cardTypeModel->all()),
+                'icon' => 'person-vcard',
+                'placeholder' => 'Card Type',
+                'label' => 'Card Type',
+            ]
+        );
+    }
+
     #[\Override]
     protected function head(): void
     {
@@ -17,9 +45,10 @@ class MemberDetails extends Page
 
                 <link href="<?= BASE_URL ?>css/libs/bootstrap.min.css" rel="stylesheet">
                 <link href="<?= BASE_URL ?>assets/icons/libs/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet">
+                <link href="<?= BASE_URL ?>css/pages/member-details.css" rel="stylesheet">
 
                 <script src="<?= BASE_URL ?>js/libs/jquery-3.7.1.min.js" defer></script>
-                <script src="<?= BASE_URL ?>js/libs/bootstrap.min.js" defer></script>
+                <script src="<?= BASE_URL ?>js/libs/bootstrap.bundle.min.js" defer></script>
             </head>
         <?php
     }
@@ -29,10 +58,23 @@ class MemberDetails extends Page
     {
         $user = User::current();
         $member = $this->data["member"];
+        $haveFullAccess =
+            ($user !== null)
+            &&
+            (
+                ($user['role'] === 'admin')
+                ||
+                (
+                    ($user["role"] === "member")
+                    &&
+                    ($user["id"] === $member['id'])
+                )
+            )
+        ;
 
         ?>
             <body class="bg-light">
-                <div class="container py-5">
+                <div class="container my-5">
                     <div class="card shadow-lg">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h3 class="mb-0">Member Profile</h3>
@@ -110,7 +152,185 @@ class MemberDetails extends Page
                         </div>
                     </div>
                 </div>
+
+                <?php if ($haveFullAccess): ?>
+                    <div class="container my-5">
+                        <?php $this->renderCards() ?>
+                        <?php $this->renderCreateModal() ?>
+                    </div>
+                <?php endif ?>
             </body>
+        <?php
+    }
+
+    private function renderCards(): void
+    {
+        ?>
+            <div class="subscription-card-container">
+                <?php if (empty($this->data['cards'])): ?>
+                    <div class="subscription-card-container">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">
+                                <i class="bi bi-credit-card"></i>
+                            </div>
+                            <p class="empty-state-text">No subscription cards found</p>
+                            <button
+                                type="button"
+                                class="add-card-btn"
+                                data-bs-toggle="modal"
+                                data-bs-target="#create-modal"
+                            >
+                                <i class="bi bi-plus-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+                <?php else: ?>
+                    <div class="subscription-wrapper">
+                        <div class="subscription-header d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">Subscription Cards</h4>
+                            <div class="card-nav-buttons d-flex">
+                                <?php if (count($this->data['cards']) > 1): ?>
+                                    <button
+                                        class="card-nav-btn"
+                                        type="button"
+                                        data-bs-target="#subscriptionCarousel"
+                                        data-bs-slide="prev"
+                                    >
+                                        <i class="bi bi-chevron-left"></i>
+                                    </button>
+                                    <button
+                                        class="card-nav-btn"
+                                        type="button"
+                                        data-bs-target="#subscriptionCarousel"
+                                        data-bs-slide="next"
+                                    >
+                                        <i class="bi bi-chevron-right"></i>
+                                    </button>
+                                <?php endif ?>
+                                <button
+                                    class="card-nav-btn"
+                                    type="button"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#create-modal"
+                                >
+                                    <i class="bi bi-plus-lg"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="subscription-carousel">
+                            <div id="subscriptionCarousel" class="carousel slide" data-bs-touch="false">
+                                <div class="carousel-inner">
+                                    <?php foreach ($this->data['cards'] as $index => $card): ?>
+                                        <?php
+                                            $username = $this->data['member']['username'];
+                                            $firstName = $this->data['member']['first_name'];
+                                            $lastName = $this->data['member']['last_name'];
+                                            $role = $card['role'] ?? 'member';
+                                            $cardType = strtolower($card['type']['type']);
+                                            $cardFee = $card['type']['fee'];
+                                            $cardExpirationDate = $card['expiration_date'];
+                                            $cardQrcodeImageUrl = $card['qrcode_image_url'];
+                                            $isExpired = strtotime($cardExpirationDate) < time();
+                                        ?>
+
+                                        <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+                                            <div class="d-flex justify-content-center">
+                                                <div class="membership-card">
+                                                    <div class="card-content">
+                                                        <div class="card-header-content d-flex justify-content-between">
+                                                            <div>
+                                                                <h5 class="card-title"><?= ucfirst($cardType) ?> Card</h5>
+                                                                <p class="member-name">
+                                                                    <?= "$firstName $lastName" ?>
+                                                                </p>
+                                                                <span class="role-badge"><?= ucfirst($role) ?></span>
+                                                            </div>
+                                                            <div class="fee-display">
+                                                                <div class="fee-amount"><?= number_format($cardFee, 2) ?> €</div>
+                                                                <div class="fee-label">Annual Fee</div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="card-details">
+                                                            <div class="details-left">
+                                                                <div class="detail-item">
+                                                                    <div class="detail-label">Membership ID</div>
+                                                                    <div class="detail-value"><?= $username ?></div>
+                                                                </div>
+                                                                <div class="detail-item">
+                                                                    <div class="detail-label">Valid Until</div>
+                                                                    <div class="detail-value">
+                                                                        <?= date('M d, Y', strtotime($cardExpirationDate)) ?>
+                                                                        <?php if ($isExpired): ?>
+                                                                            <span class="expired-badge">Expired</span>
+                                                                        <?php endif ?>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <?php if ($cardQrcodeImageUrl): ?>
+                                                                <div class="qr-code-container">
+                                                                    <img
+                                                                        src="<?= BASE_URL . $cardQrcodeImageUrl ?>" 
+                                                                        alt="QR Code" 
+                                                                        class="qr-code"
+                                                                    >
+                                                                </div>
+                                                            <?php endif ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php endforeach ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif ?>
+            </div>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const carousel = new bootstrap.Carousel(document.getElementById('subscriptionCarousel'), {
+                        interval: false,
+                        wrap: true,
+                        touch: false
+                    });
+                });
+            </script>
+        <?php
+    }
+
+    private function renderCreateModal(): void {
+        $memberId = $this->data["member"]['id'];
+        $action = "members/$memberId/cards/create";
+
+        ?>
+            <div class="modal fade" id="create-modal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Create Card</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <form
+                            action="<?= BASE_URL . $action ?>"
+                            method="POST"
+                            enctype="multipart/form-data"
+                        >
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <?= $this->cardTypeInput->renderHtml() ?>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Create</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         <?php
     }
 }

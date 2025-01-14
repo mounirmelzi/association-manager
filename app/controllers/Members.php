@@ -6,12 +6,15 @@ use App\Core\App;
 use App\Core\Controller;
 use App\Utils\Request;
 use App\Utils\File;
+use App\Utils\QRCode;
 use App\Models\User;
 use App\Models\Member;
+use App\Models\Card;
 use App\Controllers\Error as ErrorController;
 use App\Views\Pages\MembersList as MembersListPage;
 use App\Views\Pages\MemberDetails as MemberDetailsPage;
 use App\Views\Pages\MemberEdit as MemberEditPage;
+use DateTime;
 
 class Members extends Controller
 {
@@ -39,7 +42,10 @@ class Members extends Controller
             return;
         }
 
-        $page = new MemberDetailsPage(["member" => $member]);
+        $cardModel = new Card();
+        $cards = $cardModel->getByUserIdWithType($id);
+
+        $page = new MemberDetailsPage(["member" => $member, "cards" => $cards]);
         $page->renderHtml();
     }
 
@@ -186,5 +192,45 @@ class Members extends Controller
             User::logout();
             App::redirect("/");
         }
+    }
+
+    public function createCard(int $id): void
+    {
+        $model = new Member();
+        $member = $model->get($id);
+        if ($member === null) {
+            $controller = new ErrorController();
+            $controller->index(404, "Member not found");
+            return;
+        }
+
+        $expirationDate = (new DateTime())->modify('+1 year')->format('Y-m-d H:i:s');
+        $qrCodePath = 'uploads' . DIRECTORY_SEPARATOR . 'cards' . DIRECTORY_SEPARATOR . 'file' . uniqid() . '.png';
+
+        $values = [
+            'user_id' => $id,
+            'card_type_id' => Request::data('card_type_id'),
+            'qrcode_image_url' => $qrCodePath,
+            'expiration_date' => $expirationDate,
+        ];
+
+        $qrCodeData = [
+            'user_id' => $values['user_id'],
+            'card_type_id' => $values['card_type_id'],
+            'expiration_date' => $values['expiration_date'],
+        ];
+
+        $qrCodeData = json_encode($qrCodeData, JSON_PRETTY_PRINT);
+        QRCode::generate($qrCodeData, $qrCodePath);
+
+        $card = new Card($values);
+        $errors = $card->save();
+
+        if (!empty($errors)) {
+            File::delete($qrCodePath);
+            return;
+        }
+
+        App::redirect("/members/$id");
     }
 }

@@ -65,6 +65,14 @@ $router->addRoute(
 );
 
 $router->addRoute(
+    path: '/members/{id}/cards/create',
+    roles: ["admin"],
+    methods: ['POST'],
+    controller: App\Controllers\Members::class,
+    action: 'createCard',
+);
+
+$router->addRoute(
     path: '/members/{id}/edit',
     roles: ["admin", "member"],
     methods: ['GET', 'POST'],
