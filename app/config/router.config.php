@@ -401,3 +401,27 @@ $router->addRoute(
     controller: App\Controllers\Payments::class,
     action: 'delete',
 );
+
+$router->addRoute(
+    path: '/volunteerings',
+    roles: ["admin", "member", "partner"],
+    methods: ['GET'],
+    controller: App\Controllers\Volunteerings::class,
+    action: 'index',
+);
+
+$router->addRoute(
+    path: '/volunteerings/{id}/validation',
+    roles: ["admin"],
+    methods: ['GET'],
+    controller: App\Controllers\Volunteerings::class,
+    action: 'validation',
+);
+
+$router->addRoute(
+    path: '/volunteerings/{id}/delete',
+    roles: ["admin"],
+    methods: ['GET'],
+    controller: App\Controllers\Volunteerings::class,
+    action: 'delete',
+);

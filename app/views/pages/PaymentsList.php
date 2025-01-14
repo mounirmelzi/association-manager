@@ -123,13 +123,13 @@ class PaymentsList extends Page
                 ?>
                     <div class="d-flex align-items-center">
                         <?php if ($isValid): ?>
-                            <span class="badge bg-success">
-                                <i class="bi bi-check-circle-fill me-1"></i>
+                            <span class="badge bg-success-subtle text-success px-3 py-2">
+                                <i class="bi bi-check2-circle me-1"></i>
                                 Valid
                             </span>
                         <?php else: ?>
-                            <span class="badge bg-danger">
-                                <i class="bi bi-x-circle-fill me-1"></i>
+                            <span class="badge bg-danger-subtle text-danger px-3 py-2">
+                                <i class="bi bi-slash-circle me-1"></i>
                                 Invalid
                             </span>
                         <?php endif ?>

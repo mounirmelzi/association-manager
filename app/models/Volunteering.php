@@ -17,4 +17,21 @@ class Volunteering extends Model
         $data = $this->query->where(["user_id" => $user_id, "activity_id" => $activity_id]);
         return $data[0] ?? null;
     }
+
+    public function getByUserId(int $user_id): array
+    {
+        return $this->query->where(["user_id" => $user_id]);
+    }
+
+    public function accept(): void
+    {
+        $this->data['is_valid'] = true;
+        $this->save();
+    }
+
+    public function refuse(): void
+    {
+        $this->data['is_valid'] = false;
+        $this->save();
+    }
 }

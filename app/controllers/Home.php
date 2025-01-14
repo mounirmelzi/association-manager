@@ -79,6 +79,16 @@ class Home extends Controller
                 "icon" => "people"
             ],
             [
+                "title" => "Payments Management",
+                "link" => BASE_URL . "payments",
+                "icon" => "coin"
+            ],
+            [
+                "title" => "Volunteerings Management",
+                "link" => BASE_URL . "volunteerings",
+                "icon" => "person-raised-hand"
+            ],
+            [
                 "title" => "Partners Management",
                 "link" => BASE_URL . "partners",
                 "icon" => "people-fill"
@@ -101,7 +111,7 @@ class Home extends Controller
             [
                 "title" => "Help Types Management",
                 "link" => BASE_URL . "helps/types",
-                "icon" => "person-raised-hand"
+                "icon" => "person-wheelchair"
             ],
             [
                 "title" => "Activities Management",
