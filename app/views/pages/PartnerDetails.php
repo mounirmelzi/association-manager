@@ -58,7 +58,19 @@ class PartnerDetails extends Page {
     {
         $partner = $this->data["partner"];
         $user = User::current();
-        $haveFullAccess = ($user['role'] === 'admin') || (($user["role"] === "partner") && ($user["id"] === $partner['id']));
+        $haveFullAccess =
+            ($user !== null)
+            &&
+            (
+                ($user['role'] === 'admin')
+                ||
+                (
+                    ($user["role"] === "partner")
+                    &&
+                    ($user["id"] === $partner['id'])
+                )
+            )
+        ;
 
         ?>
             <body>
@@ -162,3 +174,4 @@ class PartnerDetails extends Page {
         <?php
     }
 }
+?>
