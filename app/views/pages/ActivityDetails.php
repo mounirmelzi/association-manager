@@ -3,6 +3,7 @@
 namespace App\Views\Pages;
 
 use App\Models\User;
+use App\Models\Volunteering;
 
 class ActivityDetails extends Page {
     #[\Override]
@@ -28,6 +29,12 @@ class ActivityDetails extends Page {
         $activity = $this->data['activity'];
         $user = User::current();
 
+        if ($user !== null) {
+            $volunteeringModel = new Volunteering();
+            $volunteering = $volunteeringModel->getByUserIdAndActivityId($user['id'], $activity['id']);
+            $volunteerStatus = ($volunteering !== null) ? ($volunteering['is_valid'] ? 'validated' : 'pending') : '';
+        }
+
         ?>
             <body>
                 <div class="container my-5">
@@ -37,23 +44,59 @@ class ActivityDetails extends Page {
                                 <h1 class="h3 mb-0">
                                     <?= htmlspecialchars($activity['title']) ?>
                                 </h1>
-                                <?php if (($user !== null) && ($user['role'] === 'admin')): ?>
-                                    <div>
-                                        <a
-                                            href="<?= BASE_URL . "activities/$activity[id]/edit" ?>"
-                                            class="btn btn-primary btn-sm me-2"
-                                        >
-                                            <i class="bi bi-pencil me-1"></i>
-                                            Edit
-                                        </a>
-                                        <a
-                                            href="<?= BASE_URL . "activities/$activity[id]/delete" ?>"
-                                            class="btn btn-danger btn-sm"
-                                            onclick="return confirm('Are you sure you want to delete this activity?')"
-                                        >
-                                            <i class="bi bi-trash me-1"></i>
-                                            Delete
-                                        </a>
+                                <?php if ($user !== null): ?>
+                                    <div class="d-flex align-items-center gap-3">
+                                        <?php if ($user['role'] === 'admin'): ?>
+                                            <div>
+                                                <a
+                                                    href="<?= BASE_URL . "activities/$activity[id]/edit" ?>"
+                                                    class="btn btn-primary btn-sm me-2"
+                                                >
+                                                    <i class="bi bi-pencil me-1"></i>
+                                                    Edit
+                                                </a>
+                                                <a
+                                                    href="<?= BASE_URL . "activities/$activity[id]/delete" ?>"
+                                                    class="btn btn-danger btn-sm"
+                                                    onclick="return confirm('Are you sure you want to delete this activity?')"
+                                                >
+                                                    <i class="bi bi-trash me-1"></i>
+                                                    Delete
+                                                </a>
+                                            </div>
+                                        <?php else: ?>
+                                            <?php if (!$volunteerStatus): ?>
+                                                <a
+                                                    href="<?= BASE_URL . "activities/$activity[id]/volunteer" ?>"
+                                                    class="btn btn-success btn-sm"
+                                                >
+                                                    <i class="bi bi-hand-index-thumb me-1"></i>
+                                                    Volunteer
+                                                </a>
+                                            <?php else: ?>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <?php if ($volunteerStatus === 'pending'): ?>
+                                                        <span class="badge bg-warning text-dark">
+                                                            <i class="bi bi-clock-history me-1"></i>
+                                                            Pending Admin Validation
+                                                        </span>
+                                                        <a
+                                                            href="<?= BASE_URL . "activities/$activity[id]/volunteer/cancel" ?>"
+                                                            class="btn btn-outline-danger btn-sm"
+                                                            onclick="return confirm('Are you sure you want to cancel your volunteer request?')"
+                                                        >
+                                                            <i class="bi bi-x-circle me-1"></i>
+                                                            Cancel Request
+                                                        </a>                                                 
+                                                    <?php elseif ($volunteerStatus === 'validated'): ?>
+                                                        <span class="badge bg-success">
+                                                            <i class="bi bi-check-circle me-1"></i>
+                                                            Volunteer Request Approved
+                                                        </span>
+                                                    <?php endif ?>
+                                                </div>
+                                            <?php endif ?>
+                                        <?php endif ?>
                                     </div>
                                 <?php endif ?>
                             </div>
@@ -115,3 +158,4 @@ class ActivityDetails extends Page {
         <?php
     }
 }
+?>

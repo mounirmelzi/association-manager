@@ -157,6 +157,22 @@ $router->addRoute(
 );
 
 $router->addRoute(
+    path: '/activities/{id}/volunteer',
+    roles: ["member", "partner"],
+    methods: ['GET'],
+    controller: App\Controllers\Activities::class,
+    action: 'volunteer',
+);
+
+$router->addRoute(
+    path: '/activities/{id}/volunteer/cancel',
+    roles: ["member", "partner"],
+    methods: ['GET'],
+    controller: App\Controllers\Activities::class,
+    action: 'cancelVolunteering',
+);
+
+$router->addRoute(
     path: '/news',
     methods: ['GET'],
     controller: App\Controllers\News::class,

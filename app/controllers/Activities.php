@@ -8,6 +8,7 @@ use App\Utils\Request;
 use App\Utils\File;
 use App\Models\User;
 use App\Models\Activity;
+use App\Models\Volunteering;
 use App\Controllers\Error as ErrorController;
 use App\Views\Pages\ActivitiesList as ActivitiesListPage;
 use App\Views\Pages\UserActivitiesList as UserActivitiesListPage;
@@ -222,5 +223,43 @@ class Activities extends Controller
         }
 
         App::redirect("/activities");
+    }
+
+    public function volunteer(int $id): void
+    {
+        $model = new Activity();
+        $activity = $model->get($id);
+        if ($activity === null) {
+            $controller = new ErrorController();
+            $controller->index(404, "Activity not found");
+            return;
+        }
+
+        $user = User::current();
+
+        $volunteering = new Volunteering(['user_id' => $user['id'], 'activity_id' => $activity['id']]);
+        $volunteering->save();
+
+        App::redirect("/activities/$id");
+    }
+
+    public function cancelVolunteering(int $id): void
+    {
+        $model = new Activity();
+        $activity = $model->get($id);
+        if ($activity === null) {
+            $controller = new ErrorController();
+            $controller->index(404, "Activity not found");
+            return;
+        }
+
+        $user = User::current();
+
+        $volunteeringModel = new Volunteering();
+        $volunteering = $volunteeringModel->getByUserIdAndActivityId($user['id'], $activity['id']);
+        $volunteering = new Volunteering($volunteering);
+        $volunteering->delete();
+
+        App::redirect("/activities/$id");
     }
 }
