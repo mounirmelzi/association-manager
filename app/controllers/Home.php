@@ -65,6 +65,7 @@ class Home extends Controller
             "socials" => $socials,
             "discounts" => $discounts,
             "limitedDiscounts" => $limitedDiscounts,
+            "cardTypes" => $cardTypeModel->all(),
         ]);
 
         $page->renderHtml();

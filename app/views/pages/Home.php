@@ -147,6 +147,17 @@ class Home extends Page
                 </main>
 
                 <section class="container py-5">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h1 class="h3 mb-0">Discover Our Special Membership Cards</h1>
+                    </div>
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
+                        <?php foreach ($this->data['cardTypes'] as $cardType): ?>
+                            <?= $this->renderCardType($cardType) ?>
+                        <?php endforeach ?>
+                    </div>
+                </section>
+
+                <section class="container py-5">
                     <?php $this->renderDiscounts() ?>
                 </section>
 
@@ -303,6 +314,28 @@ class Home extends Page
                     max-width: 100px;
                 }
             </style>
+        <?php
+    }
+
+    private function renderCardType(array $cardType): void
+    {
+        $cardComponent = new Card(
+            title: "$cardType[type] Cards",
+            config: [
+                'description' => "Only $cardType[fee] Annual Fee",
+                'bgColor' => '#F5F7FA',
+                'borderColor' => '#E1E6EF',
+                'iconColor' => '#4A90E2',
+                'titleColor' => '#333F48',
+                'textColor' => '#4A4A4A',
+                'chevronColor' => '#8B9BB7',
+            ]
+        );
+
+        ?>
+            <div>
+                <?= $cardComponent->renderHtml() ?>
+            </div>
         <?php
     }
 }
