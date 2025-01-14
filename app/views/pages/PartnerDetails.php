@@ -292,7 +292,7 @@ class PartnerDetails extends Page {
                                                                 <span class="role-badge"><?= ucfirst($role) ?></span>
                                                             </div>
                                                             <div class="fee-display">
-                                                                <div class="fee-amount"><?= number_format($cardFee, 2) ?> €</div>
+                                                                <div class="fee-amount"><?= number_format($cardFee, 2) ?></div>
                                                                 <div class="fee-label">Annual Fee</div>
                                                             </div>
                                                         </div>
