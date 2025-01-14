@@ -61,6 +61,18 @@ CREATE TABLE `partners` (
 );
 
 
+CREATE TABLE `users_favorite_partners` (
+    `id`                                BIGINT                  PRIMARY KEY AUTO_INCREMENT,
+    `user_id`                           BIGINT                  NOT NULL,
+    `partner_id`                        BIGINT                  NOT NULL,
+
+    CONSTRAINT `unique__user_id__partner_id` UNIQUE (`user_id`, `partner_id`),
+
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (`partner_id`) REFERENCES `partners` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+
 CREATE TABLE `discount_offers` (
     `id`                                BIGINT                  PRIMARY KEY AUTO_INCREMENT,
     `partner_id`                        BIGINT                  NOT NULL,
