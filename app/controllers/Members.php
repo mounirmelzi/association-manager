@@ -215,6 +215,7 @@ class Members extends Controller
         ];
 
         $qrCodeData = [
+            'user_role' => 'member',
             'user_id' => $values['user_id'],
             'card_type_id' => $values['card_type_id'],
             'expiration_date' => $values['expiration_date'],

@@ -111,6 +111,14 @@ $router->addRoute(
 );
 
 $router->addRoute(
+    path: '/partners/{id}/cards/create',
+    roles: ["admin"],
+    methods: ['POST'],
+    controller: App\Controllers\Partners::class,
+    action: 'createCard',
+);
+
+$router->addRoute(
     path: '/partners/{id}/edit',
     roles: ["admin", "partner"],
     methods: ['GET', 'POST'],

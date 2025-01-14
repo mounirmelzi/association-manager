@@ -6,8 +6,10 @@ use App\Core\App;
 use App\Core\Controller;
 use App\Utils\Request;
 use App\Utils\File;
+use App\Utils\QRCode;
 use App\Models\User;
 use App\Models\Partner;
+use App\Models\Card;
 use App\Models\CardType;
 use App\Models\DiscountOffer;
 use App\Models\LimitedDiscountOffer;
@@ -16,6 +18,7 @@ use App\Views\Pages\PartnersList as PartnersListPage;
 use App\Views\Pages\UserPartnersList as UserPartnersListPage;
 use App\Views\Pages\PartnerDetails as PartnerDetailsPage;
 use App\Views\Pages\PartnerForm as PartnerFormPage;
+use DateTime;
 
 class Partners extends Controller
 {
@@ -55,10 +58,14 @@ class Partners extends Controller
             return $discount;
         }, $limitedDiscountOfferModel->getByPartnerId($id));
 
+        $cardModel = new Card();
+        $cards = $cardModel->getByUserIdWithType($id);
+
         $page = new PartnerDetailsPage([
             "partner" => $partner,
             "discounts" => $discounts,
             "limitedDiscounts" => $limitedDiscounts,
+            "cards" => $cards,
         ]);
         $page->renderHtml();
     }
@@ -296,5 +303,46 @@ class Partners extends Controller
             User::logout();
             App::redirect("/");
         }
+    }
+
+    public function createCard(int $id): void
+    {
+        $model = new Partner();
+        $partner = $model->get($id);
+        if ($partner === null) {
+            $controller = new ErrorController();
+            $controller->index(404, "Partner not found");
+            return;
+        }
+
+        $expirationDate = (new DateTime())->modify('+1 year')->format('Y-m-d H:i:s');
+        $qrCodePath = 'uploads' . DIRECTORY_SEPARATOR . 'cards' . DIRECTORY_SEPARATOR . 'file' . uniqid() . '.png';
+
+        $values = [
+            'user_id' => $id,
+            'card_type_id' => Request::data('card_type_id'),
+            'qrcode_image_url' => $qrCodePath,
+            'expiration_date' => $expirationDate,
+        ];
+
+        $qrCodeData = [
+            'user_role' => 'partner',
+            'user_id' => $values['user_id'],
+            'card_type_id' => $values['card_type_id'],
+            'expiration_date' => $values['expiration_date'],
+        ];
+
+        $qrCodeData = json_encode($qrCodeData, JSON_PRETTY_PRINT);
+        QRCode::generate($qrCodeData, $qrCodePath);
+
+        $card = new Card($values);
+        $errors = $card->save();
+
+        if (!empty($errors)) {
+            File::delete($qrCodePath);
+            return;
+        }
+
+        App::redirect("/partners/$id");
     }
 }

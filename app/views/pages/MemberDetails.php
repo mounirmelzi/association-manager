@@ -225,7 +225,7 @@ class MemberDetails extends Page
                                             $username = $this->data['member']['username'];
                                             $firstName = $this->data['member']['first_name'];
                                             $lastName = $this->data['member']['last_name'];
-                                            $role = $card['role'] ?? 'member';
+                                            $role = 'member';
                                             $cardType = strtolower($card['type']['type']);
                                             $cardFee = $card['type']['fee'];
                                             $cardExpirationDate = $card['expiration_date'];
