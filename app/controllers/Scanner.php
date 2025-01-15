@@ -71,6 +71,7 @@ class Scanner extends Controller
                 return;
             }
 
+            unset($card['type']);
             $this->postScan($user, $card);
         }
     }
