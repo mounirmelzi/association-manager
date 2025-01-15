@@ -9,16 +9,16 @@ use App\Views\Components\Input;
 use App\Models\CardType;
 
 class PartnerDetails extends Page {
-    private Table $discountsTable;
-    private Table $limitedDiscountsTable;
+    private Table $discountOffersTable;
+    private Table $limitedDiscountOffersTable;
     private Input $cardTypeInput;
 
     public function __construct(array $data = [])
     {
         parent::__construct($data);
 
-        $this->discountsTable = new Table(
-            title: 'Discounts',
+        $this->discountOffersTable = new Table(
+            title: 'Discount Offers',
             data: $this->data["discounts"],
             columns: [
                 new Column('Card Type', 'card_type'),
@@ -26,8 +26,8 @@ class PartnerDetails extends Page {
             ],
         );
 
-        $this->limitedDiscountsTable = new Table(
-            title: 'Limited Discounts',
+        $this->limitedDiscountOffersTable = new Table(
+            title: 'Limited Discount Offers',
             data: $this->data["limitedDiscounts"],
             columns: [
                 new Column('Card Type', 'card_type'),
@@ -207,11 +207,11 @@ class PartnerDetails extends Page {
                 <?php endif ?>
 
                 <div class="container my-5">
-                    <?= $this->discountsTable->renderHtml() ?>
+                    <?= $this->discountOffersTable->renderHtml() ?>
                 </div>
 
                 <div class="container my-5">
-                    <?= $this->limitedDiscountsTable->renderHtml() ?>
+                    <?= $this->limitedDiscountOffersTable->renderHtml() ?>
                 </div>
             </body>
         <?php
