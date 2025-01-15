@@ -108,6 +108,7 @@ CREATE TABLE `discounts` (
     `amount`                            DECIMAL(10, 2)          NOT NULL,
     `description`                       LONGTEXT,
     `date`								DATETIME				NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `is_valid`                          BOOLEAN                 NOT NULL DEFAULT FALSE,
 
     FOREIGN KEY (`partner_id`) REFERENCES `partners` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE ON DELETE CASCADE

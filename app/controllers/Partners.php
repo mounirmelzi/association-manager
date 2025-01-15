@@ -14,6 +14,7 @@ use App\Models\Card;
 use App\Models\CardType;
 use App\Models\DiscountOffer;
 use App\Models\LimitedDiscountOffer;
+use App\Models\Discount;
 use App\Controllers\Error as ErrorController;
 use App\Views\Pages\PartnersList as PartnersListPage;
 use App\Views\Pages\UserPartnersList as UserPartnersListPage;
@@ -58,14 +59,14 @@ class Partners extends Controller
         $cardTypeModel = new CardType();
 
         $discountOfferModel = new DiscountOffer();
-        $discounts = array_map(function ($discount) use ($cardTypeModel) {
+        $discountOffers = array_map(function ($discount) use ($cardTypeModel) {
             $cardType = $cardTypeModel->get($discount['card_type_id']);
             $discount['card_type'] = $cardType['type'];
             return $discount;
         }, $discountOfferModel->getByPartnerId($id));
 
         $limitedDiscountOfferModel = new LimitedDiscountOffer();
-        $limitedDiscounts = array_map(function ($discount) use ($cardTypeModel) {
+        $limitedDiscountOffers = array_map(function ($discount) use ($cardTypeModel) {
             $cardType = $cardTypeModel->get($discount['card_type_id']);
             $discount['card_type'] = $cardType['type'];
             return $discount;
@@ -73,6 +74,9 @@ class Partners extends Controller
 
         $cardModel = new Card();
         $cards = $cardModel->getByUserIdWithType($id);
+
+        $discountModel = new Discount();
+        $discounts = $discountModel->getByUserIdWithPartner($id);
 
         $isFavorite = false;
         $currentUser = User::current();
@@ -86,9 +90,10 @@ class Partners extends Controller
 
         $page = new PartnerDetailsPage([
             "partner" => $partner,
-            "discounts" => $discounts,
-            "limitedDiscounts" => $limitedDiscounts,
+            "discountOffers" => $discountOffers,
+            "limitedDiscountOffers" => $limitedDiscountOffers,
             "cards" => $cards,
+            "discounts" => $discounts,
             "isFavorite" => $isFavorite,
         ]);
         $page->renderHtml();

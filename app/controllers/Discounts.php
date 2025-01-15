@@ -14,11 +14,11 @@ use App\Views\Pages\DiscountForm as DiscountFormPage;
 
 class Discounts extends Controller
 {
-    public function create(int $id): void
+    public function create(int $user_id): void
     {
         $query = new Query(Database::getInstance());
         $query->setTable('users');
-        $user = $query->getById($id);
+        $user = $query->getById($user_id);
         if ($user === null) {
             $errorController = new ErrorController();
             $errorController->index(404, "User not found");
@@ -48,5 +48,26 @@ class Discounts extends Controller
 
             App::redirect("/scanner");
         }
+    }
+
+    public function validation(int $id): void
+    {
+        $discountModel = new Discount();
+        $discount = $discountModel->get($id);
+        if ($discount === null) {
+            $controller = new ErrorController();
+            $controller->index(404, "Discount not found");
+            return;
+        }
+
+        $discount = new Discount($discount);
+        if ($discount->data['is_valid']) {
+            $discount->refuse();
+        } else {
+            $discount->accept();
+        }
+
+        $redirectUrl = Request::data('redirect', '/home');
+        App::redirect($redirectUrl);
     }
 }

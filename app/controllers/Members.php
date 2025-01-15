@@ -10,6 +10,7 @@ use App\Utils\QRCode;
 use App\Models\User;
 use App\Models\Member;
 use App\Models\Card;
+use App\Models\Discount;
 use App\Controllers\Error as ErrorController;
 use App\Views\Pages\MembersList as MembersListPage;
 use App\Views\Pages\MemberDetails as MemberDetailsPage;
@@ -45,7 +46,14 @@ class Members extends Controller
         $cardModel = new Card();
         $cards = $cardModel->getByUserIdWithType($id);
 
-        $page = new MemberDetailsPage(["member" => $member, "cards" => $cards]);
+        $discountModel = new Discount();
+        $discounts = $discountModel->getByUserIdWithPartner($id);
+
+        $page = new MemberDetailsPage([
+            "member" => $member,
+            "cards" => $cards,
+            "discounts" => $discounts,
+        ]);
         $page->renderHtml();
     }
 

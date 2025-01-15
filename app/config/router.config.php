@@ -467,9 +467,17 @@ $router->addRoute(
 );
 
 $router->addRoute(
-    path: '/discounts/{id}/create',
+    path: '/discounts/{user_id}/create',
     roles: ["partner"],
     methods: ['GET', 'POST'],
     controller: App\Controllers\Discounts::class,
     action: 'create',
+);
+
+$router->addRoute(
+    path: '/discounts/{id}/validation',
+    roles: ["partner", "member"],
+    methods: ['GET'],
+    controller: App\Controllers\Discounts::class,
+    action: 'validation',
 );

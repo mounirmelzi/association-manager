@@ -3,15 +3,161 @@
 namespace App\Views\Pages;
 
 use App\Models\User;
+use App\Views\Components\Table;
+use App\Views\Components\Column;
 use App\Views\Components\Input;
 use App\Models\CardType;
 
 class MemberDetails extends Page
 {
+    private Table $discountsTable;
     private Input $cardTypeInput;
 
     public function __construct(array $data = []) {
         parent::__construct($data);
+
+        $user = User::current();
+
+        $this->discountsTable = new Table(
+            title: 'Discounts Tracker',
+            data: $this->data["discounts"],
+            columns: array_merge([
+                new Column(
+                    label: 'Partner',
+                    renderer: function($discount): void {
+                        ?>
+                            <div class="d-flex align-items-center">
+                                <img
+                                    src="<?= BASE_URL . $discount['partner']['logo_url'] ?>"
+                                    alt="<?= $discount['partner']['name'] ?>'s photo"
+                                    class="rounded-circle me-3"
+                                    width="40"
+                                    height="40"
+                                    style="object-fit: cover"
+                                >
+                                <div>
+                                    <div class="fw-medium">
+                                        <?= htmlspecialchars($discount['partner']['name']) ?>
+                                    </div>
+                                    <div class="text-muted small">
+                                        <?= htmlspecialchars($discount['partner']['category']) ?>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php
+                    }
+                ),
+                new Column(
+                    label: 'Address',
+                    renderer: function($discount): void {
+                        ?>
+                            <div class="small">
+                                <i class="bi bi-house-door text-muted me-2"></i>
+                                <?= htmlspecialchars($discount['partner']['address']) ?>
+                            </div>
+                        <?php
+                    }
+                ),
+                new Column(
+                    label: 'Amount',
+                    renderer: function($discount): void {
+                        ?>
+                            <div class="fw-medium">
+                                <?= number_format($discount['amount'], 2, '.', ',') ?>
+                            </div>
+                        <?php
+                    }
+                ),
+                new Column(
+                    label: 'Description',
+                    renderer: function($discount): void {
+                        ?>
+                            <div class="small text-wrap" style="max-width: 250px;">
+                                <?= htmlspecialchars($discount['description']) ?>
+                            </div>
+                        <?php
+                    }
+                ),
+                new Column(
+                    label: 'Date',
+                    renderer: function($discount): void {
+                        ?>
+                            <div class="small">
+                                <i class="bi bi-calendar text-muted me-2"></i>
+                                <?= date('j F Y', strtotime($discount['date'])) ?>
+                                <div class="text-muted">
+                                    <?= date('H:i', strtotime($discount['date'])) ?>
+                                </div>
+                            </div>
+                        <?php
+                    }
+                ),
+                new Column(
+                    label: 'Status',
+                    renderer: function($discount): void {
+                        $isValid = (bool)$discount['is_valid'];
+                        ?>
+                            <div class="d-flex align-items-center">
+                                <?php if ($isValid): ?>
+                                    <span class="badge bg-success-subtle text-success px-3 py-2">
+                                        <i class="bi bi-check2-circle me-1"></i>
+                                        Valid
+                                    </span>
+                                <?php else: ?>
+                                    <span class="badge bg-danger-subtle text-danger px-3 py-2">
+                                        <i class="bi bi-slash-circle me-1"></i>
+                                        Invalid
+                                    </span>
+                                <?php endif ?>
+                            </div>
+                        <?php
+                    }
+                ),
+            ], ($user['role'] === 'member') ? [
+                new Column(
+                    label: 'Actions',
+                    width: '100px',
+                    align: 'end',
+                    renderer: function($discount): void {
+                        $isValid = (bool)$discount['is_valid'];
+                        $member = $this->data['member'];
+                        $redirectUrl = "/members/$member[id]";
+                        ?>
+                            <div class="dropdown">
+                                <button class="btn btn-light btn-sm" data-bs-toggle="dropdown">
+                                    <i class="bi bi-three-dots-vertical"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <?php if ($isValid): ?>
+                                        <li>
+                                            <a
+                                                class="dropdown-item text-danger"
+                                                href="<?= BASE_URL . "discounts/$discount[id]/validation?redirect=$redirectUrl" ?>"
+                                                onclick="return confirm('Are you sure you want to invalidate this discount?')"
+                                            >
+                                                <i class="bi bi-x-lg me-1"></i>
+                                                Invalidate
+                                            </a>
+                                        </li>
+                                    <?php else: ?>
+                                        <li>
+                                            <a
+                                                class="dropdown-item text-success"
+                                                href="<?= BASE_URL . "discounts/$discount[id]/validation?redirect=$redirectUrl" ?>"
+                                                onclick="return confirm('Are you sure you want to validate this discount?')"
+                                            >
+                                                <i class="bi bi-check-lg me-1"></i>
+                                                Validate
+                                            </a>
+                                        </li>
+                                    <?php endif ?>
+                                </ul>
+                            </div>
+                        <?php
+                    }
+                ),
+            ] : []),
+        );
 
         $cardTypeModel = new CardType();
         $this->cardTypeInput = new Input(
@@ -157,6 +303,12 @@ class MemberDetails extends Page
                     <div class="container my-5">
                         <?php $this->renderCards() ?>
                         <?php $this->renderCreateModal() ?>
+                    </div>
+                <?php endif ?>
+
+                <?php if ($haveFullAccess): ?>
+                    <div class="container my-5">
+                        <?= $this->discountsTable->renderHtml() ?>
                     </div>
                 <?php endif ?>
             </body>
