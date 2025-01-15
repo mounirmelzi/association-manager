@@ -10,6 +10,7 @@ use App\Models\CardType as CardTypeModel;
 use App\Models\DiscountOffer as DiscountOfferModel;
 use App\Models\LimitedDiscountOffer as LimitedDiscountOfferModel;
 use App\Views\Pages\Home as HomePage;
+use App\Views\Pages\Discounts as DiscountsPage;
 use App\Views\Pages\Dashboard as DashboardPage;
 
 class Home extends Controller
@@ -35,7 +36,7 @@ class Home extends Controller
             $discount['partner_address'] = $partner['address'];
             $discount['card_type'] = $cardType['type'];
             return $discount;
-        }, $discountOfferModel->all());
+        }, $discountOfferModel->all(limit: 10));
 
         $limitedDiscounts = array_map(function ($discount) use ($partnerModel, $cardTypeModel) {
             $partner = $partnerModel->get($discount['partner_id']);
@@ -45,7 +46,7 @@ class Home extends Controller
             $discount['partner_address'] = $partner['address'];
             $discount['card_type'] = $cardType['type'];
             return $discount;
-        }, $limitedDiscountOfferModel->all());
+        }, $limitedDiscountOfferModel->all(limit: 10));
 
         $logos = array_map(function ($partner) {
             return $partner['logo_url'];
@@ -66,6 +67,41 @@ class Home extends Controller
             "discounts" => $discounts,
             "limitedDiscounts" => $limitedDiscounts,
             "cardTypes" => $cardTypeModel->all(),
+        ]);
+
+        $page->renderHtml();
+    }
+
+    public function discounts(): void
+    {
+        $partnerModel = new PartnerModel();
+        $cardTypeModel = new CardTypeModel();
+        $discountOfferModel = new DiscountOfferModel();
+        $limitedDiscountOfferModel = new LimitedDiscountOfferModel();
+
+        $discounts = array_map(function ($discount) use ($partnerModel, $cardTypeModel) {
+            $partner = $partnerModel->get($discount['partner_id']);
+            $cardType = $cardTypeModel->get($discount['card_type_id']);
+            $discount['partner_name'] = $partner['name'];
+            $discount['partner_category'] = $partner['category'];
+            $discount['partner_address'] = $partner['address'];
+            $discount['card_type'] = $cardType['type'];
+            return $discount;
+        }, $discountOfferModel->all());
+
+        $limitedDiscounts = array_map(function ($discount) use ($partnerModel, $cardTypeModel) {
+            $partner = $partnerModel->get($discount['partner_id']);
+            $cardType = $cardTypeModel->get($discount['card_type_id']);
+            $discount['partner_name'] = $partner['name'];
+            $discount['partner_category'] = $partner['category'];
+            $discount['partner_address'] = $partner['address'];
+            $discount['card_type'] = $cardType['type'];
+            return $discount;
+        }, $limitedDiscountOfferModel->all());
+
+        $page = new DiscountsPage([
+            "discounts" => $discounts,
+            "limitedDiscounts" => $limitedDiscounts,
         ]);
 
         $page->renderHtml();

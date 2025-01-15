@@ -19,6 +19,13 @@ $router->addRoute(
 );
 
 $router->addRoute(
+    path: '/discounts',
+    methods: ['GET'],
+    controller: App\Controllers\Home::class,
+    action: 'discounts',
+);
+
+$router->addRoute(
     path: '/dashboard',
     roles: ["admin"],
     methods: ['GET'],
