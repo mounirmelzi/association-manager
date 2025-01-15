@@ -91,6 +91,14 @@ class Home extends Page
                                                     Profile
                                                 </a>
                                             </li>
+                                            <?php if ($user['role'] === 'partner'): ?>
+                                                <li>
+                                                    <a class="dropdown-item" href="<?= BASE_URL . 'scanner' ?>">
+                                                        <i class="bi bi-person me-2"></i>
+                                                        Scanner
+                                                    </a>
+                                                </li>
+                                            <?php endif ?>
                                         <?php endif ?>
                                         <li><hr class="dropdown-divider"></li>
                                         <li>

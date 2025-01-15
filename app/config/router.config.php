@@ -441,3 +441,11 @@ $router->addRoute(
     controller: App\Controllers\Volunteerings::class,
     action: 'delete',
 );
+
+$router->addRoute(
+    path: '/scanner',
+    roles: ["partner"],
+    methods: ['GET'],
+    controller: App\Controllers\Home::class,
+    action: 'scanner',
+);

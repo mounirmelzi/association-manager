@@ -1,0 +1,38 @@
+#qr-reader {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+#qr-reader__scan_region {
+  background: white;
+}
+
+#qr-reader__dashboard_section_swaplink {
+  text-decoration: none !important;
+  color: #0d6efd !important;
+}
+
+.or-divider {
+  text-align: center;
+  margin: 2rem 0;
+  position: relative;
+}
+
+.or-divider::before,
+.or-divider::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 45%;
+  height: 1px;
+  background: #dee2e6;
+}
+
+.or-divider::before {
+  left: 0;
+}
+
+.or-divider::after {
+  right: 0;
+}
