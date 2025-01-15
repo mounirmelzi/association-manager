@@ -94,7 +94,7 @@ class Home extends Page
                                             <?php if ($user['role'] === 'partner'): ?>
                                                 <li>
                                                     <a class="dropdown-item" href="<?= BASE_URL . 'scanner' ?>">
-                                                        <i class="bi bi-person me-2"></i>
+                                                        <i class="bi bi-qr-code-scan me-2"></i>
                                                         Scanner
                                                     </a>
                                                 </li>
