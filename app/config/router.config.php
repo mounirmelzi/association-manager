@@ -453,7 +453,15 @@ $router->addRoute(
 $router->addRoute(
     path: '/scanner',
     roles: ["partner"],
-    methods: ['GET'],
-    controller: App\Controllers\Home::class,
-    action: 'scanner',
+    methods: ['GET', 'POST'],
+    controller: App\Controllers\Scanner::class,
+    action: 'index',
+);
+
+$router->addRoute(
+    path: '/scanner/qr',
+    roles: ["partner"],
+    methods: ['POST'],
+    controller: App\Controllers\Scanner::class,
+    action: 'qr',
 );

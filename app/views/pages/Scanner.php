@@ -2,10 +2,62 @@
 
 namespace App\Views\Pages;
 
+use App\Utils\Request;
 use App\Models\Navbar as NavbarModel;
 use App\Views\Components\Navbar as NavbarComponent;
+use App\Views\Components\Form;
+use App\Views\Components\Input;
 
 class Scanner extends Page {
+    private Form $manualForm;
+
+    public function __construct(array $data = []) {
+        parent::__construct($data);
+
+        $this->manualForm = new Form(
+            id: "scan-form",
+            action: BASE_URL . Request::url(),
+            config: [
+                'title' => 'Manual User Scanner',
+                'subtitle' => 'Enter the user information',
+                'submitText' => 'Scan',
+                'card' => false,
+            ],
+            inputComponents: [
+                new Input(
+                    name: 'card_type_id',
+                    value: $this->data["values"]["card_type_id"] ?? null,
+                    error: $this->data["errors"]["card_type_id"] ?? null,
+                    config: [
+                        'type' => 'select',
+                        'options' => array_map(
+                            function ($cardType) {
+                                return [
+                                    'name' => "[$cardType[id]] - $cardType[type]",
+                                    'value' => $cardType['id']
+                                ];
+                            },
+                            $this->data['cardTypes']
+                        ),
+                        'icon' => 'credit-card',
+                        'placeholder' => 'Card Type',
+                        'label' => 'Card Type',
+                    ]
+                ),
+                new Input(
+                    name: 'username',
+                    value: $this->data["values"]["username"] ?? null,
+                    error: $this->data["errors"]["username"] ?? null,
+                    config: [
+                        'icon' => 'person-badge',
+                        'placeholder' => 'Username',
+                        'label' => 'Username',
+                    ]
+                ),
+            ],
+        );
+    }
+
     #[\Override]
     protected function head(): void
     {
@@ -17,7 +69,7 @@ class Scanner extends Page {
             <link href="<?= BASE_URL ?>css/libs/bootstrap.min.css" rel="stylesheet">
             <link href="<?= BASE_URL ?>assets/icons/libs/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet">
             <link href="<?= BASE_URL ?>css/pages/scanner.css" rel="stylesheet">
-            
+
             <script src="<?= BASE_URL ?>js/libs/jquery-3.7.1.min.js" defer></script>
             <script src="<?= BASE_URL ?>js/libs/bootstrap.bundle.min.js" defer></script>
             <script src="<?= BASE_URL ?>js/libs/html5-qrcode.min.js" defer></script>
@@ -37,7 +89,7 @@ class Scanner extends Page {
                     <?php $navbarComponent->renderHtml() ?>
                 </section>
 
-                <div class="container py-5">
+                <main class="container py-5">
                     <h2 class="text-center mb-4">User Card Scanner</h2>
 
                     <div class="row justify-content-center mb-4">
@@ -55,19 +107,12 @@ class Scanner extends Page {
                         <div class="col-12 col-md-6">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title">Manual Username Entry</h5>
-                                    <form id="manual-form" method="POST" action="process-user.php">
-                                        <div class="mb-3">
-                                            <label for="username" class="form-label">Username</label>
-                                            <input type="text" class="form-control" id="username" name="username" required>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                    </form>
+                                    <?= $this->manualForm->renderHtml() ?>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </main>
             </body>
         <?php
     }

@@ -30,5 +30,21 @@ docReady(function () {
 });
 
 function process(data) {
-  console.log(data);
+  const form = document.createElement("form");
+  form.method = "POST";
+  form.action = `${window.location.href}/qr`;
+
+  for (const key in data) {
+    if (data.hasOwnProperty(key)) {
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = key;
+      input.value = data[key];
+      form.appendChild(input);
+    }
+  }
+
+  document.body.appendChild(form);
+  form.submit();
+  document.body.removeChild(form);
 }

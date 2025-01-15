@@ -11,7 +11,6 @@ use App\Models\DiscountOffer as DiscountOfferModel;
 use App\Models\LimitedDiscountOffer as LimitedDiscountOfferModel;
 use App\Views\Pages\Home as HomePage;
 use App\Views\Pages\Dashboard as DashboardPage;
-use App\Views\Pages\Scanner as ScannerPage;
 
 class Home extends Controller
 {
@@ -138,12 +137,6 @@ class Home extends Controller
         ];
 
         $page = new DashboardPage(["cards" => $cards]);
-        $page->renderHtml();
-    }
-
-    public function scanner(): void
-    {
-        $page = new ScannerPage();
         $page->renderHtml();
     }
 }
