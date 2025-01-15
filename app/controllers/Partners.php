@@ -9,6 +9,7 @@ use App\Utils\File;
 use App\Utils\QRCode;
 use App\Models\User;
 use App\Models\Partner;
+use App\Models\Favorite;
 use App\Models\Card;
 use App\Models\CardType;
 use App\Models\DiscountOffer;
@@ -26,9 +27,21 @@ class Partners extends Controller
     {
         $model = new Partner();
         $user = User::current();
-        $page = (($user !== null) && ($user['role'] === 'admin')) ?
-            new PartnersListPage(['partners' => $model->all()]) :
-            new UserPartnersListPage(['partners' => $model->all()]);
+
+        if (($user !== null) && ($user['role'] === 'admin')) {
+            $page = new PartnersListPage(['partners' => $model->all()]);
+        } else {
+            $favoriteModel = new Favorite();
+            $favoritePartners = $favoriteModel->getByCurrentUserWithPartner();
+            $favoritePartners = array_map(function ($favoritePartner) {
+                return $favoritePartner['partner'];
+            }, $favoritePartners);
+            $page = new UserPartnersListPage([
+                'partners' => $model->all(),
+                'favoritePartners' => $favoritePartners
+            ]);
+        }
+
         $page->renderHtml();
     }
 
@@ -61,11 +74,22 @@ class Partners extends Controller
         $cardModel = new Card();
         $cards = $cardModel->getByUserIdWithType($id);
 
+        $isFavorite = false;
+        $currentUser = User::current();
+        if ($currentUser !== null) {
+            $favoriteModel = new Favorite();
+            $favorite = $favoriteModel->getByUserIdAndPartnerId($currentUser['id'], $partner['id']);
+            if ($favorite !== null) {
+                $isFavorite = true;
+            }
+        }
+
         $page = new PartnerDetailsPage([
             "partner" => $partner,
             "discounts" => $discounts,
             "limitedDiscounts" => $limitedDiscounts,
             "cards" => $cards,
+            "isFavorite" => $isFavorite,
         ]);
         $page->renderHtml();
     }
@@ -341,6 +365,35 @@ class Partners extends Controller
         if (!empty($errors)) {
             File::delete($qrCodePath);
             return;
+        }
+
+        App::redirect("/partners/$id");
+    }
+
+    public function favorite(int $id): void
+    {
+        $model = new Partner();
+        $partner = $model->get($id);
+        if ($partner === null) {
+            $controller = new ErrorController();
+            $controller->index(404, "Partner not found");
+            return;
+        }
+
+        $user = User::current();
+
+        $favoriteModel = new Favorite();
+        $favorite = $favoriteModel->getByUserIdAndPartnerId($user['id'], $partner['id']);
+
+        if ($favorite === null) {
+            $favorite = new Favorite([
+                'user_id' => $user['id'],
+                'partner_id' => $partner['id']
+            ]);
+            $favorite->save();
+        } else {
+            $favorite = new Favorite($favorite);
+            $favorite->delete();
         }
 
         App::redirect("/partners/$id");

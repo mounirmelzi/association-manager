@@ -187,3 +187,18 @@
   background: rgba(0, 0, 0, 0.05);
   border-color: rgba(0, 0, 0, 0.2);
 }
+
+.favorite-star {
+  font-size: 1.5rem;
+  color: #ffd700;
+  text-decoration: none;
+  transition: transform 0.2s;
+}
+
+.favorite-star:hover {
+  transform: scale(1.1);
+}
+
+.favorite-star.not-favorite {
+  color: #ccc;
+}

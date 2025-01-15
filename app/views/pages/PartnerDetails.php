@@ -80,6 +80,7 @@ class PartnerDetails extends Page {
     #[\Override]
     protected function body(): void
     {
+        $isFavorite = $this->data["isFavorite"];
         $partner = $this->data["partner"];
         $user = User::current();
         $haveFullAccess =
@@ -101,7 +102,18 @@ class PartnerDetails extends Page {
                 <div class="container my-5">
                     <div class="card shadow-lg">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h3 class="mb-0">Partner Details</h3>
+                            <div class="d-flex align-items-center gap-3">
+                                <h3 class="mb-0">Partner Details</h3>
+                                <?php if ($user !== null): ?>
+                                    <a 
+                                        href="<?= BASE_URL . "partners/$partner[id]/favorite" ?>"
+                                        class="favorite-star <?= $isFavorite ? '' : 'not-favorite' ?>"
+                                        title="<?= $isFavorite ? 'Remove from favorites' : 'Add to favorites' ?>"
+                                    >
+                                        <i class="bi bi-star-fill"></i>
+                                    </a>
+                                <?php endif ?>
+                            </div>
                             <?php if ($haveFullAccess): ?>
                                 <div class="d-flex gap-2">
                                     <a

@@ -18,6 +18,7 @@ class UserPartnersList extends Page
         }
 
         ksort($this->categorizedPartners);
+        $this->categorizedPartners = ['Favorites' => $this->data['favoritePartners']] + $this->categorizedPartners;
     }
 
     #[\Override]

@@ -119,6 +119,14 @@ $router->addRoute(
 );
 
 $router->addRoute(
+    path: '/partners/{id}/favorite',
+    roles: ["members", "partner", "admin"],
+    methods: ['GET'],
+    controller: App\Controllers\Partners::class,
+    action: 'favorite',
+);
+
+$router->addRoute(
     path: '/partners/{id}/edit',
     roles: ["admin", "partner"],
     methods: ['GET', 'POST'],
