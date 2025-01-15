@@ -34,6 +34,17 @@ class DiscountForm extends Page
                         'label' => 'Amount',
                     ]
                 ),
+                new Input(
+                    name: 'description',
+                    value: $this->data["values"]["description"] ?? null,
+                    error: $this->data["errors"]["description"] ?? null,
+                    config: [
+                        'type' => 'textarea',
+                        'icon' => 'card-text',
+                        'placeholder' => 'Description',
+                        'label' => 'Description',
+                    ]
+                ),
             ]
         );
     }

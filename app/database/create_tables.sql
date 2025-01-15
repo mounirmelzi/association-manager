@@ -106,6 +106,7 @@ CREATE TABLE `discounts` (
     `partner_id`                        BIGINT                  NOT NULL,
     `user_id`                           BIGINT                  NOT NULL,
     `amount`                            DECIMAL(10, 2)          NOT NULL,
+    `description`                       LONGTEXT,
     `date`								DATETIME				NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (`partner_id`) REFERENCES `partners` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,

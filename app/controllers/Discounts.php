@@ -31,22 +31,17 @@ class Discounts extends Controller
         } else if (Request::method() === "POST") {
             $partner = User::current();
             $values = [
-                'amount' => Request::data('amount'),
-            ];
-
-            $discount = new Discount([
                 'partner_id' => $partner['id'],
                 'user_id' => $user['id'],
-                'amount' => $values['amount'],
-            ]);
+                'amount' => Request::data('amount'),
+                'description' => Request::data('description'),
+            ];
 
+            $discount = new Discount($values);
             $errors = $discount->save();
 
             if (!empty($errors)) {
-                $page = new DiscountFormPage([
-                    "values" => $values,
-                    "errors" => $errors,
-                ]);
+                $page = new DiscountFormPage(["values" => $values, "errors" => $errors]);
                 $page->renderHtml();
                 return;
             }
