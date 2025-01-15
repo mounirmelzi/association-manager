@@ -465,3 +465,11 @@ $router->addRoute(
     controller: App\Controllers\Scanner::class,
     action: 'qr',
 );
+
+$router->addRoute(
+    path: '/discounts/{id}/create',
+    roles: ["partner"],
+    methods: ['GET', 'POST'],
+    controller: App\Controllers\Discounts::class,
+    action: 'create',
+);

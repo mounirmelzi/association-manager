@@ -123,7 +123,6 @@ class Scanner extends Controller
 
     private function postScan(array $user, array $card): void
     {
-        var_dump($user);
-        var_dump($card);
+        App::redirect("/discounts/$user[id]/create");
     }
 }
