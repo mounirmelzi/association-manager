@@ -117,7 +117,7 @@ class PartnerDetails extends Page {
                         <?php
                     }
                 ),
-            ], ($user['role'] === 'partner') ? [
+            ], (($user !== null) && ($user['role'] === 'partner')) ? [
                 new Column(
                     label: 'Actions',
                     width: '100px',

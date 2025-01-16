@@ -115,7 +115,7 @@ class MemberDetails extends Page
                         <?php
                     }
                 ),
-            ], ($user['role'] === 'member') ? [
+            ], (($user !== null) && ($user['role'] === 'member')) ? [
                 new Column(
                     label: 'Actions',
                     width: '100px',
