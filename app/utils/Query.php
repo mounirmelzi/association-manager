@@ -19,9 +19,10 @@ class Query
         $this->table = $table;
     }
 
-    public function getAll(int $limit = 0, int $offset = 0): array
+    public function getAll(int $limit = 0, int $offset = 0, string $order = "id DESC"): array
     {
         $sql = "SELECT * FROM $this->table";
+        $sql .= " ORDER BY $order";
         if (($limit > 0) && ($offset >= 0)) {
             $sql .= " LIMIT $limit OFFSET $offset";
         }

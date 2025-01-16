@@ -11,4 +11,10 @@ class Navbar extends Model
         parent::__construct($data);
         $this->query->setTable('navbar');
     }
+
+    #[\Override]
+    public function all(int $limit = 0, int $offset = 0): array
+    {
+        return $this->query->getAll($limit, $offset, 'id ASC');
+    }
 }
