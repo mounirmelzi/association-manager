@@ -74,7 +74,7 @@ class HelpForm extends Page
                     config: [
                         'type' => 'file',
                         'icon' => 'file-earmark-zip',
-                        'label' => 'Attachments (.zip or .rar file)',
+                        'label' => 'Attachments (.zip file)',
                         'accept' => '.zip,.rar',
                     ]
                 ),
