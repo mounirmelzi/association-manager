@@ -2,6 +2,8 @@
 
 namespace App\Views\Pages;
 
+use App\Models\Navbar as NavbarModel;
+use App\Views\Components\Navbar as NavbarComponent;
 use App\Models\User;
 use App\Views\Components\Table;
 use App\Views\Components\Column;
@@ -218,9 +220,16 @@ class MemberDetails extends Page
             )
         ;
 
+        $navbarModel = new NavbarModel();
+        $navbarComponent = new NavbarComponent(['items' => $navbarModel->all()]);
+
         ?>
-            <body class="bg-light">
-                <div class="container my-5">
+            <body>
+                <section class="sticky-top">
+                    <?php $navbarComponent->renderHtml() ?>
+                </section>
+
+                <main class="container my-5">
                     <div class="card shadow-lg">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h3 class="mb-0">Member Profile</h3>
@@ -297,7 +306,7 @@ class MemberDetails extends Page
                             </div>
                         </div>
                     </div>
-                </div>
+                </main>
 
                 <?php if ($haveFullAccess): ?>
                     <div class="container my-5">

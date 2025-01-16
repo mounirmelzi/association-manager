@@ -2,6 +2,8 @@
 
 namespace App\Views\Pages;
 
+use App\Models\Navbar as NavbarModel;
+use App\Views\Components\Navbar as NavbarComponent;
 use App\Models\User;
 use App\Views\Components\Table;
 use App\Views\Components\Column;
@@ -241,9 +243,16 @@ class PartnerDetails extends Page {
             )
         ;
 
+        $navbarModel = new NavbarModel();
+        $navbarComponent = new NavbarComponent(['items' => $navbarModel->all()]);
+
         ?>
             <body>
-                <div class="container my-5">
+                <section class="sticky-top">
+                    <?php $navbarComponent->renderHtml() ?>
+                </section>
+
+                <main class="container my-5">
                     <div class="card shadow-lg">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <div class="d-flex align-items-center gap-3">
@@ -341,7 +350,7 @@ class PartnerDetails extends Page {
                             </div>
                         </div>
                     </div>
-                </div>
+                </main>
 
                 <?php if ($haveFullAccess): ?>
                     <div class="container my-5">
