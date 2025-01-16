@@ -41,12 +41,12 @@ class Query
         }
     }
 
-    public function where(array $data): mixed
+    public function where(array $data, string $order = "id DESC"): mixed
     {
         $conditions = array_map(fn($key) => "$key = :$key", array_keys($data));
         $conditions = implode(' AND ', $conditions);
 
-        $response = $this->query("SELECT * FROM $this->table WHERE $conditions", $data);
+        $response = $this->query("SELECT * FROM $this->table WHERE $conditions ORDER BY $order", $data);
         return $response["success"] ? $response["data"] : [];
     }
 
