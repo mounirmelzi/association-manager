@@ -127,7 +127,7 @@ $router->addRoute(
 
 $router->addRoute(
     path: '/partners/{id}/favorite',
-    roles: ["members", "partner", "admin"],
+    roles: ["member", "partner", "admin"],
     methods: ['GET'],
     controller: App\Controllers\Partners::class,
     action: 'favorite',
