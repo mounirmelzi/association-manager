@@ -488,3 +488,35 @@ $router->addRoute(
     controller: App\Controllers\Discounts::class,
     action: 'validation',
 );
+
+$router->addRoute(
+    path: '/helps',
+    roles: ["admin", "member", "partner"],
+    methods: ['GET'],
+    controller: App\Controllers\Helps::class,
+    action: 'index',
+);
+
+$router->addRoute(
+    path: '/helps/create',
+    roles: ["member", "partner"],
+    methods: ['GET', 'POST'],
+    controller: App\Controllers\Helps::class,
+    action: 'create',
+);
+
+$router->addRoute(
+    path: '/helps/{id}/validation',
+    roles: ["admin"],
+    methods: ['GET'],
+    controller: App\Controllers\Helps::class,
+    action: 'validation',
+);
+
+$router->addRoute(
+    path: '/helps/{id}/delete',
+    roles: ["admin"],
+    methods: ['GET'],
+    controller: App\Controllers\Helps::class,
+    action: 'delete',
+);
