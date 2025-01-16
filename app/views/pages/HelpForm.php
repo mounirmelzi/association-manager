@@ -3,16 +3,28 @@
 namespace App\Views\Pages;
 
 use App\Utils\Request;
+use App\Views\Components\Table;
+use App\Views\Components\Column;
 use App\Views\Components\Form;
 use App\Views\Components\Input;
 
 class HelpForm extends Page
 {
+    private Table $helpTypesTable;
     private Form $helpForm;
 
     public function __construct(array $data = [])
     {
         parent::__construct($data);
+
+        $this->helpTypesTable = new Table(
+            title: 'Help Types List',
+            data: $this->data["helpTypes"],
+            columns: [
+                new Column(label: 'Help Type', key: 'type'),
+                new Column(label: 'Help Description', key: 'attachments_description'),
+            ],
+        );
 
         $this->helpForm = new Form(
             id: "help-form",
@@ -93,13 +105,17 @@ class HelpForm extends Page
     {
         ?>
             <body>
-                <div class="container py-5">
+                <section class="container my-5">
+                    <?= $this->helpTypesTable->renderHtml() ?>
+                </section>
+
+                <main class="container my-5">
                     <div class="row justify-content-center">
                         <div class="col-md-8">
                             <?php $this->helpForm->renderHtml() ?>
                         </div>
                     </div>
-                </div>
+                </main>
             </body>
         <?php
     }
