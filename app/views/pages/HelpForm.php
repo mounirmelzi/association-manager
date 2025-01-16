@@ -105,10 +105,6 @@ class HelpForm extends Page
     {
         ?>
             <body>
-                <section class="container my-5">
-                    <?= $this->helpTypesTable->renderHtml() ?>
-                </section>
-
                 <main class="container my-5">
                     <div class="row justify-content-center">
                         <div class="col-md-8">
@@ -116,6 +112,10 @@ class HelpForm extends Page
                         </div>
                     </div>
                 </main>
+
+                <section class="container my-5">
+                    <?= $this->helpTypesTable->renderHtml() ?>
+                </section>
             </body>
         <?php
     }
