@@ -2,6 +2,8 @@
 
 namespace App\Views\Pages;
 
+use App\Models\Navbar as NavbarModel;
+use App\Views\Components\Navbar as NavbarComponent;
 use App\Utils\Request;
 use App\Views\Components\Input;
 
@@ -44,10 +46,16 @@ class Diaporama extends Page
     #[\Override]
     protected function body(): void {
         $slides = $this->data['slides'];
+        $navbarModel = new NavbarModel();
+        $navbarComponent = new NavbarComponent(['items' => $navbarModel->all()]);
 
         ?>
             <body>
-                <div class="container py-5">
+                <section class="sticky-top">
+                    <?php $navbarComponent->renderHtml() ?>
+                </section>
+
+                <main class="container py-5">
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h1 class="h3">Diaporama Slides</h1>
                         <button 
@@ -95,7 +103,7 @@ class Diaporama extends Page
                             <p class="mt-3 mb-0">No slides found. Add some slides to get started!</p>
                         </div>
                     <?php endif ?>
-                </div>
+                </main>
 
                 <?php $this->renderUploadModal() ?>
             </body>

@@ -116,19 +116,9 @@ class Home extends Controller
                 "icon" => "people"
             ],
             [
-                "title" => "Payments Management",
-                "link" => BASE_URL . "payments",
-                "icon" => "coin"
-            ],
-            [
-                "title" => "Volunteerings Management",
-                "link" => BASE_URL . "volunteerings",
-                "icon" => "person-raised-hand"
-            ],
-            [
-                "title" => "Partners Management",
-                "link" => BASE_URL . "partners",
-                "icon" => "people-fill"
+                "title" => "Card Types Management",
+                "link" => BASE_URL . "cards/types",
+                "icon" => "person-vcard"
             ],
             [
                 "title" => "Discount Offers Management",
@@ -141,24 +131,9 @@ class Home extends Controller
                 "icon" => "cart-dash-fill"
             ],
             [
-                "title" => "Card Types Management",
-                "link" => BASE_URL . "cards/types",
-                "icon" => "person-vcard"
-            ],
-            [
                 "title" => "Help Types Management",
                 "link" => BASE_URL . "helps/types",
                 "icon" => "person-wheelchair"
-            ],
-            [
-                "title" => "Activities Management",
-                "link" => BASE_URL . "activities",
-                "icon" => "activity"
-            ],
-            [
-                "title" => "News Management",
-                "link" => BASE_URL . "news",
-                "icon" => "newspaper"
             ],
             [
                 "title" => "Diaporama Management",

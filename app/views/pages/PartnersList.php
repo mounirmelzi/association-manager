@@ -160,9 +160,9 @@ class PartnersList extends Page
                     <?php $navbarComponent->renderHtml() ?>
                 </section>
 
-                <div class="container py-5">
+                <main class="container py-5">
                     <?= $this->partnersTable->renderHtml() ?>
-                </div>
+                </main>
             </body>
         <?php
     }

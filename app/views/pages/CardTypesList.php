@@ -2,6 +2,8 @@
 
 namespace App\Views\Pages;
 
+use App\Models\Navbar as NavbarModel;
+use App\Views\Components\Navbar as NavbarComponent;
 use App\Views\Components\Table;
 use App\Views\Components\Column;
 
@@ -82,11 +84,18 @@ class CardTypesList extends Page {
     #[\Override]
     protected function body(): void
     {
+        $navbarModel = new NavbarModel();
+        $navbarComponent = new NavbarComponent(['items' => $navbarModel->all()]);
+
         ?>
             <body>
-                <div class="container py-5">
+                <section class="sticky-top">
+                    <?php $navbarComponent->renderHtml() ?>
+                </section>
+
+                <main class="container py-5">
                     <?= $this->typesTable->renderHtml() ?>
-                </div>
+                </main>
             </body>
         <?php
     }

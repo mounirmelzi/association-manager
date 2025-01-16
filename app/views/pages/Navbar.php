@@ -2,6 +2,8 @@
 
 namespace App\Views\Pages;
 
+use App\Models\Navbar as NavbarModel;
+use App\Views\Components\Navbar as NavbarComponent;
 use App\Utils\Request;
 use App\Views\Components\Table;
 use App\Views\Components\Column;
@@ -92,9 +94,16 @@ class Navbar extends Page
 
     #[\Override]
     protected function body(): void {
+        $navbarModel = new NavbarModel();
+        $navbarComponent = new NavbarComponent(['items' => $navbarModel->all()]);
+
         ?>
             <body>
-                <div class="container py-5">
+                <section class="sticky-top">
+                    <?php $navbarComponent->renderHtml() ?>
+                </section>
+
+                <main class="container py-5">
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h1 class="h3">Navigation Items</h1>
                         <button 
@@ -108,7 +117,7 @@ class Navbar extends Page
                         </button>
                     </div>
                     <?= $this->itemsTable->renderHtml() ?>
-                </div>
+                </main>
                 <?php $this->modal() ?>
             </body>
         <?php
