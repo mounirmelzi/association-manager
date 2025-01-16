@@ -84,5 +84,3 @@ If you encounter any PHP extension-related errors while running the project:
   1. Note the exact extension name from the error message
   2. Enable it in php.ini as described in section 6
   3. Make sure to restart Apache after any php.ini changes
-
-For any additional assistance or issues, please contact me directly.
