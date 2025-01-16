@@ -520,3 +520,11 @@ $router->addRoute(
     controller: App\Controllers\Helps::class,
     action: 'delete',
 );
+
+$router->addRoute(
+    path: '/statistics',
+    roles: ["admin"],
+    methods: ['GET'],
+    controller: App\Controllers\Statistics::class,
+    action: 'index',
+);

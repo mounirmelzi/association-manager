@@ -121,6 +121,16 @@ class Home extends Controller
                 "icon" => "person-vcard"
             ],
             [
+                "title" => "Help Types Management",
+                "link" => BASE_URL . "helps/types",
+                "icon" => "person-wheelchair"
+            ],
+            [
+                "title" => "Statistics",
+                "link" => BASE_URL . "statistics",
+                "icon" => "bar-chart-line"
+            ],
+            [
                 "title" => "Discount Offers Management",
                 "link" => BASE_URL . "discounts/offers",
                 "icon" => "cart-dash"
@@ -129,11 +139,6 @@ class Home extends Controller
                 "title" => "Limited Discount Offers Management",
                 "link" => BASE_URL . "discounts/limited/offers",
                 "icon" => "cart-dash-fill"
-            ],
-            [
-                "title" => "Help Types Management",
-                "link" => BASE_URL . "helps/types",
-                "icon" => "person-wheelchair"
             ],
             [
                 "title" => "Diaporama Management",
