@@ -58,6 +58,17 @@
 2. Access the project through your web browser using the BASE_URL
    - Default: `http://localhost/association-manager/public/`
 
+### 6. PHP Extensions Setup
+
+If you encounter any PHP extension-related errors while running the project:
+
+1. Locate your php.ini file:
+   - Default path: `C:/xampp/php/php.ini`
+2. Open the file in a text editor
+3. Find the extension mentioned in the error message (e.g., `extension=pdo_mysql`)
+4. Remove the semicolon (;) at the start of the line to uncomment and enable the extension
+5. Save the file and restart the Apache service in XAMPP
+
 ### Troubleshooting
 
 - If you see a 404 error, verify that:
@@ -69,5 +80,9 @@
   2. Ensure MySQL service is running
   3. Confirm the database exists and has been properly imported
   4. Check that the database name in database.config.php matches the one you created
+- For PHP extension errors:
+  1. Note the exact extension name from the error message
+  2. Enable it in php.ini as described in section 6
+  3. Make sure to restart Apache after any php.ini changes
 
 For any additional assistance or issues, please contact me directly.
